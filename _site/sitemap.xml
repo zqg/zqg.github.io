@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>//zqg.github.io/background-image/</loc>
-    <lastmod>2013-10-26T00:00:00+00:00</lastmod>
+    <loc>/background-image/</loc>
+    <lastmod>2013-10-26T00:00:00+08:00</lastmod>
   </url>
   <url>
-    <loc>//zqg.github.io/code-highlighting-post/</loc>
-    <lastmod>2013-08-16T00:00:00+00:00</lastmod>
+    <loc>/code-highlighting-post/</loc>
+    <lastmod>2013-08-16T00:00:00+08:00</lastmod>
   </url>
   <url>
-    <loc>//zqg.github.io/sample-link-post/</loc>
-    <lastmod>2013-08-12T00:00:00+00:00</lastmod>
+    <loc>/sample-link-post/</loc>
+    <lastmod>2013-08-12T00:00:00+08:00</lastmod>
   </url>
   <url>
-    <loc>//zqg.github.io/video-post/</loc>
-    <lastmod>2013-06-25T00:00:00+00:00</lastmod>
+    <loc>/video-post/</loc>
+    <lastmod>2013-06-25T00:00:00+08:00</lastmod>
   </url>
   <url>
-    <loc>//zqg.github.io/readability-feature-post/</loc>
-    <lastmod>2013-05-23T00:00:00+00:00</lastmod>
+    <loc>/readability-feature-post/</loc>
+    <lastmod>2013-05-23T00:00:00+08:00</lastmod>
   </url>
   <url>
-    <loc>//zqg.github.io/sample-post-images/</loc>
-    <lastmod>2013-05-22T00:00:00+00:00</lastmod>
+    <loc>/sample-post-images/</loc>
+    <lastmod>2013-05-22T00:00:00+08:00</lastmod>
   </url>
   <url>
-    <loc>//zqg.github.io/readability-post/</loc>
-    <lastmod>2012-05-22T00:00:00+00:00</lastmod>
+    <loc>/readability-post/</loc>
+    <lastmod>2012-05-22T00:00:00+08:00</lastmod>
   </url>
   <url>
-    <loc>//zqg.github.io/sample-post/</loc>
-    <lastmod>2011-03-10T00:00:00+00:00</lastmod>
+    <loc>/sample-post/</loc>
+    <lastmod>2011-03-10T00:00:00+08:00</lastmod>
   </url>
   <url>
-    <loc>//zqg.github.io/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>//zqg.github.io/posts/</loc>
+    <loc>/posts/</loc>
   </url>
   <url>
-    <loc>//zqg.github.io/</loc>
+    <loc>/</loc>
   </url>
   <url>
-    <loc>//zqg.github.io/tags/</loc>
+    <loc>/tags/</loc>
   </url>
   <url>
-    <loc>//zqg.github.io/theme-setup/</loc>
+    <loc>/theme-setup/</loc>
   </url>
   <url>
-    <loc>//zqg.github.io/about/</loc>
+    <loc>/about/</loc>
   </url>
 </urlset>
