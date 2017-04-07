@@ -96,7 +96,7 @@
 <meta property="og:url" content="https://zqg.github.io/2017/04/07/Hexo-搭建githubpage记录/index.html">
 <meta property="og:site_name" content="Just Let It Be">
 <meta property="og:description" content="之前在github上搭建过几次个人博客，使用过jekyll、hugo等。但jekyll操作起来确实麻烦，每次都要输入一系列命令，而且速度很慢。这次决定换掉jekyll，刚开始想用hugostaticgen。花了一下午时间，把网站搭建好，然后发现在使用Mathjax时，有问题。虽然官网给出了解决方案，但是一直没成功。所以只能放弃Hugo，转战hexo。在这里把hexo的搭建过程做个记录，方便之后查">
-<meta property="og:updated_time" content="2017-04-07T12:20:18.000Z">
+<meta property="og:updated_time" content="2017-04-07T13:01:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo 搭建github pages记录">
 <meta name="twitter:description" content="之前在github上搭建过几次个人博客，使用过jekyll、hugo等。但jekyll操作起来确实麻烦，每次都要输入一系列命令，而且速度很慢。这次决定换掉jekyll，刚开始想用hugostaticgen。花了一下午时间，把网站搭建好，然后发现在使用Mathjax时，有问题。虽然官网给出了解决方案，但是一直没成功。所以只能放弃Hugo，转战hexo。在这里把hexo的搭建过程做个记录，方便之后查">
@@ -108,7 +108,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -243,21 +243,45 @@
           </a>
         </li>
       
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404.html" rel="section">
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
             
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            Commonweal 404
+            Suche
           </a>
         </li>
-      
-
       
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -435,71 +459,15 @@
 <h4 id="部署到Git"><a href="#部署到Git" class="headerlink" title="部署到Git"></a>部署到Git</h4><p>以上内容都是在本地进行查看, 现在将博客部署到github上<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#Github</span></div><div class="line"></div><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: github</div><div class="line">  repo: https://github.com/zqg/zqg.github.io.git</div><div class="line">  branch: master <span class="comment"># or gh-pages</span></div></pre></td></tr></table></figure></p>
 <p>注意事项:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">所有键的冒号后面留一个空格，如<span class="keyword">language</span>: zh-CN</div><div class="line">url不能为空,否则报错</div><div class="line"><span class="built_in">type</span>: github报错hexo ERROR Deployer not found: github的解决方法：</div><div class="line">先运行 npm install hexo-deployer-git --save</div><div class="line">再改为 <span class="built_in">type</span>: git</div></pre></td></tr></table></figure></p>
 <p>完整配置信息如下：</p>
-<h1 id="Site-站点信息"><a href="#Site-站点信息" class="headerlink" title="Site #站点信息"></a>Site #站点信息</h1><p>title: blog Name #标题<br>subtitle: Subtitle #副标题<br>description: my blog desc #描述<br>author: me #作者<br>language: zh-CN #语言<br>timezone: Asia/Shanghai #时区</p>
-<h1 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h1><p>url: <a href="http://yoururl.com" target="_blank" rel="external">http://yoururl.com</a>   #用于绑定域名, 其他的不需要配置<br>root: /</p>
-<p>#permalink: :year/:month/:day/:title/<br>permalink: posts/title.html<br>permalink_defaults:</p>
-<h1 id="Directory-目录"><a href="#Directory-目录" class="headerlink" title="Directory #目录"></a>Directory #目录</h1><p>source_dir: source #源文件<br>public_dir: public #生成的网页文件<br>tag_dir: tags #标签<br>archive_dir: archives #归档<br>category_dir: categories #分类<br>code_dir: downloads/code<br>i18n_dir: :lang #国际化<br>skip_render:</p>
-<h1 id="Writing-写作"><a href="#Writing-写作" class="headerlink" title="Writing #写作"></a>Writing #写作</h1><p>new_post_name: :title.md #新文章标题<br>default_layout: post #默认模板(post page photo draft)<br>titlecase: false #标题转换成大写<br>external_link: true #新标签页里打开连接<br>filename_case: 0<br>render_drafts: false<br>post_asset_folder: false<br>relative_link: false<br>future: true<br>highlight: #语法高亮<br>  enable: true<br>  line_number: true #显示行号<br>  auto_detect: true<br>  tab_replace:</p>
-<h1 id="Category-amp-Tag-分类和标签"><a href="#Category-amp-Tag-分类和标签" class="headerlink" title="Category &amp; Tag #分类和标签"></a>Category &amp; Tag #分类和标签</h1><p>default_category: uncategorized #默认分类<br>category_map:<br>tag_map:</p>
-<h1 id="Date-Time-format-日期时间格式"><a href="#Date-Time-format-日期时间格式" class="headerlink" title="Date / Time format #日期时间格式"></a>Date / Time format #日期时间格式</h1><h2 id="http-momentjs-com-docs-displaying-format"><a href="#http-momentjs-com-docs-displaying-format" class="headerlink" title="http://momentjs.com/docs/#/displaying/format/"></a><a href="http://momentjs.com/docs/#/displaying/format/" target="_blank" rel="external">http://momentjs.com/docs/#/displaying/format/</a></h2><p>date_format: YYYY-MM-DD<br>time_format: HH:mm:ss</p>
-<h1 id="Pagination-分页"><a href="#Pagination-分页" class="headerlink" title="Pagination #分页"></a>Pagination #分页</h1><p>per_page: 10 #每页文章数, 设置成 0 禁用分页<br>pagination_dir: page</p>
-<h1 id="Extensions-插件和主题"><a href="#Extensions-插件和主题" class="headerlink" title="Extensions #插件和主题"></a>Extensions #插件和主题</h1><h2 id="插件-http-hexo-io-plugins"><a href="#插件-http-hexo-io-plugins" class="headerlink" title="插件: http://hexo.io/plugins/"></a>插件: <a href="http://hexo.io/plugins/" target="_blank" rel="external">http://hexo.io/plugins/</a></h2><h2 id="主题-http-hexo-io-themes"><a href="#主题-http-hexo-io-themes" class="headerlink" title="主题: http://hexo.io/themes/"></a>主题: <a href="http://hexo.io/themes/" target="_blank" rel="external">http://hexo.io/themes/</a></h2><p>theme: next</p>
-<h1 id="Deployment-部署-同时发布在-GitHub-和-GitCafe-上面"><a href="#Deployment-部署-同时发布在-GitHub-和-GitCafe-上面" class="headerlink" title="Deployment #部署, 同时发布在 GitHub 和 GitCafe 上面"></a>Deployment #部署, 同时发布在 GitHub 和 GitCafe 上面</h1><p>deploy:</p>
-<ul>
-<li>type: git<br>repo: git@gitcafe.com:username/username.git,gitcafe-pages</li>
-<li>type: git<br>repo: git@github.com:username/username.github.io.git,master</li>
-</ul>
-<h1 id="Disqus-Disqus评论系统"><a href="#Disqus-Disqus评论系统" class="headerlink" title="Disqus #Disqus评论系统"></a>Disqus #Disqus评论系统</h1><p>disqus_shortname: </p>
-<p>plugins: #插件，例如生成 RSS 和站点地图的</p>
-<ul>
-<li>hexo-generator-feed</li>
-<li>hexo-generator-sitemap<br>保存之后，便可以使用hexo d上传到GitCafe。<br>部署成功,使用username.gitcafe.io进行访问, 或者设置个性域名，参考官方Wiki。</li>
-</ul>
-<p>7.域名</p>
-<p>绑定域名<br>不绑定域名的话只能通过 your_user_name.github.io 访问<br>申请域名推荐 GoDaddy, 域名解析推荐 DNSPod</p>
-<p>绑定顶级域名<br>新建文件 CNAME, 无后缀, 纯文本文件, 内容为要绑定的域名 blogname.com<br>如果要使用 www.blogname.com 的形式, 文件内容改为 www.blogname.com</p>
-<p>DNS设置<br>主机记录@, 类型A, 记录值192.30.252.153<br>主机记录www, 类型A, 记录值192.30.252.153<br>参考 Tips for configuring an A record with your DNS provider</p>
-<p>绑定子域名</p>
-<p>比如使用域名blogname.com的子域名blog.blogname.com<br>CNAME文件内容为blog.blogname.com</p>
-<p>DNS设置<br>主机记录blog, 类型CNAME, 记录值blogname.github.io<br>参考 Tips for configuring a CNAME record with your DNS provider</p>
-<p>Gitcafe 绑定域名</p>
-<p>项目管理界面, 左侧的导航栏中有自定义域名设置</p>
-<p>8.其他配置</p>
-<p>站点建立时间<br>例如 © 2014 - 2015</p>
-<p>站点配置文件新增字段 since<br>since: 2014</p>
-<p>侧栏设置<br>post - 默认行为, 在文章页面(拥有目录列表)时显示<br>always - 在所有页面中都显示<br>hide - 在所有页面中都隐藏(可以手动展开)</p>
-<p>sidebar: post</p>
-<p>头像设置<br>编辑站点配置文件, 新增字段 avatar, 头像的链接地址可以是:</p>
-<p>网络地址<br><a href="https://avatars2.githubusercontent.com/u/4962914?v=3&amp;s=460" target="_blank" rel="external">https://avatars2.githubusercontent.com/u/4962914?v=3&amp;s=460</a></p>
-<p>站点内的地址<br>/images/avatar.jpg #头像图片放置在主题的 source/images/</p>
-<p>avatar: /images/avatar.png</p>
-<p>菜单设置<br>编辑主题配置文件的 menu<br>若站点运行在子目录中, 将链接前缀的 / 去掉</p>
-<p>menu:<br>  home: /<br>  archives: /archives<br>  categories: /categories<br>  tags: /tags<br>  commonweal: /404.html<br>  about: /about<br>标签云页面<br>添加一个标签云页面, 并在菜单中显示页面链接</p>
-<p>新建tags页面<br>hexo new page “tags”</p>
-<p>将页面的类型设置为 tags</p>
-<p>title: tags<br>date: 2015-09-19 22:37:08</p>
-<h2 id="type-“tags”"><a href="#type-“tags”" class="headerlink" title="type: “tags”"></a>type: “tags”</h2><p>关闭评论</p>
-<p>title: tags<br>date: 2015-09-19 22:37:08<br>type: “tags”</p>
-<h2 id="comments-false"><a href="#comments-false" class="headerlink" title="comments: false"></a>comments: false</h2><p>在菜单中添加链接。 编辑主题配置文件, 添加 tags 到 menu 中</p>
-<p>menu:<br>  tags: /tags<br>分类页面<br>添加一个分类页面, 并在菜单中显示页面链接</p>
-<p>新建 categories 页面<br>hexo new page categories</p>
-<p>将页面的类型设置为categories</p>
-<p>title: categories<br>date: 2015-09-19 22:38:00</p>
-<h2 id="type-“categories”"><a href="#type-“categories”" class="headerlink" title="type: “categories”"></a>type: “categories”</h2><p>关闭评论</p>
-<p>title: categories<br>date: 2015-09-19 22:38:00<br>type: “categories”</p>
-<h2 id="comments-false-1"><a href="#comments-false-1" class="headerlink" title="comments: false"></a>comments: false</h2><p>在菜单中添加链接. 编辑主题配置文件, 添加 categories 到 menu 中</p>
-<p>menu:<br>  categories: /categories<br>RSS 链接<br>编辑主题配置文件 rss 字段</p>
-<p>rss: false<br>禁用Feed链接</p>
-<p>rss:<br>默认使用站点的 Feed 链接, 需要安装 hexo-generator-feed 插件<br>浏览<a href="http://localhost:4000/atom.xml查看是否生效" target="_blank" rel="external">http://localhost:4000/atom.xml查看是否生效</a></p>
-<p>rss: <a href="http://your-feed-url" target="_blank" rel="external">http://your-feed-url</a><br>指定特定的链接地址, 适用于已经烧制过 Feed 的情形</p>
-<p>自定义页面<br>以关于页面为例<br>新建一个 about 页面<br>hexo new page “about”</p>
-<p>编辑 source/about/index.md：</p>
-<p>title: About</p>
-<h2 id="date-2014-11-1-11-11-11"><a href="#date-2014-11-1-11-11-11" class="headerlink" title="date: 2014-11-1 11:11:11"></a>date: 2014-11-1 11:11:11</h2><p>About Me<br>菜单显示 about 链接, 主题配置文件中将 menu 中 about 前面的注释去掉</p>
-<p>menu:<br>  about: /about<br>9.网站代码上传</p>
-<p>设置完毕，为避免本地代码丢失，可以将hexo下的所有文件提交一份到服务器。</p>
-<p>#create project on gitcafe.com<br>mkdir hexo-source<br>cd hexo-source<br>git init</p>
-<h1 id="copy-all-files-in-‘hexo’-folder-here"><a href="#copy-all-files-in-‘hexo’-folder-here" class="headerlink" title="copy all files in ‘hexo’ folder here"></a>copy all files in ‘hexo’ folder here</h1><p>git add ..<br>git commit -m ‘first commit’<br>git remote add origin ‘git@gitcafe.com:username/hexo-source.git’<br>git push -u origin master</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"># Site #站点信息</div><div class="line">title: blog Name #标题</div><div class="line">subtitle: Subtitle #副标题</div><div class="line">description: my blog desc #描述</div><div class="line">author: <span class="keyword">me</span> #作者</div><div class="line"><span class="keyword">language</span>: zh-CN #语言</div><div class="line">timezone: Asia/Shanghai #时区</div><div class="line"></div><div class="line"># URL</div><div class="line">ur<span class="variable">l:</span> http://yoururl.<span class="keyword">com</span>   #用于绑定域名, 其他的不需要配置</div><div class="line">roo<span class="variable">t:</span> /</div><div class="line">#permalink: :year/:month/:day/:title/</div><div class="line">permalink: posts/title.html</div><div class="line">permalink_default<span class="variable">s:</span></div><div class="line"></div><div class="line"># Directory #目录</div><div class="line">source_dir: <span class="keyword">source</span> #源文件</div><div class="line">public_dir: public #生成的网页文件</div><div class="line">tag_dir: <span class="keyword">tags</span> #标签</div><div class="line">archive_dir: archives #归档</div><div class="line">category_dir: categories #分类</div><div class="line">code_dir: downloads/code</div><div class="line">i18n_dir: :lang #国际化</div><div class="line">skip_render:</div><div class="line"></div><div class="line"># Writing #写作</div><div class="line">new_post_name: :title.md #新文章标题</div><div class="line">default_layou<span class="variable">t:</span> post #默认模板(post page photo draft)</div><div class="line">titlecase: false #标题转换成大写</div><div class="line">external_link: true #新标签页里打开连接</div><div class="line">filename_case: <span class="number">0</span></div><div class="line">render_draft<span class="variable">s:</span> false</div><div class="line">post_asset_folder: false</div><div class="line">relative_link: false</div><div class="line">future: true</div><div class="line">highligh<span class="variable">t:</span> #语法高亮</div><div class="line">  enable: true</div><div class="line">  line_number: true #显示行号</div><div class="line">  auto_detec<span class="variable">t:</span> true</div><div class="line">  tab_replace:</div><div class="line"></div><div class="line"># Category &amp; Tag #分类和标签</div><div class="line">default_category: uncategorized #默认分类</div><div class="line">category_map:</div><div class="line">tag_map:</div><div class="line"></div><div class="line"># Date / Time format #日期时间格式</div><div class="line">## http://momentjs.<span class="keyword">com</span>/docs/#/displaying/format/</div><div class="line">date_forma<span class="variable">t:</span> YYYY-MM-DD</div><div class="line">time_forma<span class="variable">t:</span> HH:mm:ss</div><div class="line"></div><div class="line"># Pagination #分页</div><div class="line">per_page: <span class="number">10</span> #每页文章数, 设置成 <span class="number">0</span> 禁用分页</div><div class="line">pagination_dir: page</div><div class="line"></div><div class="line"># Extensions #插件和主题</div><div class="line">## 插件: http://hexo.io/plugins/</div><div class="line">## 主题: http://hexo.io/themes/</div><div class="line">theme: <span class="keyword">next</span></div><div class="line"></div><div class="line"># Deployment #部署, 发布在 GitHub 上面</div><div class="line">deploy:</div><div class="line">- <span class="built_in">type</span>: git</div><div class="line">  repo: git@github.<span class="keyword">com</span>:username/username.github.io.git,master</div><div class="line"></div><div class="line"># Disqus #Disqus评论系统</div><div class="line">disqus_shortname: </div><div class="line"></div><div class="line">plugin<span class="variable">s:</span> #插件，例如生成 RSS 和站点地图的</div><div class="line">- hexo-generator-feed</div><div class="line">- hexo-generator-sitemap</div></pre></td></tr></table></figure>
+<p>保存之后，便可以使用hexo d上传到Git。<br>部署成功,使用username.git.io进行访问。</p>
+<h4 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#站点建立时间</div><div class="line">since: <span class="number">2014</span></div><div class="line"></div><div class="line"># 侧栏设置</div><div class="line"># post - 默认行为, 在文章页面(拥有目录列表)时显示</div><div class="line"># always - 在所有页面中都显示</div><div class="line"># <span class="keyword">hide</span> - 在所有页面中都隐藏(可以手动展开)</div><div class="line">sidebar: post</div><div class="line"></div><div class="line"># 头像设置</div><div class="line"># avatar.png放置在/<span class="keyword">source</span>/images/下</div><div class="line"># 或者采用网络地址</div><div class="line">avatar: /images/avatar.png</div><div class="line"></div><div class="line"># 菜单设置</div><div class="line"># 编辑主题配置文件themes/<span class="keyword">next</span>/_config.yaml</div><div class="line"># 若站点运行在子目录中, 将链接前缀的 / 去掉</div><div class="line"></div><div class="line"><span class="keyword">menu</span>:</div><div class="line">  home: /</div><div class="line">  archive<span class="variable">s:</span> /archives</div><div class="line">  categorie<span class="variable">s:</span> /categories</div><div class="line">  <span class="keyword">tag</span><span class="variable">s:</span> /<span class="keyword">tags</span></div><div class="line">  commonwea<span class="variable">l:</span> /<span class="number">404</span>.html</div><div class="line">  abou<span class="variable">t:</span> /about</div></pre></td></tr></table></figure>
+<h5 id="标签页面"><a href="#标签页面" class="headerlink" title="标签页面"></a>标签页面</h5><p>添加一个标签云页面, 并在菜单中显示页面链接<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 新建tags页面</span></div><div class="line">hexo new page “tags”</div></pre></td></tr></table></figure></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 将页面的类型设置为 <span class="keyword">tags</span></div><div class="line">title: <span class="keyword">tags</span></div><div class="line">date: <span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">37</span>:<span class="number">08</span></div><div class="line"><span class="built_in">type</span>: <span class="string">"tags"</span></div><div class="line">comment<span class="variable">s:</span> false</div><div class="line">---</div><div class="line"></div><div class="line"># 在菜单中添加链接。 编辑主题配置文件, 添加 <span class="keyword">tags</span> 到 <span class="keyword">menu</span> 中</div><div class="line"></div><div class="line"><span class="keyword">menu</span>:</div><div class="line">  <span class="keyword">tag</span><span class="variable">s:</span> /<span class="keyword">tags</span></div></pre></td></tr></table></figure>
+<h5 id="分类页面"><a href="#分类页面" class="headerlink" title="分类页面"></a>分类页面</h5><p>添加一个分类页面, 并在菜单中显示页面链接<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 新建 categories 页面</span></div><div class="line">hexo new page categories</div></pre></td></tr></table></figure></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># 将页面的类型设置为categories</div><div class="line"></div><div class="line">title: categories</div><div class="line">date: <span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">38</span>:<span class="number">00</span></div><div class="line"><span class="built_in">type</span>: <span class="string">"categories"</span></div><div class="line">comment<span class="variable">s:</span> false</div><div class="line">---</div><div class="line"></div><div class="line">#在菜单中添加链接. 编辑主题配置文件, 添加 categories 到 <span class="keyword">menu</span> 中</div><div class="line"></div><div class="line"><span class="keyword">menu</span>:</div><div class="line">  categorie<span class="variable">s:</span> /categories</div></pre></td></tr></table></figure>
+<h5 id="自定义页面"><a href="#自定义页面" class="headerlink" title="自定义页面"></a>自定义页面</h5><p>以关于页面为例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">新建一个 about 页面</div><div class="line">hexo new page <span class="string">"about"</span></div></pre></td></tr></table></figure></p>
+<p>编辑 source/about/index.md：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">title: About</div><div class="line">date: <span class="number">2014</span>-<span class="number">11</span>-<span class="number">1</span> <span class="number">11</span>:<span class="number">11</span>:<span class="number">11</span></div><div class="line">---</div><div class="line"></div><div class="line"># About Me</div><div class="line"># 菜单显示 about 链接, 主题配置文件中将 <span class="keyword">menu</span> 中 about 前面的注释去掉</div><div class="line"></div><div class="line"><span class="keyword">menu</span>:</div><div class="line">  abou<span class="variable">t:</span> /about</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -693,7 +661,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Git安装"><span class="nav-number">1.1.</span> <span class="nav-text">Git安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node安装"><span class="nav-number">1.2.</span> <span class="nav-text">Node安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo安装与设置"><span class="nav-number">2.</span> <span class="nav-text">Hexo安装与设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本安装"><span class="nav-number">2.1.</span> <span class="nav-text">基本安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加博文"><span class="nav-number">2.2.</span> <span class="nav-text">添加博文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主题更改"><span class="nav-number">2.3.</span> <span class="nav-text">主题更改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署到Git"><span class="nav-number">2.4.</span> <span class="nav-text">部署到Git</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Site-站点信息"><span class="nav-number"></span> <span class="nav-text">Site #站点信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#URL"><span class="nav-number"></span> <span class="nav-text">URL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Directory-目录"><span class="nav-number"></span> <span class="nav-text">Directory #目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Writing-写作"><span class="nav-number"></span> <span class="nav-text">Writing #写作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Category-amp-Tag-分类和标签"><span class="nav-number"></span> <span class="nav-text">Category & Tag #分类和标签</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Date-Time-format-日期时间格式"><span class="nav-number"></span> <span class="nav-text">Date / Time format #日期时间格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#http-momentjs-com-docs-displaying-format"><span class="nav-number"></span> <span class="nav-text">http://momentjs.com/docs/#/displaying/format/</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pagination-分页"><span class="nav-number"></span> <span class="nav-text">Pagination #分页</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Extensions-插件和主题"><span class="nav-number"></span> <span class="nav-text">Extensions #插件和主题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插件-http-hexo-io-plugins"><span class="nav-number"></span> <span class="nav-text">插件: http://hexo.io/plugins/</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主题-http-hexo-io-themes"><span class="nav-number"></span> <span class="nav-text">主题: http://hexo.io/themes/</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Deployment-部署-同时发布在-GitHub-和-GitCafe-上面"><span class="nav-number"></span> <span class="nav-text">Deployment #部署, 同时发布在 GitHub 和 GitCafe 上面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Disqus-Disqus评论系统"><span class="nav-number"></span> <span class="nav-text">Disqus #Disqus评论系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#type-“tags”"><span class="nav-number"></span> <span class="nav-text">type: “tags”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comments-false"><span class="nav-number"></span> <span class="nav-text">comments: false</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#type-“categories”"><span class="nav-number"></span> <span class="nav-text">type: “categories”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comments-false-1"><span class="nav-number"></span> <span class="nav-text">comments: false</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#date-2014-11-1-11-11-11"><span class="nav-number"></span> <span class="nav-text">date: 2014-11-1 11:11:11</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#copy-all-files-in-‘hexo’-folder-here"><span class="nav-number"></span> <span class="nav-text">copy all files in ‘hexo’ folder here</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Git安装"><span class="nav-number">1.1.</span> <span class="nav-text">Git安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node安装"><span class="nav-number">1.2.</span> <span class="nav-text">Node安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo安装与设置"><span class="nav-number">2.</span> <span class="nav-text">Hexo安装与设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本安装"><span class="nav-number">2.1.</span> <span class="nav-text">基本安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加博文"><span class="nav-number">2.2.</span> <span class="nav-text">添加博文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主题更改"><span class="nav-number">2.3.</span> <span class="nav-text">主题更改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署到Git"><span class="nav-number">2.4.</span> <span class="nav-text">部署到Git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他配置"><span class="nav-number">2.5.</span> <span class="nav-text">其他配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#标签页面"><span class="nav-number">2.5.1.</span> <span class="nav-text">标签页面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分类页面"><span class="nav-number">2.5.2.</span> <span class="nav-text">分类页面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自定义页面"><span class="nav-number">2.5.3.</span> <span class="nav-text">自定义页面</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -701,6 +669,13 @@
       <!--/noindex-->
       
 
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
       
 
     </div>
@@ -742,11 +717,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
   </div>
@@ -856,6 +826,132 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
 
 
 
