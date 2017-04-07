@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="XGBoost,GBDT,GB,Algorithm," />
 
 
 
@@ -90,10 +90,10 @@
 
 
 <meta name="description" content="eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。  xgboost的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的">
-<meta name="keywords">
+<meta name="keywords" content="XGBoost,GBDT,GB,Algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Introduction to XGBoost">
-<meta property="og:url" content="https://zqg.github.io/2017/04/07/Introduction-to-XGBoost/index.html">
+<meta property="og:url" content="https://zqg.github.io/2017/04/06/Introduction-to-XGBoost/index.html">
 <meta property="og:site_name" content="Just Let It Be">
 <meta property="og:description" content="eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。  xgboost的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的">
 <meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/2.png">
@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530164744149-143494562.jpg">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530170902758-1033686275.jpg">
 <meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/13.png">
-<meta property="og:updated_time" content="2017-04-07T11:19:47.000Z">
+<meta property="og:updated_time" content="2017-04-07T11:31:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Introduction to XGBoost">
 <meta name="twitter:description" content="eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。  xgboost的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的">
@@ -143,7 +143,7 @@
 
 
 
-  <link rel="canonical" href="https://zqg.github.io/2017/04/07/Introduction-to-XGBoost/"/>
+  <link rel="canonical" href="https://zqg.github.io/2017/04/06/Introduction-to-XGBoost/"/>
 
 
 
@@ -288,7 +288,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://zqg.github.io/2017/04/07/Introduction-to-XGBoost/">
+    <link itemprop="mainEntityOfPage" href="https://zqg.github.io/2017/04/06/Introduction-to-XGBoost/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Quangang Zheng">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T19:05:33+08:00">
-                2017-04-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-06T11:25:38+08:00">
+                2017-04-06
               </time>
             
 
@@ -335,6 +335,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ML/" itemprop="url" rel="index">
+                    <span itemprop="name">ML</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -343,9 +365,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/07/Introduction-to-XGBoost/#comments" itemprop="discussionUrl">
+                <a href="/2017/04/06/Introduction-to-XGBoost/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/04/07/Introduction-to-XGBoost/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/04/06/Introduction-to-XGBoost/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -500,6 +522,18 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/XGBoost/" rel="tag"># XGBoost</a>
+          
+            <a href="/tags/GBDT/" rel="tag"># GBDT</a>
+          
+            <a href="/tags/GB/" rel="tag"># GB</a>
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+        </div>
+      
 
       
         
@@ -509,15 +543,15 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/" rel="next" title="Ltr From Ranknet To Lambdarank To Lambdamart">
+                <i class="fa fa-chevron-left"></i> Ltr From Ranknet To Lambdarank To Lambdamart
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/" rel="prev" title="Ltr From Ranknet To Lambdarank To Lambdamart">
-                Ltr From Ranknet To Lambdarank To Lambdamart <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -603,7 +637,25 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
           
 
           
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -779,8 +831,8 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://zqg.github.io/2017/04/07/Introduction-to-XGBoost/';
-          this.page.identifier = '2017/04/07/Introduction-to-XGBoost/';
+          this.page.url = 'https://zqg.github.io/2017/04/06/Introduction-to-XGBoost/';
+          this.page.identifier = '2017/04/06/Introduction-to-XGBoost/';
           this.page.title = 'Introduction to XGBoost';
         };
         var d = document, s = d.createElement('script');
