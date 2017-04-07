@@ -196,7 +196,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -206,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -216,7 +216,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -236,7 +236,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            Über
+            About
           </a>
         </li>
       
@@ -306,9 +306,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T17:57:45+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T19:05:33+08:00">
                 2017-04-07
               </time>
             
@@ -383,7 +383,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/07/Introduction-to-XGBoost/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -465,7 +465,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T17:52:05+08:00">
                 2017-04-07
@@ -533,117 +533,16 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>LTR 算法通常有三种手段，分别是：Pointwise、Pairwise 和 Listwise。Pointwise 和 Pairwise 类型的LTR算法，将排序问题转化为回归、分类或者有序分类问题。Listwise 类型的 LTR 算法则另辟蹊径，将用户查询（Query）所得的结果作为整体，作为训练用的实例（Instance）。</p>
 </blockquote>
-<h2 id="Pointwise"><a href="#Pointwise" class="headerlink" title="Pointwise"></a>Pointwise</h2><p>Pointwis方法的主要思想是将排序问题转化为多类分类问题或者回归问题。假设对于查询query，与其相关的文档集合为：{d1, d2, …, dn}。那么:</p>
-<ul>
-<li><p>多类分类：将query与di之间的相关度的程度作为label，一般的label等级划分方式为：｛Perfect, Excellent, Good, Fair, Bad｝一共五个类别。于是，对于一个查询及其文档集，可以形成n个训练实例。有了训练实例，我们可以使用任一种多类分类器进行学习，比如最大熵、SVM。</p>
-</li>
-<li><p>回归：将query与di之间的相关度作为value，利用regression model来得到一个query与document之间相关度的预测。</p>
-</li>
-</ul>
-<p>缺点： Pointwise完全从单文档的分类角度计算，没有考虑文档之间的相对顺序。而且它假设相关度是查询无关的，只要（query，di）的相关度相同，那么他们就被划分到同一个级别中，属于同一类。然而实际上，相关度的相对性是和查询相关的，比如一个常见的查询它会有很多相关的文档，该查询和它相关性相对靠后的文档的label标注级别时可能会比一个稀有的查询和它为数不多的高度相关文档的label标准级别更高。这样就导致训练样本的不一致，并且对于预测为同一label级别的文档之间也无法相对排序。</p>
-<h2 id="Pairwise"><a href="#Pairwise" class="headerlink" title="Pairwise"></a>Pairwise</h2><p>Pairwise方法是目前比较流行的方法，效果也非常不错。它的主要思想是将Ranking问题形式化为二元分类问题。常用的机器学习的方法比较多，比如Boost、SVM、神经网络等。</p>
-<ul>
-<li><p>对于同一query的相关文档集中，对任何两个不同label的文档，都可以得到一个训练实例（di,dj），如果di&gt;dj则赋值+1，反之-1，于是我们就得到了二元分类器训练所需的训练样本了，如下图所示。</p>
-</li>
-<li><p>测试时，只要对所有pair进行分类就可以得到所有文档的一个偏序关系，从而实现排序。</p>
-<p><img src="/images/ltr01.png" alt="Pairwise"></p>
-</li>
-</ul>
-<p><strong>缺点</strong> ： 尽管Pairwise对Pointwise做了改进，但该方法还是存在明显的问题</p>
-<ol>
-<li>只考虑了两篇文档的相对顺序，没有考虑他们出现在搜索结果列表中的位置。排在前面的文档更为重要，如果出现在前面的文档判断错误，惩罚函数要明显高于排在后面判断错误。因此需要引入位置因素，每个文档对根据其在结果列表中的位置具有不同的权重，越排在前面权重越大，如果排错顺序其受到的惩罚也越大。</li>
-<li>对于不同的查询相关文档集的数量差异很大，转换为文档对后，有的查询可能只有十几个文档对，而有的查询可能会有数百个对应的文档对，这对学习系统的效果评价带来了偏置。假设查询1对应500个文档对，查询2对应10个文档对，假设机器学习系统对应查询1能够判断正确480个文档对，对应查询2能够判断正确2个。对于总的文档对该系统准确率是（480+2）/（500+10）=95%，但从查询的角度，两个查询对应的准确率分别为：96%和20%，平均为58%，与总的文档对判断准确率相差巨大，这将使得模型偏向于相关文档集大的查询。<br>Pairwise有很多的实现，比如Ranking SVM，RankNet，Frank，RankBoost等。</li>
-</ol>
-<h2 id="Listwise"><a href="#Listwise" class="headerlink" title="Listwise"></a>Listwise</h2><p>Listwise与上述两种方法不同，它是将每个查询对应的所有搜索结果列表作为一个训练样例。Listwise根据训练样例训练得到最优评分函数F，对应新的查询，评分F对每个文档打分，然后根据得分由高到低排序，即为最终的排序结果。<br>目前主要有两种优化方法：</p>
-<ul>
-<li>直接针对Ranking评价指标进行优化。比如常用的MAP, NDCG（下面介绍）。这个想法非常自然，但是往往难以实现，因为<a href="https://en.wikipedia.org/wiki/Information_retrieval#Mean_average_precision" target="_blank" rel="external">MAP</a>、<a href="https://en.wikipedia.org/wiki/Discounted_cumulative_gain" target="_blank" rel="external">NDCG</a>这样的评价指标通常是非平滑（连续）的，而通用的目标函数优化方法针对的都是连续函数。</li>
-<li>优化损失函数 <strong>loss function</strong>。比如LambdaRank、LambdaMART。</li>
-</ul>
-<hr>
-<h2 id="From-RankNet-to-LambdaRank-to-LambdaMART"><a href="#From-RankNet-to-LambdaRank-to-LambdaMART" class="headerlink" title="From RankNet to LambdaRank to LambdaMART"></a>From RankNet to LambdaRank to LambdaMART</h2><p>LambdaMART 是一种 Listwise 类型的 LTR 算法，它基于 LambdaRank 算法和 MART (Multiple Additive Regression Tree) 算法，将搜索引擎结果排序问题转化为回归决策树问题。MART 实际就是梯度提升决策树（GBDT, Gradient Boosting Decision Tree）算法。GBDT 的核心思想是在不断的迭代中，新一轮迭代产生的回归决策树模型拟合损失函数的梯度，最终将所有的回归决策树叠加得到最终的模型。LambdaMART 使用一个特殊的 Lambda 值来代替上述梯度，也就是将 LambdaRank 算法与 MART 算法加和起来。<br>考虑到 LambdaRank 是基于 RankNet 算法的，所以在搞清楚 LambdaMART 算法之前，我们首先需要了解 MART、RankNet 和 LambdaRank 是怎么回事。</p>
-<h3 id="RankNet"><a href="#RankNet" class="headerlink" title="RankNet"></a>RankNet</h3><p>RankNet是2005年微软提出的一种pairwise的Learning to rank算法，它从概率的角度来解决排序问题。RankNet提出了一种概率损失函数来学习Ranking Function，并应用Ranking Function对文档进行排序。这里的Ranking Function可以是任意对参数可导的模型，也就是说，该概率损失函数并不依赖于特定的机器学习模型，在论文中，RankNet是基于神经网络实现的。除此之外，GDBT等模型也可以应用于该框架。  </p>
-<h4 id="学习过程"><a href="#学习过程" class="headerlink" title="学习过程"></a>学习过程</h4><p>变量定义：<br>映射函数：$f(x_i)$</p>
-<p>样本i的估计值：$s_i = f(x_i)$</p>
-<p>样本ij的差值：$s_{ij} = f(x_i)-f(x_j)$</p>
-<p>目标差值：$S_{ij} \in {-1,0,1}$  # 1表示样本i排在j之前，0表示相同，-1表示j在前</p>
-<p>对同一query的两个样本，经过预测得到两个分值$s_i s_j$，然后将他们映射成概率：</p>
-<p>i排序在j之前的目标概率：</p>
-<p>$\overline{P}<em>{ij}=\frac{1}{2}(1+S</em>{ij}) \in {0, 0.5, 1}$</p>
-<p>i排序在j之前的估计概率：$P_{ij}=\frac{1}{1+e^{-\sigma (s_i-s_j)}},\sigma$决定sigmoid形状，对最终结果影响不大。</p>
-<p>交叉熵损失函数：$C_{ij}$</p>
-<p>$$<br>C<em>{ij} = C(s</em>{ij}) = -\overline{P}<em>{ij}logP</em>{ij}-(1-\overline{P}<em>{ij})log(1-P</em>{j})<br>$$</p>
-<p>$$<br>\Rightarrow C<em>{ij}=\frac{1}{2}(1-S</em>{ij})\sigma(s_i-s<em>j)+ log(1+e^{-\sigma s</em>{ij}})<br>$$</p>
-<p>由$C<em>{ij}$公式我们可以得出 ，当 $\overline{P}</em>{ij}=0.5$时，$C_{ij}$是以y轴对称的抛物线函数。</p>
-<p><img src="/images/ltr02.png" alt=""></p>
-<h4 id="Learning-to-rank-with-two-layer-Nerual-Nets"><a href="#Learning-to-rank-with-two-layer-Nerual-Nets" class="headerlink" title="Learning to rank with two-layer Nerual Nets"></a>Learning to rank with two-layer Nerual Nets</h4><ol>
-<li><p>两层神经网络梯度推导：</p>
-<p>$$<br>s_i =g^3(\sum<em>jw</em>{ij}^{32}g^2(\sum<em>kw</em>{jk}^{21}x_k+b_j^2)+b_i^3) =g_i^3<br>$$</p>
-<p>$$<br>\Rightarrow \frac{\partial{f}}{\partial{b_i^3}} =\frac{\partial{f}}{\partial{s_i}}g_i^{\prime3}=\Delta_i^3<br>$$</p>
-<p>$$<br>\Rightarrow \frac{\partial{f}}{\partial{w_{in}^{32}}} =\frac{\partial{f}}{\partial{s_i}}g_i^{\prime3}g_n^2=\Delta_i^3g_n^2<br>$$</p>
-<p>$$<br>\Rightarrow \frac{\partial{f}}{\partial{b_m^2}} =(\sum_i\frac{\partial{f}}{\partial{s_i}}g<em>i^{\prime3}w</em>{im^{32}})g_m^{\prime2}=\Delta_m^2<br>$$</p>
-<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{w_{mn}^{21}}} =x_n\Delta_m^2<br>$$</p>
-</li>
-<li><p>RankNet中输出节点只有一个，即$i==0$。损失函数变成两个样本输出值的函数$f(s_2-s_1)$。</p>
-<p>$$<br>\frac{\partial{f}}{\partial{b^3}}=(\frac{\partial{s_2}}{\partial{\alpha}} - \frac{\partial{s_1}}{\partial{\alpha}})f^{\prime}<br>$$</p>
-<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{b^3}} =f^{\prime}(g_2^{\prime{3}}-g_1^{\prime3})=\Delta_2^3-\Delta_1^3<br>$$</p>
-<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{w_{n}^{32}}} =\Delta<em>2^3g</em>{2n}^2- \Delta<em>1^3g</em>{1n}^2<br>$$</p>
-<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{b_m^2}} =\Delta_2^3w<em>m^{32}g</em>{2m}^{\prime2} - \Delta_1^3w<em>m^{32}g</em>{1m}^{\prime2}<br>$$</p>
-<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{w<em>{mn}^{21}}} =\Delta</em>{2m}^2g<em>{2n}^1 - \Delta</em>{1m}^2g_{1n}^1<br>$$</p>
-</li>
-</ol>
-<h4 id="一般的梯度下降法推导"><a href="#一般的梯度下降法推导" class="headerlink" title="一般的梯度下降法推导"></a>一般的梯度下降法推导</h4><p>用梯度下降法求解是RankNet的关键思想，不仅可以用神经网络模型，GBDT也可以（xgboost、LightGBM），只不过是需要将$\frac{\partial C}{\partial w_k}$的求解，变成$\frac{\partial C}{\partial s_i}$。下面讲一下一般的梯度下降法的推导。</p>
-<p>$$<br>w_k\rightarrow w_k-\eta \frac{\partial C}{\partial w_k}<br>$$</p>
-<p>$\eta$为步长，损失函数的改变：</p>
-<p>$$<br>\Delta C=\sum_k \frac{\partial C}{\partial w_k}\Delta w_k=\sum_k \frac{\partial C}{\partial w_k}(-\eta \frac{\partial C}{\partial w_k})=-\eta \sum_k (\frac{\partial C}{\partial w_k})^2 &lt; 0<br>$$</p>
-<p>损失函数C是逐步减小的，我们继续拆分：</p>
-<p>$$<br>\frac{\partial C}{\partial s<em>i} = \sigma (\frac{1}{2}(1-S</em>{ij})-\frac{1}{1+e^{\sigma (s_i-_j)}})=-\frac{\partial C}{\partial s_j}<br>$$<br>爱的色放<br>$$<br>\frac{\partial C}{\partial w_k}=\frac{\partial C}{\partial s_i}\frac{\partial s_i}{\partial w_k}+\frac{\partial C}{\partial s_j}\frac{\partial s_j}{\partial w<em>k}=\sigma (\frac{1}{2}(1-S</em>{ij})-\frac{1}{1+e^{\sigma (s_i-_j)}})(\frac{\partial s_i}{\partial w_k} -\frac{\partial s_j}{\partial w_k})<br>$$</p>
-<h4 id="RankNet训练加速"><a href="#RankNet训练加速" class="headerlink" title="RankNet训练加速"></a>RankNet训练加速</h4><p>上面的学习过程中，对每一个样本对ij就要做一次参数更新，效率不是很高，比如采用BP神经网络模型，训练会非常慢。下面讲解一下mini-batch的方式更新w，这也是LambdaRank的基础。<br>我们先定义 $\lambda$：</p>
-<p>$$<br>\lambda<em>{ij} = \sigma (\frac{1}{2}(1-S</em>{ij})-\frac{1}{1+e^{\sigma (s_i-_j)}})=\frac{\partial C}{\partial s_i}<br>$$</p>
-<p>$$<br>\Rightarrow \frac{\partial C}{\partial w<em>k}=\lambda</em>{ij} (\frac{\partial s_i}{\partial w_k} -\frac{\partial s_j}{\partial w_k})<br>$$</p>
-<p>我们选取一个样本对集合$I$，为了使每个样本对$(i,j)$（$ij$必须属于同一个query）在集合中只出现一次，我们规定$(i,j)$中i要排在j之前，及$S_{ij}=1$。于是我们将$w_k$的更新值变成累加的形式：</p>
-<p>$$<br>\Delta w<em>k=-\eta \sum</em>{i,j\in I}(\lambda_{ij}\frac{\partial{s_i}}{\partial{w<em>k}} - \lambda</em>{ij}\frac{\partial{s_j}}{\partial{w<em>k}})<br>= -\eta \sum</em>{i}(\sum<em>{i&gt;j}\lambda</em>{ij}\frac{\partial{s_i}}{\partial{w<em>k}} - \sum</em>{k&gt;i} \lambda_{k,i}\frac{\partial{s_i}}{\partial{w<em>k}})<br>=-\eta \sum</em>{i}\lambda_{i}\frac{\partial{s_i}}{\partial{w_k}}<br>$$</p>
-<p>其中$\lambda_i$定义如下：</p>
-<blockquote>
-<p>对样本i，我们找出所有排在它之前的样本组成$k,i\in I$，然后找到所有排在其后的样本组成$i,j\in I$。</p>
-</blockquote>
-<p>$$\lambda<em>i = \sum</em>{i,j \in I} \lambda<em>{i,j} - \sum</em>{k,i\in I} \lambda_{k,i}$$</p>
-<p>经过上面的推导，就可以用mini-batch的方式更新$w$权重了。</p>
-<h3 id="LambdaRank"><a href="#LambdaRank" class="headerlink" title="LambdaRank"></a>LambdaRank</h3><p>上面介绍的RankNet是以error pair最少为优化目标，然而许多时候仅以error pair数来评价排序的好坏是不够的，因为它只关心pair的相对位置，不关心top K的结果，而IR排序中top K的结果是很重要的，以下图为例：</p>
-<p><img src="/images/ltr03.png" alt=""></p>
-<p>图中每一条短横线表示一个URL，蓝色表示与Query相关的URL，灰色表示不相关的URL。下面我们用error pair和NDCG分别来评估左右两个排序的好坏：</p>
-<ul>
-<li>Error pair指标<br>对于排序1，排序错误的pair共13对，故cost=13。<br>对于排序2，排序错误的pair共11对，故cost=11。</li>
-</ul>
-<p>所以，从Error pair角度考虑，排序2要优于排序1</p>
-<ul>
-<li>NDCG指标<br>假设相关url分值为1，不相关为0。<br>排序1与排序2具有相同的maxDCG@16,<br>$maxDCG@16=\frac{1}{log(1+1)} + \frac{1}{log(1+2)}=1.63$<br>对排序1，有<br>$DCG@16=\frac{1}{log(1+1)}+\frac{1}{log(1+15)}=1.25$<br>$NDCG@16=1.25/1.63=0.767$<br>对排序2，有<br>$DCG@16=\frac{1}{log(1+4)}+\frac{1}{log(1+10)}=0.72$<br>$NDCG@16=0.72/1.63=0.442$</li>
-</ul>
-<p>所以，从NDCG指标来看，排序1要优于排序2。</p>
-<p>从上面的计算可以看出，用error pair评估的结果有时不是我们期望的。与error pair不同，NDCG评估会强调top K的结果，这是符合我们预期的。而且，排序2中右侧的黑色箭头表示RankNet下一步梯度更新方向，长短表示强度。然而我们真正希望的是红色箭头的形式，排在前面的更新权重更大。</p>
-<p>那我们可不可以用RankNet的思路优化像NDCG这样的不平滑、不连续的指标呢？答案是肯定的。LambdaRank的一个关键思想是，我们没有必要构建cost function本身，我们只需要知道梯度就可以了。所以LambdaRank算法分析排序问题，然后直接对RankNet里的$\lambda_{ij}$进行了修改。</p>
-<p>$$<br>\lambda_{ij}=\frac{-\sigma}{1+e^{\sigma (s_i-s<em>j)}}|\Delta Z</em>{ij}|<br>$$</p>
-<p>式中$\Delta Z_{ij}$表示，将$i$和$j$交换位置后，待优化指标的变化，如$\Delta NDCG$就表示将$i$和$j$进行交换（其他url保持不变），交换后排序的NDCG与交换前排序的NDCG的差值。乘积前半部分代表了文档下一次迭代优化的方向和强度，由于引入了IR评价指标，Lambda梯度更关注位置靠前的高匹配度url的排序位置的提升。我们把改进后的算法称之为LambdaRank。</p>
-<p>现在我们的优化目标不再是损失函数$C$最小，而是评估指标最大。所以权重更新方程变成：</p>
-<p>$$<br>w_k\rightarrow w_k+\eta \frac{\partial C}{\partial w_k}<br>$$</p>
-<p>$$<br>\Delta C=\frac{\partial C}{\partial w_k}\Delta w_k=\eta \sum_k (\frac{\partial C}{\partial w_k})^2 &gt; 0<br>$$</p>
-<p>LambdaRank相比RankNet的优势在于考虑了评价指标，直接对问题求解，所以效果更好。有效的避免了下调相关度高的url的位置这种情况的发生。</p>
-<h3 id="LambdaMART"><a href="#LambdaMART" class="headerlink" title="LambdaMART"></a>LambdaMART</h3><p>LambdaRank中通过直接定义梯度，解决了引入评估指标带来的不连续的问题。这个Lambda梯度可以应用于任何使用梯度下降法求解的模型。Boosted tree是一种很灵活的模型，将它与Lambda相结合就是微软2009年发表的LambdaMART算法。</p>
-<p>在MART（GBDT）中，当采用平方误差损失函数时，每一棵回归树学习的是之前所有树的结论和残差，拟合得到一个当前的残差回归树，残差的意义如公式：残差 = 真实值 - 预测值 。对于一般的损失函数，Friedman提出用损失函数的负梯度值，作为残差的拟合值。</p>
-<p>LambdaMART算法中，这个负梯度就是$\lambda_i$。</p>
-<p>$$<br>\lambda<em>{ij}=\frac{-\sigma |\Delta Z</em>{ij}|}{1+e^{\sigma (s_i-s_j)}}<br>$$</p>
-<p>算法[Algorithm 1]中，Step 1-3 是用现有模型初始化初值。Step 6 计算每篇文档的$\lambda$梯度$y_i$。Step 7 计算每篇文档的二阶导数$w_i$。Step 9 是利用所有文档及它们的残差（$\lambda$）建立回归树。Step 11 是利用牛顿-拉夫森方法计算叶结点的权值。Step 14 是更新每篇文档的分数。</p>
-<p><img src="/images/ltr04.png" alt="1"></p>
-<h3 id="公开的数据集可以使用"><a href="#公开的数据集可以使用" class="headerlink" title="公开的数据集可以使用"></a>公开的数据集可以使用</h3><ul>
-<li><a href="http://research.microsoft.com/en-us/um/beijing/projects/letor/" target="_blank" rel="external">LETOR</a></li>
-<li><a href="http://research.microsoft.com/en-us/projects/mslr/" target="_blank" rel="external">Microsoft Learning to Rank Dataset</a></li>
-<li><a href="http://webscope.sandbox.yahoo.com/" target="_blank" rel="external">Yahoo Learning to Rank Challenge</a></li>
-</ul>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -722,7 +621,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T17:02:47+08:00">
                 2017-04-07
@@ -880,7 +779,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -941,7 +840,7 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
