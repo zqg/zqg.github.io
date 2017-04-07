@@ -89,12 +89,22 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Just Let It Be">
-<meta property="og:url" content="https://zqg.github.io/index.html">
+<meta name="description" content="LTR 算法通常有三种手段，分别是：Pointwise、Pairwise 和 Listwise。Pointwise 和 Pairwise 类型的LTR算法，将排序问题转化为回归、分类或者有序分类问题。Listwise 类型的 LTR 算法则另辟蹊径，将用户查询（Query）所得的结果作为整体，作为训练用的实例（Instance）。  PointwisePointwis方法的主要思想是将排序问题转">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ltr From Ranknet To Lambdarank To Lambdamart">
+<meta property="og:url" content="https://zqg.github.io/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/index.html">
 <meta property="og:site_name" content="Just Let It Be">
+<meta property="og:description" content="LTR 算法通常有三种手段，分别是：Pointwise、Pairwise 和 Listwise。Pointwise 和 Pairwise 类型的LTR算法，将排序问题转化为回归、分类或者有序分类问题。Listwise 类型的 LTR 算法则另辟蹊径，将用户查询（Query）所得的结果作为整体，作为训练用的实例（Instance）。  PointwisePointwis方法的主要思想是将排序问题转">
+<meta property="og:image" content="https://zqg.github.io/images/ltr01.png">
+<meta property="og:image" content="https://zqg.github.io/images/ltr02.png">
+<meta property="og:image" content="https://zqg.github.io/images/ltr03.png">
+<meta property="og:image" content="https://zqg.github.io/images/ltr04.png">
+<meta property="og:updated_time" content="2017-04-07T10:37:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Just Let It Be">
+<meta name="twitter:title" content="Ltr From Ranknet To Lambdarank To Lambdamart">
+<meta name="twitter:description" content="LTR 算法通常有三种手段，分别是：Pointwise、Pairwise 和 Listwise。Pointwise 和 Pairwise 类型的LTR算法，将排序问题转化为回归、分类或者有序分类问题。Listwise 类型的 LTR 算法则另辟蹊径，将用户查询（Query）所得的结果作为整体，作为训练用的实例（Instance）。  PointwisePointwis方法的主要思想是将排序问题转">
+<meta name="twitter:image" content="https://zqg.github.io/images/ltr01.png">
 
 
 
@@ -122,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://zqg.github.io/"/>
+  <link rel="canonical" href="https://zqg.github.io/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/"/>
 
 
 
 
 
-  <title> Just Let It Be </title>
+  <title> Ltr From Ranknet To Lambdarank To Lambdamart | Just Let It Be </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -153,9 +163,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -258,168 +266,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://zqg.github.io/2017/04/07/Introduction-to-XGBoost/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Quangang Zheng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Just Let It Be">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/07/Introduction-to-XGBoost/" itemprop="url">
-                  Introduction to XGBoost
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T17:57:45+08:00">
-                2017-04-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/07/Introduction-to-XGBoost/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/04/07/Introduction-to-XGBoost/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。</p>
-<blockquote>
-<p><a href="https://github.com/dmlc/xgboost">xgboost</a>的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛<a href="https://homes.cs.washington.edu/~tqchen/">陈天奇</a>。</p>
-<p><a href="https://github.com/dmlc/xgboost">github - dmlc/xgboost</a></p>
-<p><a href="http://arxiv.org/abs/1603.02754">XGBoost: A Scalable Tree Boosting System</a></p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/07/Introduction-to-XGBoost/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
 
   
 
@@ -449,10 +298,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/" itemprop="url">
-                  Ltr From Ranknet To Lambdarank To Lambdamart
-                </a>
+                Ltr From Ranknet To Lambdarank To Lambdamart
               
             
           </h1>
@@ -532,9 +378,7 @@
       
 
       
-        
-          
-            <blockquote>
+        <blockquote>
 <p>LTR 算法通常有三种手段，分别是：Pointwise、Pairwise 和 Listwise。Pointwise 和 Pairwise 类型的LTR算法，将排序问题转化为回归、分类或者有序分类问题。Listwise 类型的 LTR 算法则另辟蹊径，将用户查询（Query）所得的结果作为整体，作为训练用的实例（Instance）。</p>
 </blockquote>
 <h2 id="Pointwise"><a href="#Pointwise" class="headerlink" title="Pointwise"></a>Pointwise</h2><p>Pointwis方法的主要思想是将排序问题转化为多类分类问题或者回归问题。假设对于查询query，与其相关的文档集合为：{d1, d2, …, dn}。那么:</p>
@@ -643,20 +487,27 @@
 <li><a href="http://webscope.sandbox.yahoo.com/" target="_blank" rel="external">Yahoo Learning to Rank Challenge</a></li>
 </ul>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
@@ -664,179 +515,42 @@
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://zqg.github.io/2017/04/07/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Quangang Zheng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Just Let It Be">
-    </span>
-
-    
-      <header class="post-header">
-
         
-        
-          <h1 class="post-title" itemprop="name headline">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/04/07/Introduction-to-XGBoost/" rel="next" title="Introduction to XGBoost">
+                <i class="fa fa-chevron-left"></i> Introduction to XGBoost
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/04/07/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+              <a href="/2017/04/07/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T17:02:47+08:00">
-                2017-04-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/07/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/04/07/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -844,6 +558,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -863,8 +588,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -915,6 +649,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pointwise"><span class="nav-number">1.</span> <span class="nav-text">Pointwise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pairwise"><span class="nav-number">2.</span> <span class="nav-text">Pairwise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Listwise"><span class="nav-number">3.</span> <span class="nav-text">Listwise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#From-RankNet-to-LambdaRank-to-LambdaMART"><span class="nav-number">4.</span> <span class="nav-text">From RankNet to LambdaRank to LambdaMART</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RankNet"><span class="nav-number">4.1.</span> <span class="nav-text">RankNet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#学习过程"><span class="nav-number">4.1.1.</span> <span class="nav-text">学习过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Learning-to-rank-with-two-layer-Nerual-Nets"><span class="nav-number">4.1.2.</span> <span class="nav-text">Learning to rank with two-layer Nerual Nets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一般的梯度下降法推导"><span class="nav-number">4.1.3.</span> <span class="nav-text">一般的梯度下降法推导</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RankNet训练加速"><span class="nav-number">4.1.4.</span> <span class="nav-text">RankNet训练加速</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LambdaRank"><span class="nav-number">4.2.</span> <span class="nav-text">LambdaRank</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LambdaMART"><span class="nav-number">4.3.</span> <span class="nav-text">LambdaMART</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公开的数据集可以使用"><span class="nav-number">4.4.</span> <span class="nav-text">公开的数据集可以使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1022,6 +772,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -1039,6 +793,18 @@
       <script id="dsq-count-scr" src="https://zhengquangang.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zqg.github.io/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/';
+          this.page.identifier = '2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/';
+          this.page.title = 'Ltr From Ranknet To Lambdarank To Lambdamart';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhengquangang.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   

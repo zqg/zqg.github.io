@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zqg.github.io/"/>
-  <updated>2017-04-07T09:02:47.000Z</updated>
+  <updated>2017-04-07T10:01:57.000Z</updated>
   <id>https://zqg.github.io/</id>
   
   <author>
@@ -14,6 +14,247 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Introduction to XGBoost</title>
+    <link href="https://zqg.github.io/2017/04/07/Introduction-to-XGBoost/"/>
+    <id>https://zqg.github.io/2017/04/07/Introduction-to-XGBoost/</id>
+    <published>2017-04-07T09:57:45.000Z</published>
+    <updated>2017-04-07T10:01:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。</p>
+<blockquote>
+<p><a href="https://github.com/dmlc/xgboost" target="_blank" rel="external">xgboost</a>的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛<a href="https://homes.cs.washington.edu/~tqchen/" target="_blank" rel="external">陈天奇</a>。</p>
+<p><a href="https://github.com/dmlc/xgboost" target="_blank" rel="external">github - dmlc/xgboost</a></p>
+<p><a href="http://arxiv.org/abs/1603.02754" target="_blank" rel="external">XGBoost: A Scalable Tree Boosting System</a></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="Boosted-Tree"><a href="#Boosted-Tree" class="headerlink" title="Boosted Tree"></a>Boosted Tree</h2><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><pre><code>Boosted Tree是数据挖掘和机器学习中最常用的算法之一。它非常有效，对输入要求不敏感，无需进行归一化等较复杂操作，同时作为一种常用的非线性模型，学习能力很强。它是kaggle比赛冠军选手最常用的工具，也在工业界中有大量的应用。
+
+Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree)，MART(Multiple Additive Regression Tree) ，LambdaMART(Learning to Rank模型)也是一种boosted tree的变种。
+</code></pre><h4 id="2-基学习器：分类和回归树（CART）"><a href="#2-基学习器：分类和回归树（CART）" class="headerlink" title="2. 基学习器：分类和回归树（CART）"></a>2. 基学习器：分类和回归树（CART）</h4><pre><code>首先讲模型，Boosted tree 最基本的组成部分叫做回归树(regression tree)，也叫做CART(Classification And Regression Tree)。CART会把输入样本根据不同的特征分配到各个叶子节点，而每个叶子节点上面都会对应一个实数分数。
+</code></pre><p><a href="http://www.52cs.org/wp-content/uploads/2015/04/2.png" target="_blank" rel="external"><img src="http://www.52cs.org/wp-content/uploads/2015/04/2.png" alt="img"></a></p>
+<pre><code>上面的例子是一个预测一个人是否会喜欢电脑游戏的 CART，你可以把叶子的分数理解为有多可能这个人喜欢电脑游戏。CART算法是一种   回归树，与决策树不同，它的叶子节点从简单的类别变成分值，可以处理，如概率预测，排序等问题。
+</code></pre><h4 id="3-Tree-Ensemble"><a href="#3-Tree-Ensemble" class="headerlink" title="3. Tree Ensemble"></a>3. Tree Ensemble</h4><pre><code>一个CART往往过于简单无法有效地预测，因此一个更加强力的模型叫做tree ensemble。
+</code></pre><p><a href="http://www.52cs.org/wp-content/uploads/2015/04/image2.png" target="_blank" rel="external"><img src="http://www.52cs.org/wp-content/uploads/2015/04/image2.png" alt="image2"></a></p>
+<pre><code>在上面的例子中，我们用两棵树来进行预测的例子。我们对于每个样本的预测结果就是每棵树预测分数的和。
+
+Tree Ensemble算法被广泛应用，例如GBM、随机森林等。对输入变量的缩放不敏感，不需要做归一化。可扩展，数据挖掘比赛和工业界都在使用。
+</code></pre><h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><h4 id="1-简介-1"><a href="#1-简介-1" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>xgboost是属于dmlc(Distributed (Deep) Machine Learning Community) 开源项目下的一个子项目，是大规模并行boosted tree的工具，它是目前最快最好的开源boosted tree工具包，比常见的工具包快10倍以上。可用于分类、回归和排序，有大量kaggle选手选用它进行数据挖掘比赛，在工业界规模方面，xgboost的分布式版本有广泛的可移植性，支持在YARN, MPI, Sungrid Engine等各个平台上面运行，并且保留了单机并行版本的各种优化，使得它可以很好地解决于工业界规模的问题。与GBDT相比，xgboost训练速度更快，可扩展性更高。实测20节点训练33G数据(9,200,000 * 400)，建100棵深度为6的树，纯计算时间18分钟。</p>
+<h4 id="2-数学推导"><a href="#2-数学推导" class="headerlink" title="2. 数学推导"></a>2. 数学推导</h4><p>对于tree ensemble，假设我们已经有K颗CART树，对于一个输入样本xi，我们通过下面公式得到它的预测值：</p>
+<p>$$ \overline{y<em>i} = \sum^K</em>{k=1}f_k(x_i), \qquad  f_x \in F $$</p>
+<h5 id="目标函数："><a href="#目标函数：" class="headerlink" title="目标函数："></a>目标函数：</h5><p>给出我们需要优化的目标函数：</p>
+<p>$$<br>Obj = \sum^n_{i=1}l(y_i, \overline{y<em>i}) + \sum^K</em>{k=1}\Omega(f_k)<br>$$</p>
+<pre><code>其中第一部分是训练误差，也就是大家相对比较熟悉的如平方误差, logistic loss等。而第二部分是每棵树的复杂度的和，可以是：L2、L1、树叶子个数等。当我讨论建立一颗决策树时，一般会考虑到利用信息增益拆分节点、对树进行剪枝、限制最大深度等优化算法。这些策略背后隐藏着这一个目标函数，它们可以很好的对应到这个目标函数上：
+</code></pre><ul>
+<li>信息增益 $\rightarrow$ 损失函数</li>
+<li>减枝        $\rightarrow$ 正则化部分结点个数</li>
+<li>最大深度 $\rightarrow$ 限制树规模</li>
+</ul>
+<p>理解目标函数本身也有利于我们学习和设计算法，公示中第一部分是损失函数，第二部分是树的复杂度。</p>
+<pre><code>现在我们的参数可以认为是在一个函数空间里面，我们不能利用传统的随机梯度下降法SGD来学习我们的模型，因此我们采用了一种叫additive training (boosting)的方式，每次保留原来的模型不变，只是加入一个新的函数到模型中。
+</code></pre><p><img src="http://www.52cs.org/wp-content/uploads/2015/04/4.png" alt="4"></p>
+<pre><code>选取的新的函数要使目标函数尽量降低。
+
+    ![5](http://www.52cs.org/wp-content/uploads/2015/04/5.png)           
+
+例如：我们拿平方误差作为损失函数，这时目标函数可以写成下面的形式：
+
+![6](http://www.52cs.org/wp-content/uploads/2015/04/6.png)
+
+ 对于一般情况，我们无法像平方误差一样展开计算，xgboost采用了二阶泰勒展开公式来近似定义的目标函数，方便我们计算，
+
+![7](http://www.52cs.org/wp-content/uploads/2015/04/7.png)           （2）
+
+ 当我们把常数项移除之后，我们会发现如下一个比较统一的目标函数。这一个目标函数有一个非常明显的特点，它只依赖于每个数据点在损失函数上的一阶导数和二阶导数。
+</code></pre><p>这样的好处是，模型和代码分离开来，通过替换不同的损失函数模型，算法可以求解包括回归、分类、排序等机器学习问题。</p>
+<p><img src="http://www.52cs.org/wp-content/uploads/2015/04/8.png" alt="8"></p>
+<h5 id="树的复杂度："><a href="#树的复杂度：" class="headerlink" title="树的复杂度："></a>树的复杂度：</h5><pre><code>首先定义函数$f_t(x)$，其中$W$代表树叶的权重，$q$表示一个映射关系，即树的结构。对于给定的$x$通过$q$映射到叶子节点，从而得到分值$w$。
+</code></pre><p>$$<br>f_t(x) = w_q(x),w\in R^T,q:R^d \rightarrow {1,2,…,T}<br>$$</p>
+<pre><code>xgboost对树的复杂度定义：这个复杂度包含了一棵树里面叶子节点的个数，以及每个树叶子节点上面输出分数的$L2$模平方。lambda是L2正则化项的惩罚系数，提高此值使算法更加保守。gamma可以理解为每次节点分割的增益的最小值。
+</code></pre><p><img src="http://www.52cs.org/wp-content/uploads/2015/04/10.png" alt="10"></p>
+<h5 id="改写目标函数："><a href="#改写目标函数：" class="headerlink" title="改写目标函数："></a>改写目标函数：</h5><p>首先定义$I_j$，表示第$i$个叶子节点上样本的集合。</p>
+<p>$$<br>I_j = {i|q(x_i)=j}<br>$$</p>
+<p>$$<br>Obj^{(t)} \approx \sum^n_{i=1} [g_if_t(x_i)+\frac{1}{2}h_if^2_t(x_i)] + \Omega(f_t)   //二阶泰勒展开<br>$$</p>
+<p>$$<br>Obj<em>{(t)} \approx \sum^t</em>{i=1}[g<em>iw</em>{q(x_i)}+\frac{1}{2}h<em>iw^2</em>{q(x<em>i)}] + \gamma T + \lambda /frac{1}{2}\sum^T</em>{j=1}w^2_j   //展开正则化项<br>$$</p>
+<p>$$<br>Obj<em>{(t)} \approx \sum^T</em>{j=1}[(\sum_{i\in I_j}g_i)w<em>j +\frac{1}{2}(\sum</em>{i \in I_J}h_i + \lambda )w^2_j] + \gamma T //更改遍历方式<br>$$</p>
+<p>经过变换，这一目标包含$T$个独立的单变量函数，将对$n$个样本点的遍历转换成对$T$个叶结点的遍历。进一步定义</p>
+<p>$$<br>G<em>j = \sum</em>{i \in I_j}g_j     \qquad H<em>j = \sum</em>{i \in I_j}h_i<br>$$</p>
+<p>$Gj, Hj$表示叶结点样本点对应的一阶、二阶导数之和。目标函数可以进一步改写成：</p>
+<p>$$<br>Obj^{(t)} = \sum^T<em>{j=1}[(\sum</em>{i \in I_j} g_i)w<em>j + \frac{1}{2}(\sum</em>{i \in I_j}h_i + \lambda)w^2<em>j] + \gamma T = \sum^T</em>{j=1}[G_jw_j + \frac{1}{2}(H_j + \lambda)w^2_j] + \gamma T<br>$$</p>
+<p>当树的结构已经确定，我们可以通过简单的求导得到每个叶结点的最优权值和对应的最优目标函数值。</p>
+<p>$$<br>w^*_j = - \frac {G_J}{H<em>j + \lambda} \qquad Obj = - \frac{1}{2} \sum^T</em>{j=1} \frac{G^2_j}{H_j + \lambda} + \gamma T<br>$$</p>
+<pre><code>我们可以把目标函数叫做结构分数(structure score)。你可以认为这个就是类似吉尼系数一样更加一般的对于树结构进行打分的函数。下面是一个具体的打分函数计算的例子
+</code></pre><p><a href="http://www.52cs.org/wp-content/uploads/2015/04/14.png" target="_blank" rel="external"><img src="http://www.52cs.org/wp-content/uploads/2015/04/14.png" alt="1"></a></p>
+<h5 id="利用贪心法建树："><a href="#利用贪心法建树：" class="headerlink" title="利用贪心法建树："></a>利用贪心法建树：</h5><pre><code>枚举所有的树形结构是不现实的，一般采用贪心法。利用打分函数来寻找出一个最优结构的树，每一次尝试去对已有的叶子加入一个分割。对于一个具体的分割方案，我们的目的是使目标函数降低的最多，用当前的目标函数 - 分割之后左右子树的目标函数分值，获得的增益可以由如下公式计算：
+</code></pre><p><img src="http://www.52cs.org/wp-content/uploads/2015/04/image1.png" alt="image1"></p>
+<pre><code>观察这个公式，我们会发现一个值得注意的事情就是引入分割不一定会使得情况变好，因为我们也会引入新叶子的惩罚项$\gamma$。$\underline{这个目标对应了的剪枝}$， 当引入的分割带来的增益小于一个阀值$\gamma$的时候，我们可以剪掉这个分割。大家可以发现，当我们正式地推导目标的时候，像计算分数和剪枝这样的策略都会自然地出现，而不再是一种因为heuristic而进行的操作了。
+</code></pre><h2 id="xgboost特点总结"><a href="#xgboost特点总结" class="headerlink" title="xgboost特点总结"></a>xgboost特点总结</h2><p> xgboost是GB算法的高效实现，xgboost中的基学习器除了可以是CART（gbtree）也可以是线性分类器（gblinear）。</p>
+<p> 　　xgboost算法的步骤和GB基本相同，都是首先初始化为一个常数，GB是根据一阶导数$ri$，xgboost是根据一阶导数$gi$和二阶导数$hi$，迭代生成基学习器，相加更新学习器。</p>
+<p>　　(1). xgboost在目标函数中显示的加上了正则化项，基学习为CART时，正则化项与树的叶子节点的数量T和叶子节点的值有关。</p>
+<p><img src="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530163025555-653522936.jpg" alt="img"></p>
+<p>　　(2). GB中使用Loss Function对$f(x)$的一阶导数计算出伪残差用于学习生成$fm(x)$，xgboost不仅使用到了一阶导数，还使用二阶导数。</p>
+<p>　　　　第t次的loss：</p>
+<p><img src="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530164442602-1288079039.jpg" alt="img"></p>
+<p>　　　　对上式做二阶泰勒展开：$g$为一阶导数，$h$为二阶导数</p>
+<p><img src="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530164744149-143494562.jpg" alt="img"></p>
+<p>　　(3). 上面提到CART回归树中寻找最佳分割点的衡量标准是最小化均方差，xgboost寻找分割点的标准是最大化Lsplit，$\lambda$，$\gamma$与正则化项相关</p>
+<p><img src="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530170902758-1033686275.jpg" alt="img"></p>
+<p><a href="http://www.52cs.org/wp-content/uploads/2015/04/13.png" target="_blank" rel="external"><img src="http://www.52cs.org/wp-content/uploads/2015/04/13.png" alt="13"></a></p>
+<p>对于某个特定的分割a我们要计算a左边和右边的导数和。我们也可以发现对于所有的a，我们只要做一遍从左到右的扫描就可以枚举出所有分割的梯度和$GL$和$GR$。然后用上面的公式计算每个分割方案的分数就可以了。</p>
+<p>(4). xgboost与gdbt除了上述三点的不同，xgboost在实现时还做了许多优化：</p>
+<ul>
+<li><ul>
+<li>在寻找最佳分割点时，考虑传统的枚举每个特征的所有可能分割点的贪心法效率太低，xgboost实现了一种近似的算法。大致的思想是根据百分位法列举几个可能成为分割点的候选者，然后从候选者中根据上面求分割点的公式计算找出最佳的分割点。</li>
+<li>xgboost考虑了训练数据为稀疏值的情况，可以为缺失值或者指定的值指定分支的默认方向，这能大大提升算法的效率，paper提到50倍。</li>
+<li>特征列排序后以块的形式存储在内存中，在迭代中可以重复使用；虽然boosting算法迭代必须串行，但是在处理每个特征列时可以做到并行。</li>
+<li>按照特征列方式存储能优化寻找最佳的分割点，但是当以行计算梯度数据时会导致内存的不连续访问，严重时会导致cache miss，降低算法效率。paper中提到，可先将数据收集到线程内部的buffer，然后再计算，提高算法的效率。</li>
+<li>xgboost 还考虑了当数据量比较大，内存不够时怎么有效的使用磁盘，主要是结合多线程、数据压缩、分片的方法，尽可能的提高算法的效率。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/dmlc/xgboost&quot;&gt;xgboost&lt;/a&gt;的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛&lt;a href=&quot;https://homes.cs.washington.edu/~tqchen/&quot;&gt;陈天奇&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/dmlc/xgboost&quot;&gt;github - dmlc/xgboost&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1603.02754&quot;&gt;XGBoost: A Scalable Tree Boosting System&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Ltr From Ranknet To Lambdarank To Lambdamart</title>
+    <link href="https://zqg.github.io/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/"/>
+    <id>https://zqg.github.io/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/</id>
+    <published>2017-04-07T09:52:05.000Z</published>
+    <updated>2017-04-07T10:37:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>LTR 算法通常有三种手段，分别是：Pointwise、Pairwise 和 Listwise。Pointwise 和 Pairwise 类型的LTR算法，将排序问题转化为回归、分类或者有序分类问题。Listwise 类型的 LTR 算法则另辟蹊径，将用户查询（Query）所得的结果作为整体，作为训练用的实例（Instance）。</p>
+</blockquote>
+<h2 id="Pointwise"><a href="#Pointwise" class="headerlink" title="Pointwise"></a>Pointwise</h2><p>Pointwis方法的主要思想是将排序问题转化为多类分类问题或者回归问题。假设对于查询query，与其相关的文档集合为：{d1, d2, …, dn}。那么:</p>
+<ul>
+<li><p>多类分类：将query与di之间的相关度的程度作为label，一般的label等级划分方式为：｛Perfect, Excellent, Good, Fair, Bad｝一共五个类别。于是，对于一个查询及其文档集，可以形成n个训练实例。有了训练实例，我们可以使用任一种多类分类器进行学习，比如最大熵、SVM。</p>
+</li>
+<li><p>回归：将query与di之间的相关度作为value，利用regression model来得到一个query与document之间相关度的预测。</p>
+</li>
+</ul>
+<p>缺点： Pointwise完全从单文档的分类角度计算，没有考虑文档之间的相对顺序。而且它假设相关度是查询无关的，只要（query，di）的相关度相同，那么他们就被划分到同一个级别中，属于同一类。然而实际上，相关度的相对性是和查询相关的，比如一个常见的查询它会有很多相关的文档，该查询和它相关性相对靠后的文档的label标注级别时可能会比一个稀有的查询和它为数不多的高度相关文档的label标准级别更高。这样就导致训练样本的不一致，并且对于预测为同一label级别的文档之间也无法相对排序。</p>
+<h2 id="Pairwise"><a href="#Pairwise" class="headerlink" title="Pairwise"></a>Pairwise</h2><p>Pairwise方法是目前比较流行的方法，效果也非常不错。它的主要思想是将Ranking问题形式化为二元分类问题。常用的机器学习的方法比较多，比如Boost、SVM、神经网络等。</p>
+<ul>
+<li><p>对于同一query的相关文档集中，对任何两个不同label的文档，都可以得到一个训练实例（di,dj），如果di&gt;dj则赋值+1，反之-1，于是我们就得到了二元分类器训练所需的训练样本了，如下图所示。</p>
+</li>
+<li><p>测试时，只要对所有pair进行分类就可以得到所有文档的一个偏序关系，从而实现排序。</p>
+<p><img src="/images/ltr01.png" alt="Pairwise"></p>
+</li>
+</ul>
+<p><strong>缺点</strong> ： 尽管Pairwise对Pointwise做了改进，但该方法还是存在明显的问题</p>
+<ol>
+<li>只考虑了两篇文档的相对顺序，没有考虑他们出现在搜索结果列表中的位置。排在前面的文档更为重要，如果出现在前面的文档判断错误，惩罚函数要明显高于排在后面判断错误。因此需要引入位置因素，每个文档对根据其在结果列表中的位置具有不同的权重，越排在前面权重越大，如果排错顺序其受到的惩罚也越大。</li>
+<li>对于不同的查询相关文档集的数量差异很大，转换为文档对后，有的查询可能只有十几个文档对，而有的查询可能会有数百个对应的文档对，这对学习系统的效果评价带来了偏置。假设查询1对应500个文档对，查询2对应10个文档对，假设机器学习系统对应查询1能够判断正确480个文档对，对应查询2能够判断正确2个。对于总的文档对该系统准确率是（480+2）/（500+10）=95%，但从查询的角度，两个查询对应的准确率分别为：96%和20%，平均为58%，与总的文档对判断准确率相差巨大，这将使得模型偏向于相关文档集大的查询。<br>Pairwise有很多的实现，比如Ranking SVM，RankNet，Frank，RankBoost等。</li>
+</ol>
+<h2 id="Listwise"><a href="#Listwise" class="headerlink" title="Listwise"></a>Listwise</h2><p>Listwise与上述两种方法不同，它是将每个查询对应的所有搜索结果列表作为一个训练样例。Listwise根据训练样例训练得到最优评分函数F，对应新的查询，评分F对每个文档打分，然后根据得分由高到低排序，即为最终的排序结果。<br>目前主要有两种优化方法：</p>
+<ul>
+<li>直接针对Ranking评价指标进行优化。比如常用的MAP, NDCG（下面介绍）。这个想法非常自然，但是往往难以实现，因为<a href="https://en.wikipedia.org/wiki/Information_retrieval#Mean_average_precision" target="_blank" rel="external">MAP</a>、<a href="https://en.wikipedia.org/wiki/Discounted_cumulative_gain" target="_blank" rel="external">NDCG</a>这样的评价指标通常是非平滑（连续）的，而通用的目标函数优化方法针对的都是连续函数。</li>
+<li>优化损失函数 <strong>loss function</strong>。比如LambdaRank、LambdaMART。</li>
+</ul>
+<hr>
+<h2 id="From-RankNet-to-LambdaRank-to-LambdaMART"><a href="#From-RankNet-to-LambdaRank-to-LambdaMART" class="headerlink" title="From RankNet to LambdaRank to LambdaMART"></a>From RankNet to LambdaRank to LambdaMART</h2><p>LambdaMART 是一种 Listwise 类型的 LTR 算法，它基于 LambdaRank 算法和 MART (Multiple Additive Regression Tree) 算法，将搜索引擎结果排序问题转化为回归决策树问题。MART 实际就是梯度提升决策树（GBDT, Gradient Boosting Decision Tree）算法。GBDT 的核心思想是在不断的迭代中，新一轮迭代产生的回归决策树模型拟合损失函数的梯度，最终将所有的回归决策树叠加得到最终的模型。LambdaMART 使用一个特殊的 Lambda 值来代替上述梯度，也就是将 LambdaRank 算法与 MART 算法加和起来。<br>考虑到 LambdaRank 是基于 RankNet 算法的，所以在搞清楚 LambdaMART 算法之前，我们首先需要了解 MART、RankNet 和 LambdaRank 是怎么回事。</p>
+<h3 id="RankNet"><a href="#RankNet" class="headerlink" title="RankNet"></a>RankNet</h3><p>RankNet是2005年微软提出的一种pairwise的Learning to rank算法，它从概率的角度来解决排序问题。RankNet提出了一种概率损失函数来学习Ranking Function，并应用Ranking Function对文档进行排序。这里的Ranking Function可以是任意对参数可导的模型，也就是说，该概率损失函数并不依赖于特定的机器学习模型，在论文中，RankNet是基于神经网络实现的。除此之外，GDBT等模型也可以应用于该框架。  </p>
+<h4 id="学习过程"><a href="#学习过程" class="headerlink" title="学习过程"></a>学习过程</h4><p>变量定义：<br>映射函数：$f(x_i)$</p>
+<p>样本i的估计值：$s_i = f(x_i)$</p>
+<p>样本ij的差值：$s_{ij} = f(x_i)-f(x_j)$</p>
+<p>目标差值：$S_{ij} \in {-1,0,1}$  # 1表示样本i排在j之前，0表示相同，-1表示j在前</p>
+<p>对同一query的两个样本，经过预测得到两个分值$s_i s_j$，然后将他们映射成概率：</p>
+<p>i排序在j之前的目标概率：</p>
+<p>$\overline{P}<em>{ij}=\frac{1}{2}(1+S</em>{ij}) \in {0, 0.5, 1}$</p>
+<p>i排序在j之前的估计概率：$P_{ij}=\frac{1}{1+e^{-\sigma (s_i-s_j)}},\sigma$决定sigmoid形状，对最终结果影响不大。</p>
+<p>交叉熵损失函数：$C_{ij}$</p>
+<p>$$<br>C<em>{ij} = C(s</em>{ij}) = -\overline{P}<em>{ij}logP</em>{ij}-(1-\overline{P}<em>{ij})log(1-P</em>{j})<br>$$</p>
+<p>$$<br>\Rightarrow C<em>{ij}=\frac{1}{2}(1-S</em>{ij})\sigma(s_i-s<em>j)+ log(1+e^{-\sigma s</em>{ij}})<br>$$</p>
+<p>由$C<em>{ij}$公式我们可以得出 ，当 $\overline{P}</em>{ij}=0.5$时，$C_{ij}$是以y轴对称的抛物线函数。</p>
+<p><img src="/images/ltr02.png" alt=""></p>
+<h4 id="Learning-to-rank-with-two-layer-Nerual-Nets"><a href="#Learning-to-rank-with-two-layer-Nerual-Nets" class="headerlink" title="Learning to rank with two-layer Nerual Nets"></a>Learning to rank with two-layer Nerual Nets</h4><ol>
+<li><p>两层神经网络梯度推导：</p>
+<p>$$<br>s_i =g^3(\sum<em>jw</em>{ij}^{32}g^2(\sum<em>kw</em>{jk}^{21}x_k+b_j^2)+b_i^3) =g_i^3<br>$$</p>
+<p>$$<br>\Rightarrow \frac{\partial{f}}{\partial{b_i^3}} =\frac{\partial{f}}{\partial{s_i}}g_i^{\prime3}=\Delta_i^3<br>$$</p>
+<p>$$<br>\Rightarrow \frac{\partial{f}}{\partial{w_{in}^{32}}} =\frac{\partial{f}}{\partial{s_i}}g_i^{\prime3}g_n^2=\Delta_i^3g_n^2<br>$$</p>
+<p>$$<br>\Rightarrow \frac{\partial{f}}{\partial{b_m^2}} =(\sum_i\frac{\partial{f}}{\partial{s_i}}g<em>i^{\prime3}w</em>{im^{32}})g_m^{\prime2}=\Delta_m^2<br>$$</p>
+<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{w_{mn}^{21}}} =x_n\Delta_m^2<br>$$</p>
+</li>
+<li><p>RankNet中输出节点只有一个，即$i==0$。损失函数变成两个样本输出值的函数$f(s_2-s_1)$。</p>
+<p>$$<br>\frac{\partial{f}}{\partial{b^3}}=(\frac{\partial{s_2}}{\partial{\alpha}} - \frac{\partial{s_1}}{\partial{\alpha}})f^{\prime}<br>$$</p>
+<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{b^3}} =f^{\prime}(g_2^{\prime{3}}-g_1^{\prime3})=\Delta_2^3-\Delta_1^3<br>$$</p>
+<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{w_{n}^{32}}} =\Delta<em>2^3g</em>{2n}^2- \Delta<em>1^3g</em>{1n}^2<br>$$</p>
+<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{b_m^2}} =\Delta_2^3w<em>m^{32}g</em>{2m}^{\prime2} - \Delta_1^3w<em>m^{32}g</em>{1m}^{\prime2}<br>$$</p>
+<p>$$<br>   \Rightarrow \frac{\partial{f}}{\partial{w<em>{mn}^{21}}} =\Delta</em>{2m}^2g<em>{2n}^1 - \Delta</em>{1m}^2g_{1n}^1<br>$$</p>
+</li>
+</ol>
+<h4 id="一般的梯度下降法推导"><a href="#一般的梯度下降法推导" class="headerlink" title="一般的梯度下降法推导"></a>一般的梯度下降法推导</h4><p>用梯度下降法求解是RankNet的关键思想，不仅可以用神经网络模型，GBDT也可以（xgboost、LightGBM），只不过是需要将$\frac{\partial C}{\partial w_k}$的求解，变成$\frac{\partial C}{\partial s_i}$。下面讲一下一般的梯度下降法的推导。</p>
+<p>$$<br>w_k\rightarrow w_k-\eta \frac{\partial C}{\partial w_k}<br>$$</p>
+<p>$\eta$为步长，损失函数的改变：</p>
+<p>$$<br>\Delta C=\sum_k \frac{\partial C}{\partial w_k}\Delta w_k=\sum_k \frac{\partial C}{\partial w_k}(-\eta \frac{\partial C}{\partial w_k})=-\eta \sum_k (\frac{\partial C}{\partial w_k})^2 &lt; 0<br>$$</p>
+<p>损失函数C是逐步减小的，我们继续拆分：</p>
+<p>$$<br>\frac{\partial C}{\partial s<em>i} = \sigma (\frac{1}{2}(1-S</em>{ij})-\frac{1}{1+e^{\sigma (s_i-_j)}})=-\frac{\partial C}{\partial s_j}<br>$$<br>爱的色放<br>$$<br>\frac{\partial C}{\partial w_k}=\frac{\partial C}{\partial s_i}\frac{\partial s_i}{\partial w_k}+\frac{\partial C}{\partial s_j}\frac{\partial s_j}{\partial w<em>k}=\sigma (\frac{1}{2}(1-S</em>{ij})-\frac{1}{1+e^{\sigma (s_i-_j)}})(\frac{\partial s_i}{\partial w_k} -\frac{\partial s_j}{\partial w_k})<br>$$</p>
+<h4 id="RankNet训练加速"><a href="#RankNet训练加速" class="headerlink" title="RankNet训练加速"></a>RankNet训练加速</h4><p>上面的学习过程中，对每一个样本对ij就要做一次参数更新，效率不是很高，比如采用BP神经网络模型，训练会非常慢。下面讲解一下mini-batch的方式更新w，这也是LambdaRank的基础。<br>我们先定义 $\lambda$：</p>
+<p>$$<br>\lambda<em>{ij} = \sigma (\frac{1}{2}(1-S</em>{ij})-\frac{1}{1+e^{\sigma (s_i-_j)}})=\frac{\partial C}{\partial s_i}<br>$$</p>
+<p>$$<br>\Rightarrow \frac{\partial C}{\partial w<em>k}=\lambda</em>{ij} (\frac{\partial s_i}{\partial w_k} -\frac{\partial s_j}{\partial w_k})<br>$$</p>
+<p>我们选取一个样本对集合$I$，为了使每个样本对$(i,j)$（$ij$必须属于同一个query）在集合中只出现一次，我们规定$(i,j)$中i要排在j之前，及$S_{ij}=1$。于是我们将$w_k$的更新值变成累加的形式：</p>
+<p>$$<br>\Delta w<em>k=-\eta \sum</em>{i,j\in I}(\lambda_{ij}\frac{\partial{s_i}}{\partial{w<em>k}} - \lambda</em>{ij}\frac{\partial{s_j}}{\partial{w<em>k}})<br>= -\eta \sum</em>{i}(\sum<em>{i&gt;j}\lambda</em>{ij}\frac{\partial{s_i}}{\partial{w<em>k}} - \sum</em>{k&gt;i} \lambda_{k,i}\frac{\partial{s_i}}{\partial{w<em>k}})<br>=-\eta \sum</em>{i}\lambda_{i}\frac{\partial{s_i}}{\partial{w_k}}<br>$$</p>
+<p>其中$\lambda_i$定义如下：</p>
+<blockquote>
+<p>对样本i，我们找出所有排在它之前的样本组成$k,i\in I$，然后找到所有排在其后的样本组成$i,j\in I$。</p>
+</blockquote>
+<p>$$\lambda<em>i = \sum</em>{i,j \in I} \lambda<em>{i,j} - \sum</em>{k,i\in I} \lambda_{k,i}$$</p>
+<p>经过上面的推导，就可以用mini-batch的方式更新$w$权重了。</p>
+<h3 id="LambdaRank"><a href="#LambdaRank" class="headerlink" title="LambdaRank"></a>LambdaRank</h3><p>上面介绍的RankNet是以error pair最少为优化目标，然而许多时候仅以error pair数来评价排序的好坏是不够的，因为它只关心pair的相对位置，不关心top K的结果，而IR排序中top K的结果是很重要的，以下图为例：</p>
+<p><img src="/images/ltr03.png" alt=""></p>
+<p>图中每一条短横线表示一个URL，蓝色表示与Query相关的URL，灰色表示不相关的URL。下面我们用error pair和NDCG分别来评估左右两个排序的好坏：</p>
+<ul>
+<li>Error pair指标<br>对于排序1，排序错误的pair共13对，故cost=13。<br>对于排序2，排序错误的pair共11对，故cost=11。</li>
+</ul>
+<p>所以，从Error pair角度考虑，排序2要优于排序1</p>
+<ul>
+<li>NDCG指标<br>假设相关url分值为1，不相关为0。<br>排序1与排序2具有相同的maxDCG@16,<br>$maxDCG@16=\frac{1}{log(1+1)} + \frac{1}{log(1+2)}=1.63$<br>对排序1，有<br>$DCG@16=\frac{1}{log(1+1)}+\frac{1}{log(1+15)}=1.25$<br>$NDCG@16=1.25/1.63=0.767$<br>对排序2，有<br>$DCG@16=\frac{1}{log(1+4)}+\frac{1}{log(1+10)}=0.72$<br>$NDCG@16=0.72/1.63=0.442$</li>
+</ul>
+<p>所以，从NDCG指标来看，排序1要优于排序2。</p>
+<p>从上面的计算可以看出，用error pair评估的结果有时不是我们期望的。与error pair不同，NDCG评估会强调top K的结果，这是符合我们预期的。而且，排序2中右侧的黑色箭头表示RankNet下一步梯度更新方向，长短表示强度。然而我们真正希望的是红色箭头的形式，排在前面的更新权重更大。</p>
+<p>那我们可不可以用RankNet的思路优化像NDCG这样的不平滑、不连续的指标呢？答案是肯定的。LambdaRank的一个关键思想是，我们没有必要构建cost function本身，我们只需要知道梯度就可以了。所以LambdaRank算法分析排序问题，然后直接对RankNet里的$\lambda_{ij}$进行了修改。</p>
+<p>$$<br>\lambda_{ij}=\frac{-\sigma}{1+e^{\sigma (s_i-s<em>j)}}|\Delta Z</em>{ij}|<br>$$</p>
+<p>式中$\Delta Z_{ij}$表示，将$i$和$j$交换位置后，待优化指标的变化，如$\Delta NDCG$就表示将$i$和$j$进行交换（其他url保持不变），交换后排序的NDCG与交换前排序的NDCG的差值。乘积前半部分代表了文档下一次迭代优化的方向和强度，由于引入了IR评价指标，Lambda梯度更关注位置靠前的高匹配度url的排序位置的提升。我们把改进后的算法称之为LambdaRank。</p>
+<p>现在我们的优化目标不再是损失函数$C$最小，而是评估指标最大。所以权重更新方程变成：</p>
+<p>$$<br>w_k\rightarrow w_k+\eta \frac{\partial C}{\partial w_k}<br>$$</p>
+<p>$$<br>\Delta C=\frac{\partial C}{\partial w_k}\Delta w_k=\eta \sum_k (\frac{\partial C}{\partial w_k})^2 &gt; 0<br>$$</p>
+<p>LambdaRank相比RankNet的优势在于考虑了评价指标，直接对问题求解，所以效果更好。有效的避免了下调相关度高的url的位置这种情况的发生。</p>
+<h3 id="LambdaMART"><a href="#LambdaMART" class="headerlink" title="LambdaMART"></a>LambdaMART</h3><p>LambdaRank中通过直接定义梯度，解决了引入评估指标带来的不连续的问题。这个Lambda梯度可以应用于任何使用梯度下降法求解的模型。Boosted tree是一种很灵活的模型，将它与Lambda相结合就是微软2009年发表的LambdaMART算法。</p>
+<p>在MART（GBDT）中，当采用平方误差损失函数时，每一棵回归树学习的是之前所有树的结论和残差，拟合得到一个当前的残差回归树，残差的意义如公式：残差 = 真实值 - 预测值 。对于一般的损失函数，Friedman提出用损失函数的负梯度值，作为残差的拟合值。</p>
+<p>LambdaMART算法中，这个负梯度就是$\lambda_i$。</p>
+<p>$$<br>\lambda<em>{ij}=\frac{-\sigma |\Delta Z</em>{ij}|}{1+e^{\sigma (s_i-s_j)}}<br>$$</p>
+<p>算法[Algorithm 1]中，Step 1-3 是用现有模型初始化初值。Step 6 计算每篇文档的$\lambda$梯度$y_i$。Step 7 计算每篇文档的二阶导数$w_i$。Step 9 是利用所有文档及它们的残差（$\lambda$）建立回归树。Step 11 是利用牛顿-拉夫森方法计算叶结点的权值。Step 14 是更新每篇文档的分数。</p>
+<p><img src="/images/ltr04.png" alt="1"></p>
+<h3 id="公开的数据集可以使用"><a href="#公开的数据集可以使用" class="headerlink" title="公开的数据集可以使用"></a>公开的数据集可以使用</h3><ul>
+<li><a href="http://research.microsoft.com/en-us/um/beijing/projects/letor/" target="_blank" rel="external">LETOR</a></li>
+<li><a href="http://research.microsoft.com/en-us/projects/mslr/" target="_blank" rel="external">Microsoft Learning to Rank Dataset</a></li>
+<li><a href="http://webscope.sandbox.yahoo.com/" target="_blank" rel="external">Yahoo Learning to Rank Challenge</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;LTR 算法通常有三种手段，分别是：Pointwise、Pairwise 和 Listwise。Pointwise 和 Pairwise 类型的LTR算法，将排序问题转化为回归、分类或者有序分类问题。Listwise 类型的 LTR 算法则另辟蹊径
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
