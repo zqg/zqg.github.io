@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zqg.github.io/"/>
-  <updated>2017-04-07T09:02:47.000Z</updated>
+  <updated>2017-04-07T12:20:18.000Z</updated>
   <id>https://zqg.github.io/</id>
   
   <author>
@@ -14,6 +14,125 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hexo 搭建github pages记录</title>
+    <link href="https://zqg.github.io/2017/04/07/Hexo-%E6%90%AD%E5%BB%BAgithubpage%E8%AE%B0%E5%BD%95/"/>
+    <id>https://zqg.github.io/2017/04/07/Hexo-搭建githubpage记录/</id>
+    <published>2017-04-07T11:25:38.000Z</published>
+    <updated>2017-04-07T12:20:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>之前在github上搭建过几次个人博客，使用过jekyll、hugo等。但jekyll操作起来确实麻烦，每次都要输入一系列命令，而且速度很慢。这次决定换掉jekyll，刚开始想用hugo<a href="https://www.staticgen.com/" target="_blank" rel="external">staticgen</a>。花了一下午时间，把网站搭建好，然后发现在使用Mathjax时，有问题。虽然官网给出了解决方案，但是一直没成功。所以只能放弃Hugo，转战hexo。在这里把hexo的搭建过程做个记录，方便之后查看。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>本地搭建环境：mac<br>软件包管理工具：Homebrew</p>
+<h4 id="Git安装"><a href="#Git安装" class="headerlink" title="Git安装"></a>Git安装</h4><p>使用Github Page搭建博客, 需要在github建立仓库,仓库名为username.github.io。<br>本地安装git，并配置密钥。<br>具体过程略</p>
+<h4 id="Node安装"><a href="#Node安装" class="headerlink" title="Node安装"></a>Node安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">brew install node  <span class="comment">#最新版的node.js的包中已经集成了npm包管理工具</span></div><div class="line">node -v  <span class="comment"># 验证是否安装成功</span></div><div class="line">npm -v</div></pre></td></tr></table></figure>
+<p>如果机器没有安装过node，那么首先安装nvm。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install nvm</div></pre></td></tr></table></figure></p>
+<p>在shell的配置文件(~/.bash_profile)中添加如下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> NVM_DIR=~/.nvm</div><div class="line"><span class="built_in">source</span> $(brew --prefix nvm)/nvm.sh</div><div class="line">``` </div><div class="line"></div><div class="line">如果之前通过brew install node方式安装过node，那么需要先删除系统中存在的node：</div><div class="line">```bash</div><div class="line">brew remove --force node</div><div class="line">sudo rm -r /usr/<span class="built_in">local</span>/lib/node_modules</div><div class="line"></div><div class="line">brew prune</div><div class="line">sudo rm -r /usr/<span class="built_in">local</span>/include/node</div><div class="line"></div><div class="line"><span class="comment"># 检查brew是否正常</span></div><div class="line">brew doctor</div></pre></td></tr></table></figure></p>
+<h3 id="Hexo安装与设置"><a href="#Hexo安装与设置" class="headerlink" title="Hexo安装与设置"></a>Hexo安装与设置</h3><h4 id="基本安装"><a href="#基本安装" class="headerlink" title="基本安装"></a>基本安装</h4><p>Node, npm和Git都安装成功, 开始安装hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install hexo -g  <span class="comment">#-g表示全局安装, npm默认为当前项目安装</span></div><div class="line">hexo version</div></pre></td></tr></table></figure></p>
+<p>如果遇到报错</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; [Error: Cannot find module <span class="string">'./build/Release/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div><div class="line">&#123; [Error: Cannot find module <span class="string">'./build/default/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div><div class="line">&#123; [Error: Cannot find module <span class="string">'./build/Debug/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div></pre></td></tr></table></figure>
+<p>则用下列语句安装<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo --no-optional</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>我在安装是也遇到报错，不过上面的命令没有起到作用，依然会报错，但是不影响编译。决题原因没有找到。</p>
+</blockquote>
+<p>Hexo使用命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># clone自己git上的站点</span></div><div class="line">git <span class="built_in">clone</span> git@github.com:zqg/zqg.github.io.git</div><div class="line"><span class="built_in">cd</span> zqg.github.io</div><div class="line"></div><div class="line"><span class="comment"># hexo初始化</span></div><div class="line">hexo init</div><div class="line"><span class="comment">#install before start blogging</span></div><div class="line">npm install</div><div class="line"><span class="comment"># 自动根据当前目录下文件,生成静态网页</span></div><div class="line">hexo generate</div><div class="line"><span class="comment"># 运行本地服务</span></div><div class="line">hexo server</div></pre></td></tr></table></figure></p>
+<p>浏览器输入<a href="http://localhost:4000就可以看到效果。" target="_blank" rel="external">http://localhost:4000就可以看到效果。</a></p>
+<p>目录结构<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── .deploy       <span class="comment">#需要部署的文件</span></div><div class="line">├── node_modules  <span class="comment">#Hexo插件</span></div><div class="line">├── public        <span class="comment">#生成的静态网页文件</span></div><div class="line">├── scaffolds     <span class="comment">#模板</span></div><div class="line">├── <span class="built_in">source</span>        <span class="comment">#博客正文和其他源文件, 404 favicon CNAME 等都应该放在这里</span></div><div class="line">|   ├── _drafts   <span class="comment">#草稿</span></div><div class="line">|   └── _posts    <span class="comment">#文章</span></div><div class="line">├── themes        <span class="comment">#主题</span></div><div class="line">├── _config.yml   <span class="comment">#全局配置文件</span></div><div class="line">└── package.json</div></pre></td></tr></table></figure></p>
+<h4 id="添加博文"><a href="#添加博文" class="headerlink" title="添加博文"></a>添加博文</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new <span class="string">"postName"</span>  <span class="comment">#新建博文,其中postName是博文题目</span></div></pre></td></tr></table></figure>
+<p>博文会自动生成在博客目录下source/_posts\postName.md</p>
+<p>注意不是<code>hexo new page &quot;postName&quot;</code>， 这个命令是添加二级菜单</p>
+<p>文件自动生成格式:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">title: <span class="string">"It Starts with iGaze: Visual Attention Driven Networkingwith Smart Glasses"</span>  #博文题目</div><div class="line">date: <span class="number">2014</span>-<span class="number">11</span>-<span class="number">21</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">38</span>      #生成时间</div><div class="line"><span class="keyword">tag</span><span class="variable">s:</span>                    #标签, 多个标签也可以使用格式[tag1, tag2, tag3,...]</div><div class="line">- tag1</div><div class="line">- tag2</div><div class="line">- tag3</div><div class="line">categorie<span class="variable">s:</span> [cat1,cat2,cat3]</div><div class="line">---</div></pre></td></tr></table></figure></p>
+<p>正文, 使用 Markdown 语法书写<br>如果不想博文在首页全部显示, 并能出现阅读全文按钮效果, 需要在你想在首页显示的部分下添加<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--more--&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="主题更改"><a href="#主题更改" class="headerlink" title="主题更改"></a>主题更改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> zqg.github.io</div><div class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next.git themes/next</div></pre></td></tr></table></figure>
+<p>在./_config.yml，修改主题为next<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: <span class="keyword">next</span></div></pre></td></tr></table></figure></p>
+<p>查看本地效果<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo g</div><div class="line">hexo s</div></pre></td></tr></table></figure></p>
+<h4 id="部署到Git"><a href="#部署到Git" class="headerlink" title="部署到Git"></a>部署到Git</h4><p>以上内容都是在本地进行查看, 现在将博客部署到github上<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#Github</span></div><div class="line"></div><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: github</div><div class="line">  repo: https://github.com/zqg/zqg.github.io.git</div><div class="line">  branch: master <span class="comment"># or gh-pages</span></div></pre></td></tr></table></figure></p>
+<p>注意事项:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">所有键的冒号后面留一个空格，如<span class="keyword">language</span>: zh-CN</div><div class="line">url不能为空,否则报错</div><div class="line"><span class="built_in">type</span>: github报错hexo ERROR Deployer not found: github的解决方法：</div><div class="line">先运行 npm install hexo-deployer-git --save</div><div class="line">再改为 <span class="built_in">type</span>: git</div></pre></td></tr></table></figure></p>
+<p>完整配置信息如下：</p>
+<h1 id="Site-站点信息"><a href="#Site-站点信息" class="headerlink" title="Site #站点信息"></a>Site #站点信息</h1><p>title: blog Name #标题<br>subtitle: Subtitle #副标题<br>description: my blog desc #描述<br>author: me #作者<br>language: zh-CN #语言<br>timezone: Asia/Shanghai #时区</p>
+<h1 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h1><p>url: <a href="http://yoururl.com" target="_blank" rel="external">http://yoururl.com</a>   #用于绑定域名, 其他的不需要配置<br>root: /</p>
+<p>#permalink: :year/:month/:day/:title/<br>permalink: posts/title.html<br>permalink_defaults:</p>
+<h1 id="Directory-目录"><a href="#Directory-目录" class="headerlink" title="Directory #目录"></a>Directory #目录</h1><p>source_dir: source #源文件<br>public_dir: public #生成的网页文件<br>tag_dir: tags #标签<br>archive_dir: archives #归档<br>category_dir: categories #分类<br>code_dir: downloads/code<br>i18n_dir: :lang #国际化<br>skip_render:</p>
+<h1 id="Writing-写作"><a href="#Writing-写作" class="headerlink" title="Writing #写作"></a>Writing #写作</h1><p>new_post_name: :title.md #新文章标题<br>default_layout: post #默认模板(post page photo draft)<br>titlecase: false #标题转换成大写<br>external_link: true #新标签页里打开连接<br>filename_case: 0<br>render_drafts: false<br>post_asset_folder: false<br>relative_link: false<br>future: true<br>highlight: #语法高亮<br>  enable: true<br>  line_number: true #显示行号<br>  auto_detect: true<br>  tab_replace:</p>
+<h1 id="Category-amp-Tag-分类和标签"><a href="#Category-amp-Tag-分类和标签" class="headerlink" title="Category &amp; Tag #分类和标签"></a>Category &amp; Tag #分类和标签</h1><p>default_category: uncategorized #默认分类<br>category_map:<br>tag_map:</p>
+<h1 id="Date-Time-format-日期时间格式"><a href="#Date-Time-format-日期时间格式" class="headerlink" title="Date / Time format #日期时间格式"></a>Date / Time format #日期时间格式</h1><h2 id="http-momentjs-com-docs-displaying-format"><a href="#http-momentjs-com-docs-displaying-format" class="headerlink" title="http://momentjs.com/docs/#/displaying/format/"></a><a href="http://momentjs.com/docs/#/displaying/format/" target="_blank" rel="external">http://momentjs.com/docs/#/displaying/format/</a></h2><p>date_format: YYYY-MM-DD<br>time_format: HH:mm:ss</p>
+<h1 id="Pagination-分页"><a href="#Pagination-分页" class="headerlink" title="Pagination #分页"></a>Pagination #分页</h1><p>per_page: 10 #每页文章数, 设置成 0 禁用分页<br>pagination_dir: page</p>
+<h1 id="Extensions-插件和主题"><a href="#Extensions-插件和主题" class="headerlink" title="Extensions #插件和主题"></a>Extensions #插件和主题</h1><h2 id="插件-http-hexo-io-plugins"><a href="#插件-http-hexo-io-plugins" class="headerlink" title="插件: http://hexo.io/plugins/"></a>插件: <a href="http://hexo.io/plugins/" target="_blank" rel="external">http://hexo.io/plugins/</a></h2><h2 id="主题-http-hexo-io-themes"><a href="#主题-http-hexo-io-themes" class="headerlink" title="主题: http://hexo.io/themes/"></a>主题: <a href="http://hexo.io/themes/" target="_blank" rel="external">http://hexo.io/themes/</a></h2><p>theme: next</p>
+<h1 id="Deployment-部署-同时发布在-GitHub-和-GitCafe-上面"><a href="#Deployment-部署-同时发布在-GitHub-和-GitCafe-上面" class="headerlink" title="Deployment #部署, 同时发布在 GitHub 和 GitCafe 上面"></a>Deployment #部署, 同时发布在 GitHub 和 GitCafe 上面</h1><p>deploy:</p>
+<ul>
+<li>type: git<br>repo: git@gitcafe.com:username/username.git,gitcafe-pages</li>
+<li>type: git<br>repo: git@github.com:username/username.github.io.git,master</li>
+</ul>
+<h1 id="Disqus-Disqus评论系统"><a href="#Disqus-Disqus评论系统" class="headerlink" title="Disqus #Disqus评论系统"></a>Disqus #Disqus评论系统</h1><p>disqus_shortname: </p>
+<p>plugins: #插件，例如生成 RSS 和站点地图的</p>
+<ul>
+<li>hexo-generator-feed</li>
+<li>hexo-generator-sitemap<br>保存之后，便可以使用hexo d上传到GitCafe。<br>部署成功,使用username.gitcafe.io进行访问, 或者设置个性域名，参考官方Wiki。</li>
+</ul>
+<p>7.域名</p>
+<p>绑定域名<br>不绑定域名的话只能通过 your_user_name.github.io 访问<br>申请域名推荐 GoDaddy, 域名解析推荐 DNSPod</p>
+<p>绑定顶级域名<br>新建文件 CNAME, 无后缀, 纯文本文件, 内容为要绑定的域名 blogname.com<br>如果要使用 www.blogname.com 的形式, 文件内容改为 www.blogname.com</p>
+<p>DNS设置<br>主机记录@, 类型A, 记录值192.30.252.153<br>主机记录www, 类型A, 记录值192.30.252.153<br>参考 Tips for configuring an A record with your DNS provider</p>
+<p>绑定子域名</p>
+<p>比如使用域名blogname.com的子域名blog.blogname.com<br>CNAME文件内容为blog.blogname.com</p>
+<p>DNS设置<br>主机记录blog, 类型CNAME, 记录值blogname.github.io<br>参考 Tips for configuring a CNAME record with your DNS provider</p>
+<p>Gitcafe 绑定域名</p>
+<p>项目管理界面, 左侧的导航栏中有自定义域名设置</p>
+<p>8.其他配置</p>
+<p>站点建立时间<br>例如 © 2014 - 2015</p>
+<p>站点配置文件新增字段 since<br>since: 2014</p>
+<p>侧栏设置<br>post - 默认行为, 在文章页面(拥有目录列表)时显示<br>always - 在所有页面中都显示<br>hide - 在所有页面中都隐藏(可以手动展开)</p>
+<p>sidebar: post</p>
+<p>头像设置<br>编辑站点配置文件, 新增字段 avatar, 头像的链接地址可以是:</p>
+<p>网络地址<br><a href="https://avatars2.githubusercontent.com/u/4962914?v=3&amp;s=460" target="_blank" rel="external">https://avatars2.githubusercontent.com/u/4962914?v=3&amp;s=460</a></p>
+<p>站点内的地址<br>/images/avatar.jpg #头像图片放置在主题的 source/images/</p>
+<p>avatar: /images/avatar.png</p>
+<p>菜单设置<br>编辑主题配置文件的 menu<br>若站点运行在子目录中, 将链接前缀的 / 去掉</p>
+<p>menu:<br>  home: /<br>  archives: /archives<br>  categories: /categories<br>  tags: /tags<br>  commonweal: /404.html<br>  about: /about<br>标签云页面<br>添加一个标签云页面, 并在菜单中显示页面链接</p>
+<p>新建tags页面<br>hexo new page “tags”</p>
+<p>将页面的类型设置为 tags</p>
+<p>title: tags<br>date: 2015-09-19 22:37:08</p>
+<h2 id="type-“tags”"><a href="#type-“tags”" class="headerlink" title="type: “tags”"></a>type: “tags”</h2><p>关闭评论</p>
+<p>title: tags<br>date: 2015-09-19 22:37:08<br>type: “tags”</p>
+<h2 id="comments-false"><a href="#comments-false" class="headerlink" title="comments: false"></a>comments: false</h2><p>在菜单中添加链接。 编辑主题配置文件, 添加 tags 到 menu 中</p>
+<p>menu:<br>  tags: /tags<br>分类页面<br>添加一个分类页面, 并在菜单中显示页面链接</p>
+<p>新建 categories 页面<br>hexo new page categories</p>
+<p>将页面的类型设置为categories</p>
+<p>title: categories<br>date: 2015-09-19 22:38:00</p>
+<h2 id="type-“categories”"><a href="#type-“categories”" class="headerlink" title="type: “categories”"></a>type: “categories”</h2><p>关闭评论</p>
+<p>title: categories<br>date: 2015-09-19 22:38:00<br>type: “categories”</p>
+<h2 id="comments-false-1"><a href="#comments-false-1" class="headerlink" title="comments: false"></a>comments: false</h2><p>在菜单中添加链接. 编辑主题配置文件, 添加 categories 到 menu 中</p>
+<p>menu:<br>  categories: /categories<br>RSS 链接<br>编辑主题配置文件 rss 字段</p>
+<p>rss: false<br>禁用Feed链接</p>
+<p>rss:<br>默认使用站点的 Feed 链接, 需要安装 hexo-generator-feed 插件<br>浏览<a href="http://localhost:4000/atom.xml查看是否生效" target="_blank" rel="external">http://localhost:4000/atom.xml查看是否生效</a></p>
+<p>rss: <a href="http://your-feed-url" target="_blank" rel="external">http://your-feed-url</a><br>指定特定的链接地址, 适用于已经烧制过 Feed 的情形</p>
+<p>自定义页面<br>以关于页面为例<br>新建一个 about 页面<br>hexo new page “about”</p>
+<p>编辑 source/about/index.md：</p>
+<p>title: About</p>
+<h2 id="date-2014-11-1-11-11-11"><a href="#date-2014-11-1-11-11-11" class="headerlink" title="date: 2014-11-1 11:11:11"></a>date: 2014-11-1 11:11:11</h2><p>About Me<br>菜单显示 about 链接, 主题配置文件中将 menu 中 about 前面的注释去掉</p>
+<p>menu:<br>  about: /about<br>9.网站代码上传</p>
+<p>设置完毕，为避免本地代码丢失，可以将hexo下的所有文件提交一份到服务器。</p>
+<p>#create project on gitcafe.com<br>mkdir hexo-source<br>cd hexo-source<br>git init</p>
+<h1 id="copy-all-files-in-‘hexo’-folder-here"><a href="#copy-all-files-in-‘hexo’-folder-here" class="headerlink" title="copy all files in ‘hexo’ folder here"></a>copy all files in ‘hexo’ folder here</h1><p>git add ..<br>git commit -m ‘first commit’<br>git remote add origin ‘git@gitcafe.com:username/hexo-source.git’<br>git push -u origin master</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;之前在github上搭建过几次个人博客，使用过jekyll、hugo等。但jekyll操作起来确实麻烦，每次都要输入一系列命令，而且速度很慢。这次决定换掉jekyll，刚开始想用hugo&lt;a href=&quot;https://www.staticgen.com/&quot;&gt;staticgen&lt;/a&gt;。花了一下午时间，把网站搭建好，然后发现在使用Mathjax时，有问题。虽然官网给出了解决方案，但是一直没成功。所以只能放弃Hugo，转战hexo。在这里把hexo的搭建过程做个记录，方便之后查看。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Note" scheme="https://zqg.github.io/categories/Note/"/>
+    
+    
+      <category term="Hexo" scheme="https://zqg.github.io/tags/Hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
