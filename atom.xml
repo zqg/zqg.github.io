@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zqg.github.io/"/>
-  <updated>2017-04-07T13:01:14.000Z</updated>
+  <updated>2017-04-08T12:28:49.000Z</updated>
   <id>https://zqg.github.io/</id>
   
   <author>
@@ -16,11 +16,87 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>mxnet简单练习-MLP</title>
+    <link href="https://zqg.github.io/2017/04/08/mxnet%E7%AE%80%E5%8D%95%E7%BB%83%E4%B9%A0-MLP/"/>
+    <id>https://zqg.github.io/2017/04/08/mxnet简单练习-MLP/</id>
+    <published>2017-04-08T11:44:38.000Z</published>
+    <updated>2017-04-08T12:28:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>mxnet是一个比较容易上手的DL框架，初级使用比较容易。但它的文档感觉不是很全面，想深入了解会比较困难。<br>本文没什么技术含量，只是记录了一次简单的学习过程。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> mxnet <span class="keyword">as</span> mx</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div></pre></td></tr></table></figure>
+<h4 id="定义网络"><a href="#定义网络" class="headerlink" title="定义网络"></a>定义网络</h4><p>简单的MLP定义，包含两个全连接层，一个激活层，softmax作为输出。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">num_classes = <span class="number">2</span></div><div class="line"><span class="comment"># Create a place holder variable for the input data</span></div><div class="line">net = mx.sym.Variable(<span class="string">'data'</span>)</div><div class="line"><span class="comment"># The first fully-connected layer</span></div><div class="line">net = mx.sym.FullyConnected(data=net, name=<span class="string">'fc1'</span>, num_hidden=<span class="number">128</span>)</div><div class="line"><span class="comment"># Apply relu to the output of the first fully-connnected layer</span></div><div class="line">net = mx.sym.Activation(data=net, name=<span class="string">'relu1'</span>, act_type=<span class="string">"relu"</span>)</div><div class="line"><span class="comment"># The second fully-connected layer</span></div><div class="line">net = mx.sym.FullyConnected(data=net, name=<span class="string">'fc2'</span>, num_hidden=num_classes)</div><div class="line"><span class="comment"># name must be softmax, or read https://github.com/dmlc/mxnet/issues/523</span></div><div class="line"><span class="comment"># 这里如果没有指明label，名称必须是softmax，不然会因为找不到softmax_label而报错，报错信息可以查看上面的链接</span></div><div class="line">net = mx.sym.SoftmaxOutput(data=net, name=<span class="string">'softmax'</span>)</div><div class="line">mx.viz.plot_network(net)</div></pre></td></tr></table></figure></p>
+<p>mxnet可以方便的打印出网络结构图<br><img src="/images/net.svg" alt="svg"></p>
+<h4 id="构造数据"><a href="#构造数据" class="headerlink" title="构造数据"></a>构造数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 随机生成20个样本</span></div><div class="line">a = np.random.uniform(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">2000</span>)</div><div class="line"><span class="comment"># label 0 1</span></div><div class="line">b = [int(x) <span class="keyword">for</span> x <span class="keyword">in</span> np.random.uniform(<span class="number">0</span>, <span class="number">2</span>, <span class="number">200</span>)]</div></pre></td></tr></table></figure>
+<p>大部分的mxnet的训练数据格式是data iterators，它类似于Python的iterator。通过不断调用next(),MXNet’s data iterator会返回一个batch的训练数据，或者StopIteration。详细的DataIter介绍会在单独的文章中介绍。</p>
+<p>代码中的NDArrayIter方法返回一个迭代器，数据格式是mx.nd.NDArray或者numpy.ndarray。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 构造Data iterators</span></div><div class="line">batch_size = <span class="number">10</span></div><div class="line">num_features = <span class="number">10</span></div><div class="line">train_iter = mx.io.NDArrayIter(np.array(a).reshape(<span class="number">200</span>, num_features), np.array(b), batch_size, shuffle=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<h4 id="打印MLP中各层的纬度"><a href="#打印MLP中各层的纬度" class="headerlink" title="打印MLP中各层的纬度"></a>打印MLP中各层的纬度</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 打印各层的纬度</span></div><div class="line">ex = net.simple_bind(ctx=mx.cpu(), data=(batch_size, num_features))</div><div class="line">args = dict(zip(net.list_arguments(), ex.arg_arrays))</div><div class="line"><span class="keyword">for</span> name <span class="keyword">in</span> args:</div><div class="line">    print(name, args[name].shape)</div></pre></td></tr></table></figure>
+<pre><code>(&apos;fc2_weight&apos;, (2L, 128L))
+(&apos;fc1_weight&apos;, (128L, 10L))
+(&apos;softmax_label&apos;, (10L,))
+(&apos;fc2_bias&apos;, (2L,))
+(&apos;data&apos;, (10L, 10L))
+(&apos;fc1_bias&apos;, (128L,))
+</code></pre><h4 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h4><p>mxnet训练模型包含model和module两个库。下面是官网的介绍：</p>
+<pre><code>Model:  The model API provides a simplified way to train neural networks using common best practices. 
+        It’s a thin wrapper built on top of the ndarray and symbolic modules that make neural network training easy.
+Module: The module API, defined in the module (or simply mod) package, provides an intermediate and high-level
+        interface for performing computation with a Symbol. One can roughly think a module is a machine which can
+        execute a program defined by a Symbol.
+</code></pre><p>从官网解释可以知道，Model是对ndarray的封装，使它更容易使用。module提供了更加高级的接口，我之后会单独一篇文章介绍两种模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> logging</div><div class="line">logging.getLogger().setLevel(logging.DEBUG)</div><div class="line"></div><div class="line">model = mx.model.FeedForward(</div><div class="line">    symbol = net,       <span class="comment"># network structure</span></div><div class="line">    num_epoch = <span class="number">10</span>,     <span class="comment"># number of data passes for training </span></div><div class="line">    learning_rate = <span class="number">0.1</span> <span class="comment"># learning rate of SGD </span></div><div class="line">)</div><div class="line">model.fit(</div><div class="line">    X=train_iter,       <span class="comment"># training data</span></div><div class="line">    batch_end_callback = mx.callback.Speedometer(batch_size, <span class="number">100</span>) <span class="comment"># output progress for each 200 data batches</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<pre><code>INFO:root:Start training with [cpu(0)]
+INFO:root:Epoch[0] Resetting Data Iterator
+INFO:root:Epoch[0] Time cost=0.046
+INFO:root:Epoch[1] Resetting Data Iterator
+INFO:root:Epoch[1] Time cost=0.077
+INFO:root:Epoch[2] Resetting Data Iterator
+INFO:root:Epoch[2] Time cost=0.076
+INFO:root:Epoch[3] Resetting Data Iterator
+INFO:root:Epoch[3] Time cost=0.126
+INFO:root:Epoch[4] Resetting Data Iterator
+INFO:root:Epoch[4] Time cost=0.161
+INFO:root:Epoch[5] Resetting Data Iterator
+INFO:root:Epoch[5] Time cost=0.081
+INFO:root:Epoch[6] Resetting Data Iterator
+INFO:root:Epoch[6] Time cost=0.107
+INFO:root:Epoch[7] Resetting Data Iterator
+INFO:root:Epoch[7] Time cost=0.040
+INFO:root:Epoch[8] Resetting Data Iterator
+INFO:root:Epoch[8] Time cost=0.154
+INFO:root:Epoch[9] Resetting Data Iterator
+INFO:root:Epoch[9] Time cost=0.086
+</code></pre><h4 id="模型预测和保存"><a href="#模型预测和保存" class="headerlink" title="模型预测和保存"></a>模型预测和保存</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">model.predict(np.array(a[:<span class="number">10</span>]).reshape(<span class="number">1</span>, num_features))</div><div class="line">model.save(<span class="string">"prefix_of_model"</span>)</div></pre></td></tr></table></figure>
+<pre><code>array([[ 0.41441375,  0.58558631]], dtype=float32)
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;mxnet是一个比较容易上手的DL框架，初级使用比较容易。但它的文档感觉不是很全面，想深入了解会比较困难。&lt;br&gt;本文没什么技术含量，只是记录了一次简单的学习过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highligh
+    
+    </summary>
+    
+      <category term="note" scheme="https://zqg.github.io/categories/note/"/>
+    
+    
+      <category term="mxnet" scheme="https://zqg.github.io/tags/mxnet/"/>
+    
+      <category term="practice" scheme="https://zqg.github.io/tags/practice/"/>
+    
+      <category term="mlp" scheme="https://zqg.github.io/tags/mlp/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hexo 搭建github pages记录</title>
     <link href="https://zqg.github.io/2017/04/07/Hexo-%E6%90%AD%E5%BB%BAgithubpage%E8%AE%B0%E5%BD%95/"/>
     <id>https://zqg.github.io/2017/04/07/Hexo-搭建githubpage记录/</id>
     <published>2017-04-07T11:25:38.000Z</published>
-    <updated>2017-04-07T13:01:14.000Z</updated>
+    <updated>2017-04-07T13:05:43.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>之前在github上搭建过几次个人博客，使用过jekyll、hugo等。但jekyll操作起来确实麻烦，每次都要输入一系列命令，而且速度很慢。这次决定换掉jekyll，刚开始想用hugo<a href="https://www.staticgen.com/" target="_blank" rel="external">staticgen</a>。花了一下午时间，把网站搭建好，然后发现在使用Mathjax时，有问题。虽然官网给出了解决方案，但是一直没成功。所以只能放弃Hugo，转战hexo。在这里把hexo的搭建过程做个记录，方便之后查看。</p>
@@ -61,6 +137,7 @@
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># 将页面的类型设置为categories</div><div class="line"></div><div class="line">title: categories</div><div class="line">date: <span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">38</span>:<span class="number">00</span></div><div class="line"><span class="built_in">type</span>: <span class="string">"categories"</span></div><div class="line">comment<span class="variable">s:</span> false</div><div class="line">---</div><div class="line"></div><div class="line">#在菜单中添加链接. 编辑主题配置文件, 添加 categories 到 <span class="keyword">menu</span> 中</div><div class="line"></div><div class="line"><span class="keyword">menu</span>:</div><div class="line">  categorie<span class="variable">s:</span> /categories</div></pre></td></tr></table></figure>
 <h5 id="自定义页面"><a href="#自定义页面" class="headerlink" title="自定义页面"></a>自定义页面</h5><p>以关于页面为例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">新建一个 about 页面</div><div class="line">hexo new page <span class="string">"about"</span></div></pre></td></tr></table></figure></p>
 <p>编辑 source/about/index.md：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">title: About</div><div class="line">date: <span class="number">2014</span>-<span class="number">11</span>-<span class="number">1</span> <span class="number">11</span>:<span class="number">11</span>:<span class="number">11</span></div><div class="line">---</div><div class="line"></div><div class="line"># About Me</div><div class="line"># 菜单显示 about 链接, 主题配置文件中将 <span class="keyword">menu</span> 中 about 前面的注释去掉</div><div class="line"></div><div class="line"><span class="keyword">menu</span>:</div><div class="line">  abou<span class="variable">t:</span> /about</div></pre></td></tr></table></figure></p>
+<h4 id="解决Mathjax转义问题"><a href="#解决Mathjax转义问题" class="headerlink" title="解决Mathjax转义问题"></a>解决Mathjax转义问题</h4><p>参考链接 <a href="https://segmentfault.com/a/1190000007261752" target="_blank" rel="external">segmentfault</a><br>我的具体操作：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># 打开nodes_modules/marked/lib/marked.<span class="keyword">j</span><span class="variable">s:</span></div><div class="line"></div><div class="line"># 去掉\的转义:</div><div class="line"># 找到下面的代码</div><div class="line"><span class="built_in">escape</span>: /^\\([\\`*&#123;&#125;\[\]()# +\-.!_&gt;])/,</div><div class="line"># 改为:</div><div class="line"><span class="built_in">escape</span>: /^\\([`*&#123;&#125;\[\]()# +\-.!_&gt;])/,</div><div class="line"></div><div class="line"># 去掉_的斜体含义：</div><div class="line"># 找到<span class="keyword">em</span>的符号</div><div class="line"><span class="keyword">em</span>: /^\b_((?:[^_]|__)+?)_\<span class="keyword">b</span>|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</div><div class="line"># 改为:</div><div class="line"><span class="keyword">em</span>:/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
@@ -79,38 +156,11 @@
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="https://zqg.github.io/2017/04/07/hello-world/"/>
-    <id>https://zqg.github.io/2017/04/07/hello-world/</id>
-    <published>2017-04-07T09:02:47.000Z</published>
-    <updated>2017-04-07T09:02:47.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Ltr From Ranknet To Lambdarank To Lambdamart</title>
-    <link href="https://zqg.github.io/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/"/>
-    <id>https://zqg.github.io/2017/04/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/</id>
-    <published>2017-04-07T03:25:38.000Z</published>
-    <updated>2017-04-07T11:31:37.000Z</updated>
+    <link href="https://zqg.github.io/2017/02/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/"/>
+    <id>https://zqg.github.io/2017/02/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/</id>
+    <published>2017-02-07T09:25:38.000Z</published>
+    <updated>2017-04-08T10:14:47.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>LTR 算法通常有三种手段，分别是：Pointwise、Pairwise 和 Listwise。Pointwise 和 Pairwise 类型的LTR算法，将排序问题转化为回归、分类或者有序分类问题。Listwise 类型的 LTR 算法则另辟蹊径，将用户查询（Query）所得的结果作为整体，作为训练用的实例（Instance）。</p>
@@ -234,18 +284,18 @@
       <category term="ML" scheme="https://zqg.github.io/categories/ML/"/>
     
     
-      <category term="LTR" scheme="https://zqg.github.io/tags/LTR/"/>
-    
       <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
+    
+      <category term="LTR" scheme="https://zqg.github.io/tags/LTR/"/>
     
   </entry>
   
   <entry>
     <title>Introduction to XGBoost</title>
-    <link href="https://zqg.github.io/2017/04/06/Introduction-to-XGBoost/"/>
-    <id>https://zqg.github.io/2017/04/06/Introduction-to-XGBoost/</id>
-    <published>2017-04-06T03:25:38.000Z</published>
-    <updated>2017-04-07T11:31:56.000Z</updated>
+    <link href="https://zqg.github.io/2016/12/06/Introduction-to-XGBoost/"/>
+    <id>https://zqg.github.io/2016/12/06/Introduction-to-XGBoost/</id>
+    <published>2016-12-06T03:25:38.000Z</published>
+    <updated>2017-04-08T10:15:50.000Z</updated>
     
     <content type="html"><![CDATA[<p>eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。</p>
 <blockquote>
@@ -347,13 +397,204 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
       <category term="ML" scheme="https://zqg.github.io/categories/ML/"/>
     
     
-      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
-    
       <category term="XGBoost" scheme="https://zqg.github.io/tags/XGBoost/"/>
     
       <category term="GBDT" scheme="https://zqg.github.io/tags/GBDT/"/>
     
       <category term="GB" scheme="https://zqg.github.io/tags/GB/"/>
+    
+      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MXNet设计和实现简介</title>
+    <link href="https://zqg.github.io/0201/12/30/MXNet%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%AE%9E%E7%8E%B0%E7%AE%80%E4%BB%8B/"/>
+    <id>https://zqg.github.io/0201/12/30/MXNet设计和实现简介/</id>
+    <published>0201-12-30T03:25:38.000Z</published>
+    <updated>2017-04-08T11:13:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>本文转自李牧子github上发表的一篇文章，对mxnet做了总体的介绍，搬运过来以作记录。</p>
+</blockquote>
+<h3 id="基础介绍"><a href="#基础介绍" class="headerlink" title="基础介绍"></a>基础介绍</h3><p><strong>(转)</strong> 神经网络本质上是一种语言，我们通过它来表达对应用问题的理解。例如我们用卷积层来表达空间相关性，RNN来表达时间连续性。根据问题的复杂性和信息如何从输入到输出一步步提取，我们将不同大小的层按一定原则连接起来。近年来随着数据的激增和计算能力的大幅提升，神经网络也变得越来越深和大。例如最近几次imagnet竞赛的冠军都使用有数十至百层的网络。对于这一类神经网络我们通常称之为深度学习。从应用的角度而言，对深度学习最重要的是如何方便的表述神经网络，以及如何快速训练得到模型。</p>
+<a id="more"></a>
+<h4 id="命令式编程-amp-声明式编程"><a href="#命令式编程-amp-声明式编程" class="headerlink" title="命令式编程 &amp; 声明式编程"></a>命令式编程 &amp; 声明式编程</h4><p>对于一个优秀的深度学习系统，或者更广来说优秀的科学计算系统，最重要的编程接口的设计。他们都采用将一个_领域特定语言(domain specific language)嵌入到一个主语言中。例如numpy将矩阵运算嵌入到python中。这类嵌入一般分为两种，其中一种嵌入的较浅，其中每个语句都按原来的意思执行，且通常采用_命令式编程(imperative programming)，其中numpy和Torch就是属于这种。而另一种则用一种深的嵌入方式，提供一整套针对具体应用的迷你语言。这一种通常使用_声明式语言(declarative programing)_，既用户只需要声明要做什么，而具体执行则由系统完成。这类系统包括Caffe，theano和刚公布的TensorFlow。<br>这两种方式各有利弊，总结如下</p>
+<style>
+table th:first-of-type {
+    width: 100px;
+}
+
+table tr:hover {
+    background: #efefef; 
+}
+</style>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">浅嵌入，命令式编程</th>
+<th style="text-align:left">深嵌入，声明式编程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">如何执行 a=b+1</td>
+<td style="text-align:left">需要b已经被赋值。立即执行加法，将结果保存在a中。</td>
+<td style="text-align:left">返回对应的计算图(computation graph)，我们可以之后对b进行赋值，然后再执行加法运算</td>
+</tr>
+<tr>
+<td style="text-align:left">优点</td>
+<td style="text-align:left">语义上容易理解，灵活，可以精确控制行为。通常可以无缝的和主语言交互，方便的利用主语言的各类算法，工具包，bug和性能调试器。</td>
+<td style="text-align:left">在真正开始计算的时候已经拿到了整个计算图，所以我们可以做一系列优化来提升性能。实现辅助函数也容易，例如对任何计算图都提供forward和backward函数，对计算图进行可视化，将图保存到硬盘和从硬盘读取。</td>
+</tr>
+<tr>
+<td style="text-align:left">缺点</td>
+<td style="text-align:left">实现统一的辅助函数困和提供整体优化都很困难。</td>
+<td style="text-align:left">很多主语言的特性都用不上。某些在主语言中实现简单，但在这里却经常麻烦，例如if-else语句 。debug也不容易，例如监视一个复杂的计算图中的某个节点的中间结果并不简单。</td>
+</tr>
+</tbody>
+</table>
+<h5 id="不同框架编程模式比较"><a href="#不同框架编程模式比较" class="headerlink" title="不同框架编程模式比较"></a>不同框架编程模式比较</h5><p>目前现有的系统大部分都采用上两种编程模式的一种。与它们不同的是，MXNet尝试将两种模式无缝的结合起来。在命令式编程上MXNet提供张量运算，而声明式编程中MXNet支持符号表达式。用户可以自由的混合它们来快速实现自己的想法。例如我们可以用声明式编程来描述神经网络，并利用系统提供的自动求导来训练模型。另一方便，模型的迭代训练和更新模型法则中可能涉及大量的控制逻辑，因此我们可以用命令式编程来实现。同时我们用它来进行方便的调式和与主语言交互数据。<br>下表我们比较MXNet和其他流行的深度学习系统</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">主语言</th>
+<th style="text-align:left">从语言</th>
+<th style="text-align:left">硬件</th>
+<th style="text-align:center">分布式</th>
+<th style="text-align:center">命令式</th>
+<th style="text-align:center">声明式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Caffe</td>
+<td style="text-align:left">C++</td>
+<td style="text-align:left">Python/Matlab</td>
+<td style="text-align:left">CPU/GPU</td>
+<td style="text-align:center">n</td>
+<td style="text-align:center">n</td>
+<td style="text-align:center">y</td>
+</tr>
+<tr>
+<td style="text-align:left">Torch</td>
+<td style="text-align:left">Lua</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">CPU/GPU/FPGA</td>
+<td style="text-align:center">n</td>
+<td style="text-align:center">y</td>
+<td style="text-align:center">n</td>
+</tr>
+<tr>
+<td style="text-align:left">Theano</td>
+<td style="text-align:left">Python</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">CPU/GPU</td>
+<td style="text-align:center">n</td>
+<td style="text-align:center">n</td>
+<td style="text-align:center">y</td>
+</tr>
+<tr>
+<td style="text-align:left">TensorFlow</td>
+<td style="text-align:left">C++</td>
+<td style="text-align:left">Python</td>
+<td style="text-align:left">CPU/GPU/Mobile</td>
+<td style="text-align:center">y</td>
+<td style="text-align:center">n</td>
+<td style="text-align:center">y</td>
+</tr>
+<tr>
+<td style="text-align:left">MXNet</td>
+<td style="text-align:left">C++</td>
+<td style="text-align:left">Python/R/Julia/Go</td>
+<td style="text-align:left">CPU/GPU/Mobile</td>
+<td style="text-align:center">y</td>
+<td style="text-align:center">y</td>
+<td style="text-align:center">y</td>
+</tr>
+</tbody>
+</table>
+<p>（注，TensforFlow暂时没有公开其分布式实现）</p>
+<h3 id="MXNet的系统架构"><a href="#MXNet的系统架构" class="headerlink" title="MXNet的系统架构"></a>MXNet的系统架构</h3><p>MXNet的系统架构如下图所示：<br><img src="/images/sys.png" alt=""><br>从上到下分别为各种主语言的嵌入，编程接口（矩阵运算，符号表达式，分布式通讯），两种编程模式的统一系统实现，以及各硬件的支持。接下一章我们将介绍编程接口，然后下一章介绍系统实现。之后我们给出一些实验对比结果，以及讨论MXNet的未来。</p>
+<h4 id="编程接口"><a href="#编程接口" class="headerlink" title="编程接口"></a>编程接口</h4><h5 id="Symbol：-声明式的符号表达式"><a href="#Symbol：-声明式的符号表达式" class="headerlink" title="Symbol： 声明式的符号表达式"></a>Symbol： 声明式的符号表达式</h5><p>MXNet使用多值输出的符号表达式来声明计算图。符号是由操作子构建而来。一个操作子可以是一个简单的矩阵运算“+”，也可以是一个复杂的神经网络里面的层，例如卷积层。一个操作子可以有多个输入变量和多个输出变量，还可以有内部状态变量。一个变量既可以是自由的，我们可以之后对其赋值；也可以是某个操作子的输出。例如下面的代码中我们使用Julia来定义一个多层感知机，它由一个代表输入数据的自由变量，和多个神经网络层串联而成。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">data = mx.symbol.Variable(<span class="string">'data'</span>)</div><div class="line"><span class="comment"># first fullc</span></div><div class="line">fc1 = mx.symbol.FullyConnected(data=data, num_hidden=<span class="number">64</span>)</div><div class="line">relu3 = mx.symbol.Activation(data=fc1, act_type=<span class="string">"relu"</span>)</div><div class="line"><span class="comment"># second fullc</span></div><div class="line">fc2 = mx.symbol.FullyConnected(data=relu3, num_hidden=<span class="number">10</span>)</div><div class="line"><span class="comment"># loss</span></div><div class="line">net = mx.symbol.SoftmaxOutput(data=fc2, name=<span class="string">'softmax'</span>)</div></pre></td></tr></table></figure></p>
+<p>在执行一个符号表达式前，我们需要对所有的自由变量进行赋值。上例中，我们需要给定数据，和各个层里隐式定义的输入，例如全连接层的权重和偏值。我们同时要申明所需要的输出，例如softmax的输出。</p>
+<p>除了执行获得softmax输出外（通常也叫<code>forward</code>），符号表达式也支持自动求导来获取各权重和偏值对应的梯度（也称之为<code>backward</code>）。此外，我们还可以提前估计计算时需要的内存，符号表达式的可视化，读入和输出等。</p>
+<h5 id="NDArray：命令式的张量计算"><a href="#NDArray：命令式的张量计算" class="headerlink" title="NDArray：命令式的张量计算"></a>NDArray：命令式的张量计算</h5><p>MXNet提供命令式的张量计算来桥接主语言的和符号表达式。下面代码中，我们在GPU上计算矩阵和常量的乘法，并使用numpy来打印结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> MXNet <span class="keyword">as</span> mx</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a = mx.nd.ones((<span class="number">2</span>, <span class="number">3</span>), mx.gpu())</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> (a * <span class="number">2</span>).asnumpy()</div><div class="line">[[ <span class="number">2.</span>  <span class="number">2.</span>  <span class="number">2.</span>]</div><div class="line"> [ <span class="number">2.</span>  <span class="number">2.</span>  <span class="number">2.</span>]]</div></pre></td></tr></table></figure></p>
+<p>另一方面，NDArray可以无缝和符号表达式进行对接。假设我们使用Symbol定义了一个神经网络，那么我们可以如下实现一个梯度下降算法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; max_iter; ++i) &#123;</div><div class="line">  network.forward();</div><div class="line">  network.backward();</div><div class="line">  network.weight -= eta * network.gradient</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里梯度由Symbol计算而得。Symbol的输出结果均表示成NDArray，我们可以通过NDArray提供的张量计算来更新权重。此外，我们还利用了主语言的for循环来进行迭代，学习率eta也是在主语言中进行修改。</p>
+<p>上面的混合实现跟使用纯符号表达式实现的性能相差无二，然后后者在表达控制逻辑时会更加复杂。其原因是NDArray的执行会和Symbol类似的构建一个计算图，并与其他运算一同交由后台引擎执行。对于运算<code>-=</code>由于我们只是将其结果交给另一个Symbol的forward作为输入，因此我们不需要立即得到结果。当上面的for循环结束时，我们只是将数个Symbol和NDarray对应的计算图提交给了后台引擎。当我们最终需要结果的时候，例如将weight复制到主语言中或者保存到磁盘时，程序才会被阻塞直到所有计算完成。</p>
+<h5 id="KVStore：多设备间的数据交互"><a href="#KVStore：多设备间的数据交互" class="headerlink" title="KVStore：多设备间的数据交互"></a>KVStore：多设备间的数据交互</h5><p>MXNet提供一个分布式的key-value存储来进行数据交换。它主要有两个函数，<br><strong>push</strong>： 将key-value对从一个设备push进存储<br><strong>pull</strong>：将某个key上的值从存储中pull出来此外，KVStore还接受自定义的更新函数来控制收到的值如何写入到存储中。最后KVStore提供数种包含最终一致性模型和顺序一致性模型在内的数据一致性模型。<br>在下面例子中，我们将前面的梯度下降算法改成分布式梯度下降。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">KVStore kvstore(<span class="string">"dist_async"</span>);</div><div class="line">kvstore.set_updater([](NDArray weight, NDArray gradient) &#123;</div><div class="line">    weight -= eta * gradient;</div><div class="line">  &#125;);</div><div class="line"><span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; max_iter; ++i) &#123;</div><div class="line">   kvstore.pull(network.weight);</div><div class="line">   network.forward();</div><div class="line">   network.backward();</div><div class="line">   kvstore.push(network.gradient);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在这里我们先使用最终一致性模型创建一个kvstore，然后将更新函数注册进去。在每轮迭代前，每个计算节点先将最新的权重pull回来，之后将计算的得到的梯度push出去。kvstore将会利用更新函数来使用收到的梯度更新其所存储的权重。</p>
+<p>这里push和pull跟NDArray一样使用了延后计算的技术。它们只是将对应的操作提交给后台引擎，而引擎则调度实际的数据交互。所以上述的实现跟我们使用纯符号实现的性能相差无几。</p>
+<h5 id="读入数据模块"><a href="#读入数据模块" class="headerlink" title="读入数据模块"></a>读入数据模块</h5><p>数据读取在整体系统性能上占重要地位。MXNet提供工具能将任意大小的样本压缩打包成单个或者数个文件来加速顺序和随机读取。</p>
+<p>通常数据存在本地磁盘或者远端的分布式文件系统上（例如HDFS或者Amazon S3)，每次我们只需要将当前需要的数据读进内存。MXNet提供迭代器可以按块读取不同格式的文件。迭代器使用多线程来解码数据，并使用多线程预读取来隐藏文件读取的开销。</p>
+<h5 id="训练模块"><a href="#训练模块" class="headerlink" title="训练模块"></a>训练模块</h5><p>MXNet实现了常用的优化算法来训练模型。用户只需要提供数据数据迭代器和神经网络的Symbol便可。此外，用户可以提供额外的KVStore来进行分布式的训练。例如下面代码使用分布式异步SGD来训练一个模型，其中每个计算节点使用两快GPU。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> MXNet <span class="keyword">as</span> mx</div><div class="line">model = mx.model.FeedForward(</div><div class="line">    ctx                = [mx.gpu(<span class="number">0</span>), mx.gpu(<span class="number">1</span>)],</div><div class="line">    symbol             = network,</div><div class="line">    num_epoch          = <span class="number">100</span>,</div><div class="line">    learning_rate      = <span class="number">0.01</span>,</div><div class="line">    momentum           = <span class="number">0.9</span>,</div><div class="line">    wd                 = <span class="number">0.00001</span>,</div><div class="line">    initializer        = mx.init.Xavier(factor_type=<span class="string">"in"</span>, magnitude=<span class="number">2.34</span>))</div><div class="line">model.fit(</div><div class="line">    X                  = train_iter,</div><div class="line">    eval_data          = val_iter,</div><div class="line">    kvstore            = mx.kvstore.create(<span class="string">'dist_async'</span>),</div><div class="line">    epoch_end_callback = mx.callback.do_checkpoint(<span class="string">'model_'</span>))</div></pre></td></tr></table></figure>
+<h4 id="系统实现"><a href="#系统实现" class="headerlink" title="系统实现"></a>系统实现</h4><h5 id="计算图"><a href="#计算图" class="headerlink" title="计算图"></a>计算图</h5><p>一个已经赋值的符号表达式可以表示成一个计算图。下图是之前定义的多层感知机的部分计算图，包含forward和backward。</p>
+<p><img src="/images/graph.png" alt=""></p>
+<p>其中圆表示变量，方框表示操作子，箭头表示数据依赖关系。在执行之前，MXNet会对计算图进行优化，以及为所有变量提前申请空间。</p>
+<h5 id="计算图优化"><a href="#计算图优化" class="headerlink" title="计算图优化"></a>计算图优化</h5><p>计算图优化已经在数据库等领域被研究多年，我们目前只探索了数个简单的方法。<br>注意到我们提前申明了哪些输出变量是需要的，这样我们只需要计算这些输出需要的操作。例如，在预测时我们不需要计算梯度，所以整个backforward图都可以忽略。而在特征抽取中，我们可能只需要某些中间层的输出，从而可以忽略掉后面的计算。</p>
+<p>我们可以合并某些操作。例如 _a_b+1*只需要一个blas或者cuda函数即可，而不需要将其表示成两个操作。</p>
+<p>我们实现了一些“大”操作，例如一个卷积层就只需要一个操作子。这样我们可以大大减小计算图的大小，并且方便手动的对这个操作进行优化。</p>
+<h5 id="内存申请"><a href="#内存申请" class="headerlink" title="内存申请"></a>内存申请</h5><p>内存通常是一个重要的瓶颈，尤其是对GPU和智能设备而言。而神经网络计算时通常需要大量的临时空间，例如每个层的输入和输出变量。对每个变量都申请一段独立的空间会带来高额的内存开销。幸运的是，我们可以从计算图推断出所有变量的生存期，就是这个变量从创建到最后被使用的时间段，从而可以对两个不交叉的变量重复使用同一内存空间。这个问题在诸多领域，例如编译器的寄存器分配上，有过研究。然而最优的分配算法需要 <code>O(n2)</code> 时间复杂度，这里n是图中变量的个数。<br>MXNet提供了两个启发式的策略，每个策略都是线性的复杂度。</p>
+<ul>
+<li><strong>inplace</strong>, 在这个策略里，我们模拟图的遍历过程，并为每个变量维护一个还有多少其他变量需要它的计数。当我们发现某个变量的计数变成0时，我们便回收其内存空间。</li>
+<li><strong>co-share</strong>, 我们允许两个变量使用同一段内存空间。这么做当然会使得这两个变量不能同时在写这段空间。所以我们只考虑对不能并行的变量进行co-share。每一次我们考虑图中的一条路（path），路上所有变量都有依赖关系所以不能被并行，然后我们对其进行内存分配并将它们从图中删掉。</li>
+</ul>
+<h5 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h5><p>在MXNet中，所有的任务，包括张量计算，symbol执行，数据通讯，都会交由引擎来执行。首先，所有的资源单元，例如NDArray，随机数生成器，和临时空间，都会在引擎处注册一个唯一的标签。然后每个提交给引擎的任务都会标明它所需要的资源标签。引擎则会跟踪每个资源，如果某个任务所需要的资源到到位了，例如产生这个资源的上一个任务已经完成了，那么引擎会则调度和执行这个任务。</p>
+<p>通常一个MXNet运行实例会使用多个硬件资源，包括CPU，GPU，PCIe通道，网络，和磁盘，所以引擎会使用多线程来调度，既任何两个没有资源依赖冲突的任务都可能会被并行执行，以求最大化资源利用。</p>
+<p>与通常的数据流引擎不同的是，MXNet的引擎允许一个任务修改现有的资源。为了保证调度正确性，提交任务时需要分开标明哪些资源是只读，哪些资源会被修改。这个附加的写依赖可以带来很多便利。例如我们可以方便实现在numpy以及其他张量库中常见的数组修改操作，同时也使得内存分配时更加容易，比如操作子可以修改其内部状态变量而不需要每次都重来内存。再次，假如我们要用同一个种子生成两个随机数，那么我们可以标注这两个操作会同时修改种子来使得引擎不会并行执行，从而使得代码的结果可以很好的被重复。</p>
+<h5 id="数据通讯"><a href="#数据通讯" class="headerlink" title="数据通讯"></a>数据通讯</h5><p>KVStore的实现是基于参数服务器。但它跟前面的工作有两个显著的区别。</p>
+<p>我们通过引擎来管理数据一致性，这使得参数服务器的实现变得相当简单，同时使得KVStore的运算可以无缝的与其他结合在一起。</p>
+<p>我们使用一个两层的通讯结构，原理如下图所示。第一层的服务器管理单机内部的多个设备之间的通讯。第二层服务器则管理机器之间通过网络的通讯。第一层的服务器在与第二层通讯前可能合并设备之间的数据来降低网络带宽消费。同时考虑到机器内和外通讯带宽和延时的不同性，我们可以对其使用不同的一致性模型。例如第一层我们用强的一致性模型，而第二层我们则使用弱的一致性模型来减少同步开销。</p>
+<p><img src="/images/ps.png" alt=""></p>
+<h5 id="可移植性"><a href="#可移植性" class="headerlink" title="可移植性"></a>可移植性</h5><p>轻量和可移植性是MXNet的一个重要目标。MXNet核心使用C++实现，并提供C风格的头文件。因此方便系统移植，也使得其很容易被其他支持C FFI (forigen language interface )的语言调用。此外，我们也提供一个脚本将MXNet核心功能的代码连同所有依赖打包成一个单一的只有数万行的C++源文件，使得其在一些受限的平台，例如智能设备，方便编译和使用。</p>
+<h4 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h4><p>这里我们提供一些早期的实验结果。</p>
+<h5 id="与其他系统相比"><a href="#与其他系统相比" class="headerlink" title="与其他系统相比"></a>与其他系统相比</h5><p>我们首先使用一个流行卷积网络测试方案来对比MXNet与Torch，Caffe和TensorFlow在过去几届imagenet竞赛冠军网络上的性能。每个系统使用同样的CUDA 7.0和CUDNN 3，但TensorFlow使用其只支持的CUDA 6.5 和CUDNN 2。我们使用单块GTX 980并报告单个forward和backward的耗时。</p>
+<p><img src="/images/time_forward_backward.png" alt=""></p>
+<p>可以看出MXNet，Torch和Caffe三者在性能上不相上下。这个符合预期，因为在单卡上我们评测的几个网络的绝大部分运算都由CUDA和CUDNN完成。TensorFlow比其他三者都慢2倍以上，这可能由于是低版本的CUDNN和项目刚开源的缘故。</p>
+<p>#####内存的使用<br>接下来我们考察不同的内存分配算法对内存占用的影响。下图分别表示使用batch=128时，在做预测时和做训练时的不同算法在内部变量（除去模型，最初输入和最终输出）上的内存开销。</p>
+<p><img src="/images/mem_forward.png" alt=""></p>
+<p><img src="/images/mem_forward_backward.png" alt=""></p>
+<p>可以看出，inplace和co-share两者都可以极大的降低内存使用。将两者合起来可以在训练时减少2倍内存使用，在预测时则可以减小4倍内存使用。特别的，即使是最复杂的vggnet，对单张图片进行预测时，MXNet只需要16MB额外内存。</p>
+<h5 id="Scalability"><a href="#Scalability" class="headerlink" title="Scalability"></a>Scalability</h5><p>最后我们报告在分布式训练下的性能。我们使用imagenet 1k数据（120万224x224x3图片，1000类），并用googlenet加上batch normalization来训练。我们使用Amazon EC2 g2.8x，单机和多机均使用同样的参数，下图表示了使用单机和10台g2.8x时的收敛情况。</p>
+<p><img src="/images/inception-with-bn-imagnet1k.png" alt=""></p>
+<p>从训练精度来看，单机的收敛比多机快，这个符合预期，因为多机时有效的batch大小比单机要大，在处理同样多的数据上收敛通常会慢。但有意思的是两者在测试精度上非常相似。</p>
+<p>单机下每遍历一次数据需要1万4千秒，而在十台机器上，每次只需要1千4百秒。如果考虑运行时间对比测试精度，10台机器带来了10倍的提升。</p>
+<h4 id="过去，现状，和未来"><a href="#过去，现状，和未来" class="headerlink" title="过去，现状，和未来"></a>过去，现状，和未来</h4><p>大半年前我们拉来数个优秀的C++机器学习系统的开发人员成立了DMLC，本意是更方便共享各自项目的代码，并给用户提供一致的体验。当时我们有两个深度学习的项目，一个是CXXNet，其通过配置来定义和训练神经网络。另一个是Minerva，提供类似numpy一样的张量计算接口。前者在图片分类等使用卷积网络上很方便，而后者更灵活。那时候我们想要能不能一个两者功能都具备的系统，于是这样就有了MXNet。其名字来自Minerva的M和CXXNet的XNet。其中Symbol的想法来自CXXNet，而NDArray的想法来自Minerva。我们也常把MXNet叫“mix net”。</p>
+<p>MXNet是DMLC第一个结合了所有的成员努力的项目，也同时吸引了很多核心成员的加入。MXNet目的是做一个有意思的系统，能够让大家用着方便的系统，一个轻量的和可以快速测试系统和算法想法的系统。对于未来，我们主要关注下面四个方向：</p>
+<ol>
+<li>支持更多的硬件，我们目前在积极考虑支持AMD GPU，高通GPU，Intel Phi，FPGA，和更多智能设备。相信MXNet的轻量和内存节省可以在这些上大有作为。</li>
+<li>更加完善的操作子。目前不论是Symbol还是NDArray支持的操作还是有限，我们希望能够尽快的扩充他们。</li>
+<li>更多编程语言。除了C++，目前MXNet对Python，R和Julia的支持比较完善。但我们希望还能有很多的语言，例如javascript。</li>
+<li>更的应用。我们之前花了很多精力在图片分类上，下面我们会考虑很多的应用。</li>
+</ol>
+<p>原文：<a href="https://github.com/dmlc/mxnet/issues/797" target="_blank" rel="external">https://github.com/dmlc/mxnet/issues/797</a><br>论文：<a href="https://github.com/dmlc/web-data/raw/master/mxnet/paper/mxnet-learningsys.pdf" target="_blank" rel="external">mxnet-learningsys</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;本文转自李牧子github上发表的一篇文章，对mxnet做了总体的介绍，搬运过来以作记录。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;基础介绍&quot;&gt;&lt;a href=&quot;#基础介绍&quot; class=&quot;headerlink&quot; title=&quot;基础介绍&quot;&gt;&lt;/a&gt;基础介绍&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;(转)&lt;/strong&gt; 神经网络本质上是一种语言，我们通过它来表达对应用问题的理解。例如我们用卷积层来表达空间相关性，RNN来表达时间连续性。根据问题的复杂性和信息如何从输入到输出一步步提取，我们将不同大小的层按一定原则连接起来。近年来随着数据的激增和计算能力的大幅提升，神经网络也变得越来越深和大。例如最近几次imagnet竞赛的冠军都使用有数十至百层的网络。对于这一类神经网络我们通常称之为深度学习。从应用的角度而言，对深度学习最重要的是如何方便的表述神经网络，以及如何快速训练得到模型。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="DL" scheme="https://zqg.github.io/categories/DL/"/>
+    
+    
+      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
+    
+      <category term="Neural Networks" scheme="https://zqg.github.io/tags/Neural-Networks/"/>
+    
+      <category term="Deep Learning" scheme="https://zqg.github.io/tags/Deep-Learning/"/>
+    
+      <category term="Mxnet" scheme="https://zqg.github.io/tags/Mxnet/"/>
     
   </entry>
   
