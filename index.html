@@ -196,7 +196,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -206,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -216,7 +216,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -236,7 +236,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            About
+            Über
           </a>
         </li>
       
@@ -249,7 +249,7 @@
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            Search
+            Suche
           </a>
         </li>
       
@@ -340,7 +340,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-08T19:44:38+08:00">
                 2017-04-08
@@ -361,12 +361,12 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/note/" itemprop="url" rel="index">
-                    <span itemprop="name">note</span>
+                  <a href="/categories/Note/" itemprop="url" rel="index">
+                    <span itemprop="name">Note</span>
                   </a>
                 </span>
 
@@ -419,56 +419,18 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>mxnet是一个比较容易上手的DL框架，初级使用比较容易。但它的文档感觉不是很全面，想深入了解会比较困难。<br>本文没什么技术含量，只是记录了一次简单的学习过程。</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> mxnet <span class="keyword">as</span> mx</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div></pre></td></tr></table></figure>
 <h4 id="定义网络"><a href="#定义网络" class="headerlink" title="定义网络"></a>定义网络</h4><p>简单的MLP定义，包含两个全连接层，一个激活层，softmax作为输出。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">num_classes = <span class="number">2</span></div><div class="line"><span class="comment"># Create a place holder variable for the input data</span></div><div class="line">net = mx.sym.Variable(<span class="string">'data'</span>)</div><div class="line"><span class="comment"># The first fully-connected layer</span></div><div class="line">net = mx.sym.FullyConnected(data=net, name=<span class="string">'fc1'</span>, num_hidden=<span class="number">128</span>)</div><div class="line"><span class="comment"># Apply relu to the output of the first fully-connnected layer</span></div><div class="line">net = mx.sym.Activation(data=net, name=<span class="string">'relu1'</span>, act_type=<span class="string">"relu"</span>)</div><div class="line"><span class="comment"># The second fully-connected layer</span></div><div class="line">net = mx.sym.FullyConnected(data=net, name=<span class="string">'fc2'</span>, num_hidden=num_classes)</div><div class="line"><span class="comment"># name must be softmax, or read https://github.com/dmlc/mxnet/issues/523</span></div><div class="line"><span class="comment"># 这里如果没有指明label，名称必须是softmax，不然会因为找不到softmax_label而报错，报错信息可以查看上面的链接</span></div><div class="line">net = mx.sym.SoftmaxOutput(data=net, name=<span class="string">'softmax'</span>)</div><div class="line">mx.viz.plot_network(net)</div></pre></td></tr></table></figure></p>
-<p>mxnet可以方便的打印出网络结构图<br><img src="/images/net.svg" alt="svg"></p>
-<h4 id="构造数据"><a href="#构造数据" class="headerlink" title="构造数据"></a>构造数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 随机生成20个样本</span></div><div class="line">a = np.random.uniform(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">2000</span>)</div><div class="line"><span class="comment"># label 0 1</span></div><div class="line">b = [int(x) <span class="keyword">for</span> x <span class="keyword">in</span> np.random.uniform(<span class="number">0</span>, <span class="number">2</span>, <span class="number">200</span>)]</div></pre></td></tr></table></figure>
-<p>大部分的mxnet的训练数据格式是data iterators，它类似于Python的iterator。通过不断调用next(),MXNet’s data iterator会返回一个batch的训练数据，或者StopIteration。详细的DataIter介绍会在单独的文章中介绍。</p>
-<p>代码中的NDArrayIter方法返回一个迭代器，数据格式是mx.nd.NDArray或者numpy.ndarray。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 构造Data iterators</span></div><div class="line">batch_size = <span class="number">10</span></div><div class="line">num_features = <span class="number">10</span></div><div class="line">train_iter = mx.io.NDArrayIter(np.array(a).reshape(<span class="number">200</span>, num_features), np.array(b), batch_size, shuffle=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
-<h4 id="打印MLP中各层的纬度"><a href="#打印MLP中各层的纬度" class="headerlink" title="打印MLP中各层的纬度"></a>打印MLP中各层的纬度</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 打印各层的纬度</span></div><div class="line">ex = net.simple_bind(ctx=mx.cpu(), data=(batch_size, num_features))</div><div class="line">args = dict(zip(net.list_arguments(), ex.arg_arrays))</div><div class="line"><span class="keyword">for</span> name <span class="keyword">in</span> args:</div><div class="line">    print(name, args[name].shape)</div></pre></td></tr></table></figure>
-<pre><code>(&apos;fc2_weight&apos;, (2L, 128L))
-(&apos;fc1_weight&apos;, (128L, 10L))
-(&apos;softmax_label&apos;, (10L,))
-(&apos;fc2_bias&apos;, (2L,))
-(&apos;data&apos;, (10L, 10L))
-(&apos;fc1_bias&apos;, (128L,))
-</code></pre><h4 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h4><p>mxnet训练模型包含model和module两个库。下面是官网的介绍：</p>
-<pre><code>Model:  The model API provides a simplified way to train neural networks using common best practices. 
-        It’s a thin wrapper built on top of the ndarray and symbolic modules that make neural network training easy.
-Module: The module API, defined in the module (or simply mod) package, provides an intermediate and high-level
-        interface for performing computation with a Symbol. One can roughly think a module is a machine which can
-        execute a program defined by a Symbol.
-</code></pre><p>从官网解释可以知道，Model是对ndarray的封装，使它更容易使用。module提供了更加高级的接口，我之后会单独一篇文章介绍两种模型。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> logging</div><div class="line">logging.getLogger().setLevel(logging.DEBUG)</div><div class="line"></div><div class="line">model = mx.model.FeedForward(</div><div class="line">    symbol = net,       <span class="comment"># network structure</span></div><div class="line">    num_epoch = <span class="number">10</span>,     <span class="comment"># number of data passes for training </span></div><div class="line">    learning_rate = <span class="number">0.1</span> <span class="comment"># learning rate of SGD </span></div><div class="line">)</div><div class="line">model.fit(</div><div class="line">    X=train_iter,       <span class="comment"># training data</span></div><div class="line">    batch_end_callback = mx.callback.Speedometer(batch_size, <span class="number">100</span>) <span class="comment"># output progress for each 200 data batches</span></div><div class="line">)</div></pre></td></tr></table></figure>
-<pre><code>INFO:root:Start training with [cpu(0)]
-INFO:root:Epoch[0] Resetting Data Iterator
-INFO:root:Epoch[0] Time cost=0.046
-INFO:root:Epoch[1] Resetting Data Iterator
-INFO:root:Epoch[1] Time cost=0.077
-INFO:root:Epoch[2] Resetting Data Iterator
-INFO:root:Epoch[2] Time cost=0.076
-INFO:root:Epoch[3] Resetting Data Iterator
-INFO:root:Epoch[3] Time cost=0.126
-INFO:root:Epoch[4] Resetting Data Iterator
-INFO:root:Epoch[4] Time cost=0.161
-INFO:root:Epoch[5] Resetting Data Iterator
-INFO:root:Epoch[5] Time cost=0.081
-INFO:root:Epoch[6] Resetting Data Iterator
-INFO:root:Epoch[6] Time cost=0.107
-INFO:root:Epoch[7] Resetting Data Iterator
-INFO:root:Epoch[7] Time cost=0.040
-INFO:root:Epoch[8] Resetting Data Iterator
-INFO:root:Epoch[8] Time cost=0.154
-INFO:root:Epoch[9] Resetting Data Iterator
-INFO:root:Epoch[9] Time cost=0.086
-</code></pre><h4 id="模型预测和保存"><a href="#模型预测和保存" class="headerlink" title="模型预测和保存"></a>模型预测和保存</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">model.predict(np.array(a[:<span class="number">10</span>]).reshape(<span class="number">1</span>, num_features))</div><div class="line">model.save(<span class="string">"prefix_of_model"</span>)</div></pre></td></tr></table></figure>
-<pre><code>array([[ 0.41441375,  0.58558631]], dtype=float32)
-</code></pre>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/08/mxnet简单练习-MLP/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -547,7 +509,7 @@ INFO:root:Epoch[9] Time cost=0.086
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T19:25:38+08:00">
                 2017-04-07
@@ -568,7 +530,7 @@ INFO:root:Epoch[9] Time cost=0.086
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -632,7 +594,7 @@ INFO:root:Epoch[9] Time cost=0.086
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/07/Hexo-搭建githubpage记录/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -714,7 +676,7 @@ INFO:root:Epoch[9] Time cost=0.086
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-07T17:25:38+08:00">
                 2017-02-07
@@ -735,7 +697,7 @@ INFO:root:Epoch[9] Time cost=0.086
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -799,7 +761,7 @@ INFO:root:Epoch[9] Time cost=0.086
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/07/LTR-From-RankNet-to-LambdaRank-to-LambdaMART/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -881,7 +843,7 @@ INFO:root:Epoch[9] Time cost=0.086
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-06T11:25:38+08:00">
                 2016-12-06
@@ -902,7 +864,7 @@ INFO:root:Epoch[9] Time cost=0.086
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -969,7 +931,7 @@ INFO:root:Epoch[9] Time cost=0.086
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/12/06/Introduction-to-XGBoost/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1051,7 +1013,7 @@ INFO:root:Epoch[9] Time cost=0.086
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="0201-12-30T11:25:38+08:00">
                 0201-12-30
@@ -1072,7 +1034,7 @@ INFO:root:Epoch[9] Time cost=0.086
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1137,7 +1099,7 @@ INFO:root:Epoch[9] Time cost=0.086
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/0201/12/30/MXNet设计和实现简介/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1219,7 +1181,7 @@ INFO:root:Epoch[9] Time cost=0.086
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -1229,8 +1191,8 @@ INFO:root:Epoch[9] Time cost=0.086
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1241,7 +1203,7 @@ INFO:root:Epoch[9] Time cost=0.086
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">12</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1305,7 +1267,7 @@ INFO:root:Epoch[9] Time cost=0.086
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

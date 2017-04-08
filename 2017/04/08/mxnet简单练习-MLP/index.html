@@ -97,7 +97,7 @@
 <meta property="og:site_name" content="Just Let It Be">
 <meta property="og:description" content="mxnet是一个比较容易上手的DL框架，初级使用比较容易。但它的文档感觉不是很全面，想深入了解会比较困难。本文没什么技术含量，只是记录了一次简单的学习过程。  12import mxnet as mximport numpy as np 定义网络简单的MLP定义，包含两个全连接层，一个激活层，softmax作为输出。12345678910111213num_classes = 2# Create">
 <meta property="og:image" content="https://zqg.github.io/images/net.svg">
-<meta property="og:updated_time" content="2017-04-08T12:28:49.000Z">
+<meta property="og:updated_time" content="2017-04-08T12:30:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mxnet简单练习-MLP">
 <meta name="twitter:description" content="mxnet是一个比较容易上手的DL框架，初级使用比较容易。但它的文档感觉不是很全面，想深入了解会比较困难。本文没什么技术含量，只是记录了一次简单的学习过程。  12import mxnet as mximport numpy as np 定义网络简单的MLP定义，包含两个全连接层，一个激活层，softmax作为输出。12345678910111213num_classes = 2# Create">
@@ -201,7 +201,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -211,7 +211,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -221,7 +221,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -241,7 +241,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            About
+            Über
           </a>
         </li>
       
@@ -254,7 +254,7 @@
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            Search
+            Suche
           </a>
         </li>
       
@@ -342,7 +342,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-08T19:44:38+08:00">
                 2017-04-08
@@ -363,12 +363,12 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/note/" itemprop="url" rel="index">
-                    <span itemprop="name">note</span>
+                  <a href="/categories/Note/" itemprop="url" rel="index">
+                    <span itemprop="name">Note</span>
                   </a>
                 </span>
 
@@ -425,6 +425,7 @@
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> mxnet <span class="keyword">as</span> mx</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div></pre></td></tr></table></figure>
 <h4 id="定义网络"><a href="#定义网络" class="headerlink" title="定义网络"></a>定义网络</h4><p>简单的MLP定义，包含两个全连接层，一个激活层，softmax作为输出。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">num_classes = <span class="number">2</span></div><div class="line"><span class="comment"># Create a place holder variable for the input data</span></div><div class="line">net = mx.sym.Variable(<span class="string">'data'</span>)</div><div class="line"><span class="comment"># The first fully-connected layer</span></div><div class="line">net = mx.sym.FullyConnected(data=net, name=<span class="string">'fc1'</span>, num_hidden=<span class="number">128</span>)</div><div class="line"><span class="comment"># Apply relu to the output of the first fully-connnected layer</span></div><div class="line">net = mx.sym.Activation(data=net, name=<span class="string">'relu1'</span>, act_type=<span class="string">"relu"</span>)</div><div class="line"><span class="comment"># The second fully-connected layer</span></div><div class="line">net = mx.sym.FullyConnected(data=net, name=<span class="string">'fc2'</span>, num_hidden=num_classes)</div><div class="line"><span class="comment"># name must be softmax, or read https://github.com/dmlc/mxnet/issues/523</span></div><div class="line"><span class="comment"># 这里如果没有指明label，名称必须是softmax，不然会因为找不到softmax_label而报错，报错信息可以查看上面的链接</span></div><div class="line">net = mx.sym.SoftmaxOutput(data=net, name=<span class="string">'softmax'</span>)</div><div class="line">mx.viz.plot_network(net)</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>mxnet可以方便的打印出网络结构图<br><img src="/images/net.svg" alt="svg"></p>
 <h4 id="构造数据"><a href="#构造数据" class="headerlink" title="构造数据"></a>构造数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 随机生成20个样本</span></div><div class="line">a = np.random.uniform(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">2000</span>)</div><div class="line"><span class="comment"># label 0 1</span></div><div class="line">b = [int(x) <span class="keyword">for</span> x <span class="keyword">in</span> np.random.uniform(<span class="number">0</span>, <span class="number">2</span>, <span class="number">200</span>)]</div></pre></td></tr></table></figure>
 <p>大部分的mxnet的训练数据格式是data iterators，它类似于Python的iterator。通过不断调用next(),MXNet’s data iterator会返回一个batch的训练数据，或者StopIteration。详细的DataIter介绍会在单独的文章中介绍。</p>
@@ -585,10 +586,10 @@ INFO:root:Epoch[9] Time cost=0.086
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -609,7 +610,7 @@ INFO:root:Epoch[9] Time cost=0.086
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -619,8 +620,8 @@ INFO:root:Epoch[9] Time cost=0.086
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -631,7 +632,7 @@ INFO:root:Epoch[9] Time cost=0.086
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">12</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -711,7 +712,7 @@ INFO:root:Epoch[9] Time cost=0.086
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
