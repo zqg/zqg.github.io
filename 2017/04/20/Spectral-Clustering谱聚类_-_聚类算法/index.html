@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Algorithm,XGBoost,GBDT,GB," />
+  <meta name="keywords" content="Algorithm,Spectral Clustering,Clustering," />
 
 
 
@@ -89,33 +89,20 @@
 
 
 
-<meta name="description" content="eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。  xgboost的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的">
-<meta name="keywords" content="Algorithm,XGBoost,GBDT,GB">
+<meta name="description" content="谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。—-Baidu Baike  问题描述谱">
+<meta name="keywords" content="Algorithm,Spectral Clustering,Clustering">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Introduction to XGBoost">
-<meta property="og:url" content="https://zqg.github.io/2016/12/06/Introduction-to-XGBoost/index.html">
+<meta property="og:title" content="Spectral Clustering谱聚类 - 聚类算法">
+<meta property="og:url" content="https://zqg.github.io/2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/index.html">
 <meta property="og:site_name" content="Just Let It Be">
-<meta property="og:description" content="eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。  xgboost的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/2.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/image2.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/4.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/5.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/6.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/7.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/8.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/10.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/14.png">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/image1.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530163025555-653522936.jpg">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530164442602-1288079039.jpg">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530164744149-143494562.jpg">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530170902758-1033686275.jpg">
-<meta property="og:image" content="http://www.52cs.org/wp-content/uploads/2015/04/13.png">
-<meta property="og:updated_time" content="2017-04-20T08:37:35.000Z">
+<meta property="og:description" content="谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。—-Baidu Baike  问题描述谱">
+<meta property="og:image" content="https://zqg.github.io/images/sc01.png">
+<meta property="og:image" content="https://zqg.github.io/images/sc02.png">
+<meta property="og:updated_time" content="2017-04-21T05:53:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Introduction to XGBoost">
-<meta name="twitter:description" content="eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。  xgboost的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的">
-<meta name="twitter:image" content="http://www.52cs.org/wp-content/uploads/2015/04/2.png">
+<meta name="twitter:title" content="Spectral Clustering谱聚类 - 聚类算法">
+<meta name="twitter:description" content="谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。—-Baidu Baike  问题描述谱">
+<meta name="twitter:image" content="https://zqg.github.io/images/sc01.png">
 
 
 
@@ -143,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="https://zqg.github.io/2016/12/06/Introduction-to-XGBoost/"/>
+  <link rel="canonical" href="https://zqg.github.io/2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/"/>
 
 
 
 
 
-  <title> Introduction to XGBoost | Just Let It Be </title>
+  <title> Spectral Clustering谱聚类 - 聚类算法 | Just Let It Be </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -322,7 +309,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://zqg.github.io/2016/12/06/Introduction-to-XGBoost/">
+    <link itemprop="mainEntityOfPage" href="https://zqg.github.io/2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Quangang Zheng">
@@ -343,7 +330,7 @@
             
             
               
-                Introduction to XGBoost
+                Spectral Clustering谱聚类 - 聚类算法
               
             
           </h1>
@@ -358,8 +345,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-06T11:25:38+08:00">
-                2016-12-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-20T16:35:38+08:00">
+                2017-04-20
               </time>
             
 
@@ -374,8 +361,8 @@
               
                 <span class="post-meta-item-text">Post modified</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2017-04-20T16:37:35+08:00">
-                2017-04-20
+              <time title="Post modified" itemprop="dateModified" datetime="2017-04-21T13:53:31+08:00">
+                2017-04-21
               </time>
             
           </span>
@@ -404,8 +391,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ML/TREE/" itemprop="url" rel="index">
-                    <span itemprop="name">TREE</span>
+                  <a href="/categories/ML/Clustering/" itemprop="url" rel="index">
+                    <span itemprop="name">Clustering</span>
                   </a>
                 </span>
 
@@ -423,8 +410,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/12/06/Introduction-to-XGBoost/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="2016/12/06/Introduction-to-XGBoost/" itemprop="commentsCount"></span>
+                <a href="/2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/" itemprop="commentsCount"></span>
                 </a>
               </span>
               <!--/noindex-->
@@ -433,7 +420,7 @@
 
           
           
-             <span id="/2016/12/06/Introduction-to-XGBoost/" class="leancloud_visitors" data-flag-title="Introduction to XGBoost">
+             <span id="/2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/" class="leancloud_visitors" data-flag-title="Spectral Clustering谱聚类 - 聚类算法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -457,7 +444,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  2,898
+                  1,727
                 </span>
               
 
@@ -473,7 +460,7 @@
                   <span class="post-meta-item-text">Reading time</span>
                 
                 <span title="Reading time">
-                  11
+                  7
                 </span>
               
             </div>
@@ -492,90 +479,74 @@
       
 
       
-        <p>eXtreme Gradient Boosting, 它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛 - 陈天奇。</p>
-<blockquote>
-<p><a href="https://github.com/dmlc/xgboost" target="_blank" rel="external">xgboost</a>的全称是eXtreme Gradient Boosting。正如其名，它是Gradient Boosting Machine的一个c++实现，同时提供python/R的接口，作者为机器学习的大牛<a href="https://homes.cs.washington.edu/~tqchen/" target="_blank" rel="external">陈天奇</a>。</p>
-<p><a href="https://github.com/dmlc/xgboost" target="_blank" rel="external">github - dmlc/xgboost</a></p>
-<p><a href="http://arxiv.org/abs/1603.02754" target="_blank" rel="external">XGBoost: A Scalable Tree Boosting System</a></p>
+        <blockquote>
+<p>谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。<br>该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。<br>谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。<br>—-Baidu Baike</p>
 </blockquote>
-<a id="more"></a>
-<h3 id="Boosted-Tree"><a href="#Boosted-Tree" class="headerlink" title="Boosted Tree"></a>Boosted Tree</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><pre><code>Boosted Tree是数据挖掘和机器学习中最常用的算法之一。它非常有效，对输入要求不敏感，无需进行归一化等较复杂操作，同时作为一种常用的非线性模型，学习能力很强。它是kaggle比赛冠军选手最常用的工具，也在工业界中有大量的应用。
-
-Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree)，MART(Multiple Additive Regression Tree) ，LambdaMART(Learning to Rank模型)也是一种boosted tree的变种。
-</code></pre><h4 id="基学习器：分类和回归树（CART）"><a href="#基学习器：分类和回归树（CART）" class="headerlink" title="基学习器：分类和回归树（CART）"></a>基学习器：分类和回归树（CART）</h4><pre><code>首先讲模型，Boosted tree 最基本的组成部分叫做回归树(regression tree)，也叫做CART(Classification And Regression Tree)。CART会把输入样本根据不同的特征分配到各个叶子节点，而每个叶子节点上面都会对应一个实数分数。
-</code></pre><p><a href="http://www.52cs.org/wp-content/uploads/2015/04/2.png" target="_blank" rel="external"><img src="http://www.52cs.org/wp-content/uploads/2015/04/2.png" alt="img"></a></p>
-<pre><code>上面的例子是一个预测一个人是否会喜欢电脑游戏的 CART，你可以把叶子的分数理解为有多可能这个人喜欢电脑游戏。CART算法是一种   回归树，与决策树不同，它的叶子节点从简单的类别变成分值，可以处理，如概率预测，排序等问题。
-</code></pre><h4 id="Tree-Ensemble"><a href="#Tree-Ensemble" class="headerlink" title="Tree Ensemble"></a>Tree Ensemble</h4><p>一个CART往往过于简单无法有效地预测，因此一个更加强力的模型叫做tree ensemble。</p>
-<p><a href="http://www.52cs.org/wp-content/uploads/2015/04/image2.png" target="_blank" rel="external"><img src="http://www.52cs.org/wp-content/uploads/2015/04/image2.png" alt="image2"></a></p>
-<p>在上面的例子中，我们用两棵树来进行预测的例子。我们对于每个样本的预测结果就是每棵树预测分数的和。</p>
-<p>Tree Ensemble算法被广泛应用，例如GBM、随机森林等。对输入变量的缩放不敏感，不需要做归一化。可扩展，数据挖掘比赛和工业界都在使用。</p>
-<h3 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h3><h4 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h4><p>xgboost是属于dmlc(Distributed (Deep) Machine Learning Community) 开源项目下的一个子项目，是大规模并行boosted tree的工具，它是目前最快最好的开源boosted tree工具包，比常见的工具包快10倍以上。可用于分类、回归和排序，有大量kaggle选手选用它进行数据挖掘比赛，在工业界规模方面，xgboost的分布式版本有广泛的可移植性，支持在YARN, MPI, Sungrid Engine等各个平台上面运行，并且保留了单机并行版本的各种优化，使得它可以很好地解决于工业界规模的问题。与GBDT相比，xgboost训练速度更快，可扩展性更高。实测20节点训练33G数据(9,200,000 * 400)，建100棵深度为6的树，纯计算时间18分钟。</p>
-<h4 id="数学推导"><a href="#数学推导" class="headerlink" title="数学推导"></a>数学推导</h4><p>对于tree ensemble，假设我们已经有K颗CART树，对于一个输入样本xi，我们通过下面公式得到它的预测值：</p>
-<p>$$ \overline{y_i} = \sum^K_{k=1}f_k(x_i), \qquad  f_x \in F $$</p>
-<h5 id="目标函数："><a href="#目标函数：" class="headerlink" title="目标函数："></a>目标函数：</h5><p>给出我们需要优化的目标函数：</p>
-<p>$$<br>Obj = \sum^n_{i=1}l(y_i, \overline{y_i}) + \sum^K_{k=1}\Omega(f_k)<br>$$</p>
-<p>其中第一部分是训练误差，也就是大家相对比较熟悉的如平方误差, logistic loss等。而第二部分是每棵树的复杂度的和，可以是：L2、L1、树叶子个数等。当我讨论建立一颗决策树时，一般会考虑到利用信息增益拆分节点、对树进行剪枝、限制最大深度等优化算法。这些策略背后隐藏着这一个目标函数，它们可以很好的对应到这个目标函数上：</p>
-<ul>
-<li>信息增益 $\rightarrow$ 损失函数</li>
-<li>减枝        $\rightarrow$ 正则化部分结点个数</li>
-<li>最大深度 $\rightarrow$ 限制树规模</li>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>谱聚类（Spectral Clustering，下面简称SC）算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，使子图内部尽量相似，子图间距离尽量远，以达到聚类的目的。</p>
+<h4 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h4><p>如下：</p>
+<h5 id="图定义"><a href="#图定义" class="headerlink" title="图定义"></a>图定义</h5><ul>
+<li>无向图$G=(V, E)$：$V$表示顶点集合，数目为$n$，$E$表示边的集合。</li>
+<li>权重矩阵$W$：$n*n$的矩阵，值$w_{ij}$表示顶点$ij$之间边的权值，对于任意$w_{ij}=w_{ji}$，$w_{ii}=0$。</li>
+<li>$G$中每个顶点表示一个样本，边的权值$w_{ij}$表示样本$ij$的相似性。</li>
+<li>度矩阵$D$：$n*n$的对角矩阵，$D_{ii}$等于$W$中第i行所有元素的和，即跟样本$i$相连的边权重的和。</li>
 </ul>
-<p>理解目标函数本身也有利于我们学习和设计算法，公示中第一部分是损失函数，第二部分是树的复杂度。</p>
-<p>现在我们的参数可以认为是在一个函数空间里面，我们不能利用传统的随机梯度下降法SGD来学习我们的模型，因此我们采用了一种叫additive training (boosting)的方式，每次保留原来的模型不变，只是加入一个新的函数到模型中。</p>
-<p><img src="http://www.52cs.org/wp-content/uploads/2015/04/4.png" alt="4"></p>
-<p>选取的新的函数要使目标函数尽量降低。</p>
-<p><img src="http://www.52cs.org/wp-content/uploads/2015/04/5.png" alt="5">           </p>
-<p>例如：我们拿平方误差作为损失函数，这时目标函数可以写成下面的形式：</p>
-<p><img src="http://www.52cs.org/wp-content/uploads/2015/04/6.png" alt="6"></p>
-<p>对于一般情况，我们无法像平方误差一样展开计算，xgboost采用了二阶泰勒展开公式来近似定义的目标函数，方便我们计算，</p>
-<p><img src="http://www.52cs.org/wp-content/uploads/2015/04/7.png" alt="7">           （2）</p>
-<pre><code>当我们把常数项移除之后，我们会发现如下一个比较统一的目标函数。这一个目标函数有一个非常明显的特点，它只依赖于每个数据点在损失函数上的一阶导数和二阶导数。
-</code></pre><p>这样的好处是，模型和代码分离开来，通过替换不同的损失函数模型，算法可以求解包括回归、分类、排序等机器学习问题。</p>
-<p><img src="http://www.52cs.org/wp-content/uploads/2015/04/8.png" alt="8"></p>
-<h5 id="树的复杂度："><a href="#树的复杂度：" class="headerlink" title="树的复杂度："></a>树的复杂度：</h5><p>首先定义函数$f_t(x)$，其中$W$代表树叶的权重，$q$表示一个映射关系，即树的结构。对于给定的$x$通过$q$映射到叶子节点，从而得到分值$w$。</p>
-<p>$$<br>f_t(x) = w_q(x),w\in R^T,q:R^d \rightarrow {1,2,…,T}<br>$$</p>
-<p>xgboost对树的复杂度定义：这个复杂度包含了一棵树里面叶子节点的个数，以及每个树叶子节点上面输出分数的$L2$模平方。lambda是L2正则化项的惩罚系数，提高此值使算法更加保守。gamma可以理解为每次节点分割的增益的最小值。</p>
-<p><img src="http://www.52cs.org/wp-content/uploads/2015/04/10.png" alt="10"></p>
-<h5 id="改写目标函数："><a href="#改写目标函数：" class="headerlink" title="改写目标函数："></a>改写目标函数：</h5><p>首先定义$I_j$，表示第$i$个叶子节点上样本的集合。</p>
-<p>$$<br>I_j = {i|q(x_i)=j}<br>$$</p>
-<p>$$<br>Obj^{(t)} \approx \sum^n_{i=1} [g_if_t(x_i)+\frac{1}{2}h_if^2_t(x_i)] + \Omega(f_t)   //二阶泰勒展开<br>$$</p>
-<p>$$<br>Obj_{(t)} \approx \sum^t_{i=1}[g_iw_{q(x_i)}+\frac{1}{2}h_iw^2_{q(x_i)}] + \gamma T + \lambda /frac{1}{2}\sum^T_{j=1}w^2_j   //展开正则化项<br>$$</p>
-<p>$$<br>Obj_{(t)} \approx \sum^T_{j=1}[(\sum_{i\in I_j}g_i)w_j +\frac{1}{2}(\sum_{i \in I_J}h_i + \lambda )w^2_j] + \gamma T //更改遍历方式<br>$$</p>
-<p>经过变换，这一目标包含$T$个独立的单变量函数，将对$n$个样本点的遍历转换成对$T$个叶结点的遍历。进一步定义</p>
-<p>$$<br>G_j = \sum_{i \in I_j}g_j     \qquad H_j = \sum_{i \in I_j}h_i<br>$$</p>
-<p>$Gj, Hj$表示叶结点样本点对应的一阶、二阶导数之和。目标函数可以进一步改写成：</p>
-<p>$$<br>Obj^{(t)} = \sum^T_{j=1}[(\sum_{i \in I_j} g_i)w_j + \frac{1}{2}(\sum_{i \in I_j}h_i + \lambda)w^2_j] + \gamma T = \sum^T_{j=1}[G_jw_j + \frac{1}{2}(H_j + \lambda)w^2_j] + \gamma T<br>$$</p>
-<p>当树的结构已经确定，我们可以通过简单的求导得到每个叶结点的最优权值和对应的最优目标函数值。</p>
-<p>$$<br>w^*_j = - \frac {G_J}{H_j + \lambda} \qquad Obj = - \frac{1}{2} \sum^T_{j=1} \frac{G^2_j}{H_j + \lambda} + \gamma T<br>$$</p>
-<p>我们可以把目标函数叫做结构分数(structure score)。你可以认为这个就是类似吉尼系数一样更加一般的对于树结构进行打分的函数。下面是一个具体的打分函数计算的例子</p>
-<p><a href="http://www.52cs.org/wp-content/uploads/2015/04/14.png" target="_blank" rel="external"><img src="http://www.52cs.org/wp-content/uploads/2015/04/14.png" alt="1"></a></p>
-<h5 id="利用贪心法建树："><a href="#利用贪心法建树：" class="headerlink" title="利用贪心法建树："></a>利用贪心法建树：</h5><p>枚举所有的树形结构是不现实的，一般采用贪心法。利用打分函数来寻找出一个最优结构的树，每一次尝试去对已有的叶子加入一个分割。对于一个具体的分割方案，我们的目的是使目标函数降低的最多，用当前的目标函数 - 分割之后左右子树的目标函数分值，获得的增益可以由如下公式计算：</p>
-<p><img src="http://www.52cs.org/wp-content/uploads/2015/04/image1.png" alt="image1"></p>
-<p>观察这个公式，我们会发现一个值得注意的事情就是引入分割不一定会使得情况变好，因为我们也会引入新叶子的惩罚项$\gamma$。$\underline{这个目标对应了的剪枝}$， 当引入的分割带来的增益小于一个阀值$\gamma$的时候，我们可以剪掉这个分割。大家可以发现，当我们正式地推导目标的时候，像计算分数和剪枝这样的策略都会自然地出现，而不再是一种因为heuristic而进行的操作了。</p>
-<h3 id="xgboost特点总结"><a href="#xgboost特点总结" class="headerlink" title="xgboost特点总结"></a>xgboost特点总结</h3><p>xgboost是GB算法的高效实现，xgboost中的基学习器除了可以是CART（gbtree）也可以是线性分类器（gblinear）。</p>
-<p>xgboost算法的步骤和GB基本相同，都是首先初始化为一个常数，GB是根据一阶导数$ri$，xgboost是根据一阶导数$gi$和二阶导数$hi$，迭代生成基学习器，相加更新学习器。</p>
-<p>　　(1). xgboost在目标函数中显示的加上了正则化项，基学习为CART时，正则化项与树的叶子节点的数量T和叶子节点的值有关。</p>
-<p><img src="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530163025555-653522936.jpg" alt="img"></p>
-<p>　　(2). GB中使用Loss Function对$f(x)$的一阶导数计算出伪残差用于学习生成$fm(x)$，xgboost不仅使用到了一阶导数，还使用二阶导数。</p>
-<p>　　　　第t次的loss：</p>
-<p><img src="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530164442602-1288079039.jpg" alt="img"></p>
-<p>　　　　对上式做二阶泰勒展开：$g$为一阶导数，$h$为二阶导数</p>
-<p><img src="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530164744149-143494562.jpg" alt="img"></p>
-<p>　　(3). 上面提到CART回归树中寻找最佳分割点的衡量标准是最小化均方差，xgboost寻找分割点的标准是最大化Lsplit，$\lambda$，$\gamma$与正则化项相关</p>
-<p><img src="http://images2015.cnblogs.com/blog/754644/201605/754644-20160530170902758-1033686275.jpg" alt="img"></p>
-<p><a href="http://www.52cs.org/wp-content/uploads/2015/04/13.png" target="_blank" rel="external"><img src="http://www.52cs.org/wp-content/uploads/2015/04/13.png" alt="13"></a></p>
-<p>对于某个特定的分割a我们要计算a左边和右边的导数和。我们也可以发现对于所有的a，我们只要做一遍从左到右的扫描就可以枚举出所有分割的梯度和$GL$和$GR$。然后用上面的公式计算每个分割方案的分数就可以了。</p>
-<pre><code>(4). xgboost与gdbt除了上述三点的不同，xgboost在实现时还做了许多优化：
-</code></pre><ul>
-<li><ul>
-<li>在寻找最佳分割点时，考虑传统的枚举每个特征的所有可能分割点的贪心法效率太低，xgboost实现了一种近似的算法。大致的思想是根据百分位法列举几个可能成为分割点的候选者，然后从候选者中根据上面求分割点的公式计算找出最佳的分割点。</li>
-<li>xgboost考虑了训练数据为稀疏值的情况，可以为缺失值或者指定的值指定分支的默认方向，这能大大提升算法的效率，paper提到50倍。</li>
-<li>特征列排序后以块的形式存储在内存中，在迭代中可以重复使用；虽然boosting算法迭代必须串行，但是在处理每个特征列时可以做到并行。</li>
-<li>按照特征列方式存储能优化寻找最佳的分割点，但是当以行计算梯度数据时会导致内存的不连续访问，严重时会导致cache miss，降低算法效率。paper中提到，可先将数据收集到线程内部的buffer，然后再计算，提高算法的效率。</li>
-<li>xgboost 还考虑了当数据量比较大，内存不够时怎么有效的使用磁盘，主要是结合多线程、数据压缩、分片的方法，尽可能的提高算法的效率。</li>
-</ul>
+<h5 id="损失函数定义"><a href="#损失函数定义" class="headerlink" title="损失函数定义"></a>损失函数定义</h5><p>我们定义一个『截函数』的概念，当一个无向图被分割多个子图时，『截』就是指子图间的边的连接权重和。SC的目的是找到一种最优的分割，使得子图间的『截』最小，子图内权重最高。<br>我们以二分类为例：</p>
+<p>$$<br>Cut(G_1, G_2) = \sum_{i \in G_1, j \in G_2} w(i, j)<br>$$</p>
+<p>下图是一个简单的例子，此例中$Cut = w_{15} + w_{34} = 0.3$。</p>
+<p><img src="/images/sc01.png" alt=""></p>
+<h5 id="Laplacian矩阵"><a href="#Laplacian矩阵" class="headerlink" title="Laplacian矩阵"></a>Laplacian矩阵</h5><p>拉普拉斯矩阵，也称为基尔霍夫矩阵，是图的一种矩阵表示形式。定义为$L = D - W$。<br>它的性质：</p>
+<ol>
+<li>Laplacian矩阵是对称半正定矩阵，特征值非负；</li>
+<li>Laplacian矩阵最小特征值是0，相应的特征向量$I$;</li>
+<li>所有非零特征向量与$I$内积都未0，即正交；</li>
+<li>对于任何实向量$f$，都有下面公式成立：</li>
+</ol>
+<p>$$<br>f^TLf = \frac{1}{2} \sum^n_{i,j=1}w_{ij}(f_i-f_j)^2<br>$$</p>
+<h3 id="问题转换"><a href="#问题转换" class="headerlink" title="问题转换"></a>问题转换</h3><ol>
+<li><p>我们首先定义$q_i$：</p>
+<p> $$<br> q_i = \begin{cases} c_1, &amp; i \in G_1\\<br> c_2, &amp; i \in G_2<br> \end{cases}<br> $$</p>
+<p> 其中$G_1$和$G_2$是两个子图。</p>
 </li>
+<li><p>将$Cut$变形：</p>
+<p> $$<br> Cut(G_1, G_2) = \sum_{i \in G_1, j \in G_2} w_{ij} = \frac {\sum^n_{i=1}\sum^n_{j=1}w_{ij}(q_i-q_j)^2}{2(c_1-c_2)^2}<br> $$</p>
+<p> 从公式可知，当且仅当$ij$属于不同子图时$(q_i-q_j)^2 / (c_1 - c_2)^2 = 1$，否则$(q_i-q_j)^2 / (c_1 - c_2)^2 = 0$。分母中有2，是因为每条边会被遍历两次。</p>
+</li>
+<li><p>分子变行：</p>
+<p> $$<br> \sum^n_{i=1}\sum^n_{j=1}w_{ij}(q_i-q_j)^2 = \sum^n_{i=1}\sum^n_{j=1}w_{ij}(q_i^2+q_j^2-2q_iq_j) \\<br> = \sum^n_{i=1}\sum^n_{j=1}-2w_{ij}q_iq_j + \sum^n_{i=1}\sum^n_{j=1}w_{ij}(q_i^2+q_j^2) \\<br> = -2\sum^n_{i=1}\sum^n_{j=1}w_{ij}q_iq_j + \sum^n_{i=1}\sum^n_{j=1}w_{ij}q_i^2 + \sum^n_{i=1}\sum^n_{j=1}w_{ij}q_j^2 \\<br> = -2\sum^n_{i=1}\sum^n_{j=1}w_{ij}q_iq_j + \sum^n_{i=1}2q_i^2(\sum^n_{j=1}w_{ij}) \\<br> = 2q^T(D - W)q \\<br> = 2q^TLq<br> $$</p>
+<p> $w_{ij}&gt;=0$，所以$q^TLq$对于$q$非0，都有$q^TLq&gt;=0$，所以$L$是半正定矩阵。</p>
+</li>
+<li><p>公式改写：</p>
+<p> $$<br> Cut(G_1, G_2) = \frac {q^TLq}{(c_1-c_2)^2}<br> $$</p>
+<p> 因此，求解最小损失函数$Cut$的问题转成求解最小化多项式$q^TLq$，求解$q$是离散问题，很难求解，我们将条件放宽到连续问题就可以利用<a href="https://en.wikipedia.org/wiki/Rayleigh_quotient" target="_blank" rel="external">瑞丽熵(Rayleigh quotient)</a>的性质求解。</p>
+</li>
+</ol>
+<h3 id="问题求解"><a href="#问题求解" class="headerlink" title="问题求解"></a>问题求解</h3><h5 id="瑞丽熵-Rayleigh-quotient"><a href="#瑞丽熵-Rayleigh-quotient" class="headerlink" title="瑞丽熵(Rayleigh quotient)"></a>瑞丽熵(Rayleigh quotient)</h5><p>Rayleigh quotient定义如下：</p>
+<p>$$<br>R(M, x) = \frac{x^TMx}{x^Tx}<br>$$</p>
+<p>利用拉格朗日乘数法我们可以求解极值点问题，结合瑞丽熵：</p>
+<p>$$<br>R(M, x) = x^TMx,\ \ s.t. x^Tx = const<br>$$</p>
+<p>$$<br>L(x) = x^TMx - \lambda(x^TMx - const)<br>$$</p>
+<p>对$L(x)$求导，寻找极值点：</p>
+<p>$$<br>\frac{dL(x)}{dx} = 0 \\<br>\Rightarrow 2Mx - 2\lambda x = 0\\<br>\Rightarrow Mx = \lambda x<br>$$</p>
+<p>所以，瑞丽熵公式极值点处的向量$x_1,x_2···x_n$就是$M$的特征向量，对应的极值就是$M$的特征值。</p>
+<h5 id="MINIMUM-CUT方法"><a href="#MINIMUM-CUT方法" class="headerlink" title="MINIMUM CUT方法"></a>MINIMUM CUT方法</h5><p>要优化的目标就是上面定义的$Cut$。<br>对于$c_1c_2$的取值并不影响分类结果，但会影响瑞丽熵的限制条件是否满足。为了方便，我们定义如下：</p>
+<p>$$<br>q_i = \begin{cases} 1, &amp; i \in G_1\\<br>-1, &amp; i \in G_2<br>\end{cases}<br>$$</p>
+<p>求解公式变为：$min\{q^TLq\},\ \ s.t. q^Tq=n \&amp; q^TI=0$。两个限制条件比较好理解，不做解释。<br>此问题求解上面已经说明，最优的向量$q$为$L(x)$取最小特征值时，即0，对应特征向量$I$。当所有样本都归为一类时，无向图不进行截断，目标函数为0。但这样是无意义的，限制条件二把这种情况排除掉。因此我们要求解的是第二小的特征值对应的特征向量。</p>
+<ul>
+<li>我们将求最小值问题转成求特征向量问题（幂法、雅可比法、QR方法）；</li>
+<li>得到的$q_i$不再是初始定义的离散值，它只作为一个指示，通过阈值，将样本分割成两类。</li>
 </ul>
+<p>问题：<br>没有考虑孤立点的影响，如下图：</p>
+<p><img src="/images/sc02.png" alt=""></p>
+<p>为了避免这样的想象，使得类别数量相对均衡，引入了Ratio Cut 方法。</p>
+<h5 id="RATIO-CUT方法"><a href="#RATIO-CUT方法" class="headerlink" title="RATIO CUT方法"></a>RATIO CUT方法</h5><p>改写目标函数：</p>
+<p>$$<br>RCut(G_1, G_2) = Cut(G_1, G_2) (\frac{1}{n_1}+\frac{1}{n_2}) = \frac {q^TLq}{(c_1-c_2)^2} (\frac{1}{n_1}+\frac{1}{n_2})<br>$$</p>
+<p>$n_1n_2$分别是属于两个类的样本数。ratio cut避免了上面minimum cut例子中的错误，不进考虑了子图间权重，也考虑了分割不均的情况。<br>此时要转化成瑞丽熵问题，需要满足$q^Tq = const$，重新定义$q_i$：</p>
+<p>$$<br>q_i = \begin{cases} \sqrt{\frac{n_2}{n_1n_2}}, &amp; i \in G_1\\<br>\sqrt{-\frac{n_1}{n_1n_2}}, &amp; i \in G_2<br>\end{cases}<br>$$</p>
+<p>$n_1 + n_2 = n$，所以上面定义满足瑞丽熵条件。优化问题转为：$min\{q^TLq\},\ \ s.t. q^Tq=1 \&amp; q^TI=0$。<br>求解过程同上。</p>
+<h5 id="NORMALIZED-CUT方法"><a href="#NORMALIZED-CUT方法" class="headerlink" title="NORMALIZED CUT方法"></a>NORMALIZED CUT方法</h5><p>上面两种方法仅考虑子图外部的权重，Normalized Cut加入内部权重的衡量。目标函数如下：</p>
+<p>$$<br>NCut(G_1, G_2) = Cut(G_1, G_2) (\frac{1}{d_1}+\frac{1}{d_2}) = \frac {q^TLq}{(c_1-c_2)^2} (\frac{1}{d_1}+\frac{1}{d_2})<br>$$</p>
+<p>$d_1$为$G_1$的内部边权重之和加上$Cut(G_1, G_2)$，$d_2$为$G_2$的内部边权重之和加上$Cut(G_1, G_2)$。</p>
+<p>ratio cut避免了上面minimum cut例子中的错误，不进考虑了子图间权重，也考虑了分割不均的情况。<br>此时要转化成瑞丽熵问题，需要满足$q^Tq = const$，重新定义$q_i$：</p>
 
       
     </div>
@@ -607,11 +578,9 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
           
             <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
           
-            <a href="/tags/XGBoost/" rel="tag"># XGBoost</a>
+            <a href="/tags/Spectral-Clustering/" rel="tag"># Spectral Clustering</a>
           
-            <a href="/tags/GBDT/" rel="tag"># GBDT</a>
-          
-            <a href="/tags/GB/" rel="tag"># GB</a>
+            <a href="/tags/Clustering/" rel="tag"># Clustering</a>
           
         </div>
       
@@ -624,15 +593,15 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/30/MXNet设计和实现简介/" rel="next" title="MXNet设计和实现简介">
-                <i class="fa fa-chevron-left"></i> MXNet设计和实现简介
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/08/mxnet简单练习-MLP/" rel="prev" title="mxnet简单练习-MLP">
+                mxnet简单练习-MLP <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -770,7 +739,7 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Boosted-Tree"><span class="nav-number">1.</span> <span class="nav-text">Boosted Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基学习器：分类和回归树（CART）"><span class="nav-number">1.2.</span> <span class="nav-text">基学习器：分类和回归树（CART）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tree-Ensemble"><span class="nav-number">1.3.</span> <span class="nav-text">Tree Ensemble</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XGBoost"><span class="nav-number">2.</span> <span class="nav-text">XGBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介-1"><span class="nav-number">2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数学推导"><span class="nav-number">2.2.</span> <span class="nav-text">数学推导</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#目标函数："><span class="nav-number">2.2.1.</span> <span class="nav-text">目标函数：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#树的复杂度："><span class="nav-number">2.2.2.</span> <span class="nav-text">树的复杂度：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#改写目标函数："><span class="nav-number">2.2.3.</span> <span class="nav-text">改写目标函数：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#利用贪心法建树："><span class="nav-number">2.2.4.</span> <span class="nav-text">利用贪心法建树：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xgboost特点总结"><span class="nav-number">3.</span> <span class="nav-text">xgboost特点总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题定义"><span class="nav-number">1.1.</span> <span class="nav-text">问题定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">图定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#损失函数定义"><span class="nav-number">1.1.2.</span> <span class="nav-text">损失函数定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Laplacian矩阵"><span class="nav-number">1.1.3.</span> <span class="nav-text">Laplacian矩阵</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题转换"><span class="nav-number">2.</span> <span class="nav-text">问题转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题求解"><span class="nav-number">3.</span> <span class="nav-text">问题求解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#瑞丽熵-Rayleigh-quotient"><span class="nav-number">3.0.1.</span> <span class="nav-text">瑞丽熵(Rayleigh quotient)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MINIMUM-CUT方法"><span class="nav-number">3.0.2.</span> <span class="nav-text">MINIMUM CUT方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RATIO-CUT方法"><span class="nav-number">3.0.3.</span> <span class="nav-text">RATIO CUT方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NORMALIZED-CUT方法"><span class="nav-number">3.0.4.</span> <span class="nav-text">NORMALIZED CUT方法</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -913,7 +882,7 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
 		_hcwp.push({widget:"Bloggerstream", widget_id: 89339, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
 		
-		_hcwp.push({widget:"Stream", widget_id: 89339, xid: "2016/12/06/Introduction-to-XGBoost/"});
+		_hcwp.push({widget:"Stream", widget_id: 89339, xid: "2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/"});
 		
 
 		(function() {
