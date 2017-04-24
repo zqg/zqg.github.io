@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zqg.github.io/"/>
-  <updated>2017-04-24T03:51:27.000Z</updated>
+  <updated>2017-04-24T12:09:21.000Z</updated>
   <id>https://zqg.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://zqg.github.io/2017/04/20/Spectral-Clustering%E8%B0%B1%E8%81%9A%E7%B1%BB_-_%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/"/>
     <id>https://zqg.github.io/2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/</id>
     <published>2017-04-20T08:35:38.000Z</published>
-    <updated>2017-04-24T03:51:27.000Z</updated>
+    <updated>2017-04-24T12:09:21.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。<br>该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。<br>谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。<br>—-Baidu Baike</p>
@@ -105,6 +105,12 @@
 <li>利用K-means聚类算法对新矩阵进行聚类。</li>
 </ol>
 <p>将聚类问题转化成图分割问题，使聚类不在抽象化而具有了物理意思。像社交平台中的用户聚类、圈子聚类，通过谱聚类就可以很好的解释。<br>与K-means相比，SC利用特征向量的元素表示样本特征，相当于是在理论基础下做降维操作，然后进行K-means聚类，计算量比K-means小。当处理高维数据，例如文本，尤为明显。</p>
+<h3 id="优化策略"><a href="#优化策略" class="headerlink" title="优化策略"></a>优化策略</h3><ol>
+<li>预处理样本：例如提前做k-means得到p个中心点，对中心点做SC；</li>
+<li>优化特征向量分解；</li>
+<li><a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI11/paper/viewFile/3484/3883" target="_blank" rel="external">Landmark-based Sparse Coding</a>：首先随机选取$P$个样本作为Landmark，生成$m * p$的矩阵，根据Sparse Coding方法得到由新特征组成的样本$Z,p*n$。设计相似矩阵$W=Z^TZ,p*p$，然后利用SVD进行求解，最终时间复杂度只有$O(p^3 + p^2n)$。</li>
+<li><a href="https://arxiv.org/abs/1704.02345" target="_blank" rel="external">Autoencoders and Landmarks</a>：得到Landmark之后，计算所有样本和Landmark的相似度$W$，计算度矩阵$D$，利用自编码网络对样本进行降维，对新的样本进行k-means聚类。</li>
+</ol>
 ]]></content>
     
     <summary type="html">

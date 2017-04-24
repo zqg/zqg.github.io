@@ -358,7 +358,7 @@
               
                 <span class="post-meta-item-text">Post modified</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2017-04-24T11:51:27+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2017-04-24T20:09:21+08:00">
                 2017-04-24
               </time>
             
@@ -441,7 +441,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  2,134
+                  2,304
                 </span>
               
 
@@ -457,7 +457,7 @@
                   <span class="post-meta-item-text">Reading time</span>
                 
                 <span title="Reading time">
-                  9
+                  10
                 </span>
               
             </div>
@@ -561,6 +561,12 @@
 <li>利用K-means聚类算法对新矩阵进行聚类。</li>
 </ol>
 <p>将聚类问题转化成图分割问题，使聚类不在抽象化而具有了物理意思。像社交平台中的用户聚类、圈子聚类，通过谱聚类就可以很好的解释。<br>与K-means相比，SC利用特征向量的元素表示样本特征，相当于是在理论基础下做降维操作，然后进行K-means聚类，计算量比K-means小。当处理高维数据，例如文本，尤为明显。</p>
+<h3 id="优化策略"><a href="#优化策略" class="headerlink" title="优化策略"></a>优化策略</h3><ol>
+<li>预处理样本：例如提前做k-means得到p个中心点，对中心点做SC；</li>
+<li>优化特征向量分解；</li>
+<li><a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI11/paper/viewFile/3484/3883" target="_blank" rel="external">Landmark-based Sparse Coding</a>：首先随机选取$P$个样本作为Landmark，生成$m * p$的矩阵，根据Sparse Coding方法得到由新特征组成的样本$Z,p*n$。设计相似矩阵$W=Z^TZ,p*p$，然后利用SVD进行求解，最终时间复杂度只有$O(p^3 + p^2n)$。</li>
+<li><a href="https://arxiv.org/abs/1704.02345" target="_blank" rel="external">Autoencoders and Landmarks</a>：得到Landmark之后，计算所有样本和Landmark的相似度$W$，计算度矩阵$D$，利用自编码网络对样本进行降维，对新的样本进行k-means聚类。</li>
+</ol>
 
           
         

@@ -98,7 +98,7 @@
 <meta property="og:description" content="谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。—-Baidu Baike  问题描述谱">
 <meta property="og:image" content="https://zqg.github.io/images/sc01.png">
 <meta property="og:image" content="https://zqg.github.io/images/sc02.png">
-<meta property="og:updated_time" content="2017-04-24T03:51:27.000Z">
+<meta property="og:updated_time" content="2017-04-24T12:09:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spectral Clustering谱聚类 - 聚类算法">
 <meta name="twitter:description" content="谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。—-Baidu Baike  问题描述谱">
@@ -361,7 +361,7 @@
               
                 <span class="post-meta-item-text">Post modified</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2017-04-24T11:51:27+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2017-04-24T20:09:21+08:00">
                 2017-04-24
               </time>
             
@@ -444,7 +444,7 @@
                   <span class="post-meta-item-text">Words count in article</span>
                 
                 <span title="Words count in article">
-                  2,134
+                  2,304
                 </span>
               
 
@@ -460,7 +460,7 @@
                   <span class="post-meta-item-text">Reading time</span>
                 
                 <span title="Reading time">
-                  9
+                  10
                 </span>
               
             </div>
@@ -562,6 +562,12 @@
 <li>利用K-means聚类算法对新矩阵进行聚类。</li>
 </ol>
 <p>将聚类问题转化成图分割问题，使聚类不在抽象化而具有了物理意思。像社交平台中的用户聚类、圈子聚类，通过谱聚类就可以很好的解释。<br>与K-means相比，SC利用特征向量的元素表示样本特征，相当于是在理论基础下做降维操作，然后进行K-means聚类，计算量比K-means小。当处理高维数据，例如文本，尤为明显。</p>
+<h3 id="优化策略"><a href="#优化策略" class="headerlink" title="优化策略"></a>优化策略</h3><ol>
+<li>预处理样本：例如提前做k-means得到p个中心点，对中心点做SC；</li>
+<li>优化特征向量分解；</li>
+<li><a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI11/paper/viewFile/3484/3883" target="_blank" rel="external">Landmark-based Sparse Coding</a>：首先随机选取$P$个样本作为Landmark，生成$m * p$的矩阵，根据Sparse Coding方法得到由新特征组成的样本$Z,p*n$。设计相似矩阵$W=Z^TZ,p*p$，然后利用SVD进行求解，最终时间复杂度只有$O(p^3 + p^2n)$。</li>
+<li><a href="https://arxiv.org/abs/1704.02345" target="_blank" rel="external">Autoencoders and Landmarks</a>：得到Landmark之后，计算所有样本和Landmark的相似度$W$，计算度矩阵$D$，利用自编码网络对样本进行降维，对新的样本进行k-means聚类。</li>
+</ol>
 
       
     </div>
@@ -754,7 +760,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题定义"><span class="nav-number">1.1.</span> <span class="nav-text">问题定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">图定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#损失函数定义"><span class="nav-number">1.1.2.</span> <span class="nav-text">损失函数定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Laplacian矩阵"><span class="nav-number">1.1.3.</span> <span class="nav-text">Laplacian矩阵</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题转换"><span class="nav-number">2.</span> <span class="nav-text">问题转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二类问题求解"><span class="nav-number">3.</span> <span class="nav-text">二类问题求解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#瑞丽熵-Rayleigh-quotient"><span class="nav-number">3.1.</span> <span class="nav-text">瑞丽熵(Rayleigh quotient)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MINIMUM-CUT方法"><span class="nav-number">3.2.</span> <span class="nav-text">MINIMUM CUT方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RATIO-CUT方法"><span class="nav-number">3.3.</span> <span class="nav-text">RATIO CUT方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NORMALIZED-CUT方法"><span class="nav-number">3.4.</span> <span class="nav-text">NORMALIZED CUT方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多类问题求解"><span class="nav-number">4.</span> <span class="nav-text">多类问题求解</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题定义"><span class="nav-number">1.1.</span> <span class="nav-text">问题定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">图定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#损失函数定义"><span class="nav-number">1.1.2.</span> <span class="nav-text">损失函数定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Laplacian矩阵"><span class="nav-number">1.1.3.</span> <span class="nav-text">Laplacian矩阵</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题转换"><span class="nav-number">2.</span> <span class="nav-text">问题转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二类问题求解"><span class="nav-number">3.</span> <span class="nav-text">二类问题求解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#瑞丽熵-Rayleigh-quotient"><span class="nav-number">3.1.</span> <span class="nav-text">瑞丽熵(Rayleigh quotient)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MINIMUM-CUT方法"><span class="nav-number">3.2.</span> <span class="nav-text">MINIMUM CUT方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RATIO-CUT方法"><span class="nav-number">3.3.</span> <span class="nav-text">RATIO CUT方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NORMALIZED-CUT方法"><span class="nav-number">3.4.</span> <span class="nav-text">NORMALIZED CUT方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多类问题求解"><span class="nav-number">4.</span> <span class="nav-text">多类问题求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化策略"><span class="nav-number">5.</span> <span class="nav-text">优化策略</span></a></li></ol></div>
             
 
           </div>
