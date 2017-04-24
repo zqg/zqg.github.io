@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zqg.github.io/"/>
-  <updated>2017-04-21T05:53:31.000Z</updated>
+  <updated>2017-04-24T03:51:27.000Z</updated>
   <id>https://zqg.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://zqg.github.io/2017/04/20/Spectral-Clustering%E8%B0%B1%E8%81%9A%E7%B1%BB_-_%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/"/>
     <id>https://zqg.github.io/2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/</id>
     <published>2017-04-20T08:35:38.000Z</published>
-    <updated>2017-04-21T05:53:31.000Z</updated>
+    <updated>2017-04-24T03:51:27.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。<br>该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。<br>谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。<br>—-Baidu Baike</p>
@@ -63,15 +63,15 @@
 <p> 因此，求解最小损失函数$Cut$的问题转成求解最小化多项式$q^TLq$，求解$q$是离散问题，很难求解，我们将条件放宽到连续问题就可以利用<a href="https://en.wikipedia.org/wiki/Rayleigh_quotient" target="_blank" rel="external">瑞丽熵(Rayleigh quotient)</a>的性质求解。</p>
 </li>
 </ol>
-<h3 id="问题求解"><a href="#问题求解" class="headerlink" title="问题求解"></a>问题求解</h3><h5 id="瑞丽熵-Rayleigh-quotient"><a href="#瑞丽熵-Rayleigh-quotient" class="headerlink" title="瑞丽熵(Rayleigh quotient)"></a>瑞丽熵(Rayleigh quotient)</h5><p>Rayleigh quotient定义如下：</p>
+<h3 id="二类问题求解"><a href="#二类问题求解" class="headerlink" title="二类问题求解"></a>二类问题求解</h3><h4 id="瑞丽熵-Rayleigh-quotient"><a href="#瑞丽熵-Rayleigh-quotient" class="headerlink" title="瑞丽熵(Rayleigh quotient)"></a>瑞丽熵(Rayleigh quotient)</h4><p>Rayleigh quotient定义如下：</p>
 <p>$$<br>R(M, x) = \frac{x^TMx}{x^Tx}<br>$$</p>
 <p>利用拉格朗日乘数法我们可以求解极值点问题，结合瑞丽熵：</p>
 <p>$$<br>R(M, x) = x^TMx,\ \ s.t. x^Tx = const<br>$$</p>
-<p>$$<br>L(x) = x^TMx - \lambda(x^TMx - const)<br>$$</p>
+<p>$$<br>L(x) = x^TMx - \lambda(x^Tx - const)<br>$$</p>
 <p>对$L(x)$求导，寻找极值点：</p>
 <p>$$<br>\frac{dL(x)}{dx} = 0 \\<br>\Rightarrow 2Mx - 2\lambda x = 0\\<br>\Rightarrow Mx = \lambda x<br>$$</p>
 <p>所以，瑞丽熵公式极值点处的向量$x_1,x_2···x_n$就是$M$的特征向量，对应的极值就是$M$的特征值。</p>
-<h5 id="MINIMUM-CUT方法"><a href="#MINIMUM-CUT方法" class="headerlink" title="MINIMUM CUT方法"></a>MINIMUM CUT方法</h5><p>要优化的目标就是上面定义的$Cut$。<br>对于$c_1c_2$的取值并不影响分类结果，但会影响瑞丽熵的限制条件是否满足。为了方便，我们定义如下：</p>
+<h4 id="MINIMUM-CUT方法"><a href="#MINIMUM-CUT方法" class="headerlink" title="MINIMUM CUT方法"></a>MINIMUM CUT方法</h4><p>要优化的目标就是上面定义的$Cut$。<br>对于$c_1c_2$的取值并不影响分类结果，但会影响瑞丽熵的限制条件是否满足。为了方便，我们定义如下：</p>
 <p>$$<br>q_i = \begin{cases} 1, &amp; i \in G_1\\<br>-1, &amp; i \in G_2<br>\end{cases}<br>$$</p>
 <p>求解公式变为：$min\{q^TLq\},\ \ s.t. q^Tq=n \&amp; q^TI=0$。两个限制条件比较好理解，不做解释。<br>此问题求解上面已经说明，最优的向量$q$为$L(x)$取最小特征值时，即0，对应特征向量$I$。当所有样本都归为一类时，无向图不进行截断，目标函数为0。但这样是无意义的，限制条件二把这种情况排除掉。因此我们要求解的是第二小的特征值对应的特征向量。</p>
 <ul>
@@ -80,16 +80,31 @@
 </ul>
 <p>问题：<br>没有考虑孤立点的影响，如下图：</p>
 <p><img src="/images/sc02.png" alt=""></p>
-<p>为了避免这样的想象，使得类别数量相对均衡，引入了Ratio Cut 方法。</p>
-<h5 id="RATIO-CUT方法"><a href="#RATIO-CUT方法" class="headerlink" title="RATIO CUT方法"></a>RATIO CUT方法</h5><p>改写目标函数：</p>
+<p>假如small cut是0.3，best cut是0.2+0.2，会导致图在small cut初切开，为了避免这样的想象，使得类别数量相对均衡，引入了Ratio Cut 方法。</p>
+<h4 id="RATIO-CUT方法"><a href="#RATIO-CUT方法" class="headerlink" title="RATIO CUT方法"></a>RATIO CUT方法</h4><p>改写目标函数：</p>
 <p>$$<br>RCut(G_1, G_2) = Cut(G_1, G_2) (\frac{1}{n_1}+\frac{1}{n_2}) = \frac {q^TLq}{(c_1-c_2)^2} (\frac{1}{n_1}+\frac{1}{n_2})<br>$$</p>
 <p>$n_1n_2$分别是属于两个类的样本数。ratio cut避免了上面minimum cut例子中的错误，不进考虑了子图间权重，也考虑了分割不均的情况。<br>此时要转化成瑞丽熵问题，需要满足$q^Tq = const$，重新定义$q_i$：</p>
-<p>$$<br>q_i = \begin{cases} \sqrt{\frac{n_2}{n_1n_2}}, &amp; i \in G_1\\<br>\sqrt{-\frac{n_1}{n_1n_2}}, &amp; i \in G_2<br>\end{cases}<br>$$</p>
+<p>$$<br>q_i = \begin{cases} \sqrt{\frac{n_2}{n_1n}}, &amp; i \in G_1\\<br>-\sqrt{\frac{n_1}{n_1n}}, &amp; i \in G_2<br>\end{cases}<br>$$</p>
 <p>$n_1 + n_2 = n$，所以上面定义满足瑞丽熵条件。优化问题转为：$min\{q^TLq\},\ \ s.t. q^Tq=1 \&amp; q^TI=0$。<br>求解过程同上。</p>
-<h5 id="NORMALIZED-CUT方法"><a href="#NORMALIZED-CUT方法" class="headerlink" title="NORMALIZED CUT方法"></a>NORMALIZED CUT方法</h5><p>上面两种方法仅考虑子图外部的权重，Normalized Cut加入内部权重的衡量。目标函数如下：</p>
+<h4 id="NORMALIZED-CUT方法"><a href="#NORMALIZED-CUT方法" class="headerlink" title="NORMALIZED CUT方法"></a>NORMALIZED CUT方法</h4><p>上面两种方法仅考虑子图外部的权重，Normalized Cut加入内部权重的衡量。目标函数如下：</p>
 <p>$$<br>NCut(G_1, G_2) = Cut(G_1, G_2) (\frac{1}{d_1}+\frac{1}{d_2}) = \frac {q^TLq}{(c_1-c_2)^2} (\frac{1}{d_1}+\frac{1}{d_2})<br>$$</p>
-<p>$d_1$为$G_1$的内部边权重之和加上$Cut(G_1, G_2)$，$d_2$为$G_2$的内部边权重之和加上$Cut(G_1, G_2)$。</p>
-<p>ratio cut避免了上面minimum cut例子中的错误，不进考虑了子图间权重，也考虑了分割不均的情况。<br>此时要转化成瑞丽熵问题，需要满足$q^Tq = const$，重新定义$q_i$：</p>
+<p>$d_1$为$G_1$的内部点到所有点的边权重之和，$d_2$为$G_2$的内部点到其他所有点边权重之和，可知$d_1 + d_2 = d = ||D||$。</p>
+<p>此时要转化成<a href="https://en.wikipedia.org/wiki/Rayleigh_quotient#Generalizations" target="_blank" rel="external">泛化的瑞丽熵问题</a>（？），需要满足$q^TDq = const$，重新定义$q_i$：</p>
+<p>$$<br>q_i = \begin{cases} \sqrt{\frac{d_2}{d_1d}}, &amp; i \in G_1\\<br>-\sqrt{\frac{d_1}{d_1d}}, &amp; i \in G_2<br>\end{cases}<br>$$</p>
+<p>上面定义满足瑞丽熵条件。优化问题转为：$min\{q^TLq\},\ \ s.t. q^TDq=1 \&amp; q^TDI=0$。</p>
+<p>利用拉格朗日乘数法求导结果跟之前（$Mx = \lambda x$）稍有不同：</p>
+<p>$$<br>\frac{dLL(q)}{dq} = 0 \\<br>\Rightarrow Lq - \lambda Dq = 0\\<br>\Rightarrow Lq = \lambda Dq<br>$$</p>
+<p>令:$L’= D^{-\frac{1}{2}}LD^{-\frac{1}{2}}$，$q’ = D^{\frac{1}{2}}q$。因为$D$是对角矩阵，所以：</p>
+<p>$$<br>D^{-\frac{1}{2}}D^{\frac{1}{2}} = 1<br>\Rightarrow L’q’ = \lambda q’<br>$$</p>
+<p>然后求解$L’$的特征值和特征矩阵即可，其中$L’$是归一化的拉普拉斯矩阵(Normalized Laplacian，对角线元素全为1) 。</p>
+<h3 id="多类问题求解"><a href="#多类问题求解" class="headerlink" title="多类问题求解"></a>多类问题求解</h3><p>与二聚类解法类似，只是不再是求解莫个特征向量，基本过程如下：</p>
+<ol>
+<li>对于给定的数据构建图$G$，求图的度矩阵$D$和邻接矩阵$W$。</li>
+<li>计算图的拉普拉斯矩阵$L$。</li>
+<li>对$L$进行特征值分解，取前K小的特征值对应的特征向量，构成$n * k$的矩阵。</li>
+<li>利用K-means聚类算法对新矩阵进行聚类。</li>
+</ol>
+<p>将聚类问题转化成图分割问题，使聚类不在抽象化而具有了物理意思。像社交平台中的用户聚类、圈子聚类，通过谱聚类就可以很好的解释。<br>与K-means相比，SC利用特征向量的元素表示样本特征，相当于是在理论基础下做降维操作，然后进行K-means聚类，计算量比K-means小。当处理高维数据，例如文本，尤为明显。</p>
 ]]></content>
     
     <summary type="html">
@@ -385,9 +400,9 @@ INFO:root:Epoch[9] Time cost=0.086
       <category term="LTR" scheme="https://zqg.github.io/categories/ML/LTR/"/>
     
     
-      <category term="LTR" scheme="https://zqg.github.io/tags/LTR/"/>
-    
       <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
+    
+      <category term="LTR" scheme="https://zqg.github.io/tags/LTR/"/>
     
   </entry>
   
@@ -691,13 +706,13 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
       <category term="TREE" scheme="https://zqg.github.io/categories/ML/TREE/"/>
     
     
-      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
-    
       <category term="XGBoost" scheme="https://zqg.github.io/tags/XGBoost/"/>
     
       <category term="GBDT" scheme="https://zqg.github.io/tags/GBDT/"/>
     
       <category term="GB" scheme="https://zqg.github.io/tags/GB/"/>
+    
+      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
     
   </entry>
   
