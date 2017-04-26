@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zqg.github.io/"/>
-  <updated>2017-04-24T12:09:21.000Z</updated>
+  <updated>2017-04-26T08:18:44.000Z</updated>
   <id>https://zqg.github.io/</id>
   
   <author>
@@ -20,12 +20,13 @@
     <link href="https://zqg.github.io/2017/04/20/Spectral-Clustering%E8%B0%B1%E8%81%9A%E7%B1%BB_-_%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/"/>
     <id>https://zqg.github.io/2017/04/20/Spectral-Clustering谱聚类_-_聚类算法/</id>
     <published>2017-04-20T08:35:38.000Z</published>
-    <updated>2017-04-24T12:09:21.000Z</updated>
+    <updated>2017-04-26T08:18:44.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。<br>该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。<br>谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。<br>—-Baidu Baike</p>
 </blockquote>
 <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>谱聚类（Spectral Clustering，下面简称SC）算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，使子图内部尽量相似，子图间距离尽量远，以达到聚类的目的。</p>
+<a id="more"></a>
 <h4 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h4><p>如下：</p>
 <h5 id="图定义"><a href="#图定义" class="headerlink" title="图定义"></a>图定义</h5><ul>
 <li>无向图$G=(V, E)$：$V$表示顶点集合，数目为$n$，$E$表示边的集合。</li>
@@ -116,7 +117,9 @@
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt;谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。&lt;br&gt;该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚
+&lt;p&gt;谱聚类算法建立在谱图理论基础上，与传统的聚类算法相比，它具有能在任意形状的样本空间上聚类且收敛于全局最优解的优点。&lt;br&gt;该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并且计算矩阵的特征值和特征向量，然后选择合适的特征向量聚类不同的数据点。&lt;br&gt;谱聚类算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，是一种点对聚类算法。&lt;br&gt;—-Baidu Baike&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h3&gt;&lt;p&gt;谱聚类（Spectral Clustering，下面简称SC）算法建立在图论中的谱图理论基础上，其本质是将聚类问题转化为图的最优划分问题，使子图内部尽量相似，子图间距离尽量远，以达到聚类的目的。&lt;/p&gt;
     
     </summary>
     
