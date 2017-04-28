@@ -409,9 +409,9 @@ INFO:root:Epoch[9] Time cost=0.086
       <category term="LTR" scheme="https://zqg.github.io/categories/ML/LTR/"/>
     
     
-      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
-    
       <category term="LTR" scheme="https://zqg.github.io/tags/LTR/"/>
+    
+      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
     
   </entry>
   
@@ -715,13 +715,13 @@ Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree
       <category term="TREE" scheme="https://zqg.github.io/categories/ML/TREE/"/>
     
     
+      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
+    
       <category term="XGBoost" scheme="https://zqg.github.io/tags/XGBoost/"/>
     
       <category term="GBDT" scheme="https://zqg.github.io/tags/GBDT/"/>
     
       <category term="GB" scheme="https://zqg.github.io/tags/GB/"/>
-    
-      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
     
   </entry>
   
