@@ -409,9 +409,9 @@ INFO:root:Epoch[9] Time cost=0.086
       <category term="LTR" scheme="https://zqg.github.io/categories/ML/LTR/"/>
     
     
-      <category term="LTR" scheme="https://zqg.github.io/tags/LTR/"/>
-    
       <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
+    
+      <category term="LTR" scheme="https://zqg.github.io/tags/LTR/"/>
     
   </entry>
   
@@ -596,13 +596,13 @@ table tr:hover {
       <category term="DL" scheme="https://zqg.github.io/categories/DL/"/>
     
     
-      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
-    
       <category term="Neural Networks" scheme="https://zqg.github.io/tags/Neural-Networks/"/>
     
       <category term="Deep Learning" scheme="https://zqg.github.io/tags/Deep-Learning/"/>
     
       <category term="Mxnet" scheme="https://zqg.github.io/tags/Mxnet/"/>
+    
+      <category term="Algorithm" scheme="https://zqg.github.io/tags/Algorithm/"/>
     
   </entry>
   
