@@ -91,17 +91,17 @@
 
 
 
-<meta name="description" content="今天用scp命令在两台服务器间传输文件时，遇到一个问题，就是scp命令没有报错，但是文件并没有传输过去。网上查找一番，问题解决，在此记录一下，以免再踩这坑了~  问题表现执行scp时，没有进度显示，直接返回另一台服务器的一个路径。 原因另一台服务器的bashrc是有输出语句，就是scp输出的路径。 什么bashrc里加一条echo语句，就会造成scp失败呢？scp使用SSH连接，在两台服务器之间">
+<meta name="description" content="今天用scp命令在两台服务器间传输文件时，遇到一个问题，就是scp命令没有报错，但是文件并没有传输过去。网上查找一番，问题解决，在此记录一下，以免再踩这坑了~  问题表现执行scp时，没有进度显示，直接返回另一台服务器的一个路径。">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SCP踩坑">
 <meta property="og:url" content="https://zqg.github.io/2017/05/22/scp踩坑/index.html">
 <meta property="og:site_name" content="Just Let It Be">
-<meta property="og:description" content="今天用scp命令在两台服务器间传输文件时，遇到一个问题，就是scp命令没有报错，但是文件并没有传输过去。网上查找一番，问题解决，在此记录一下，以免再踩这坑了~  问题表现执行scp时，没有进度显示，直接返回另一台服务器的一个路径。 原因另一台服务器的bashrc是有输出语句，就是scp输出的路径。 什么bashrc里加一条echo语句，就会造成scp失败呢？scp使用SSH连接，在两台服务器之间">
-<meta property="og:updated_time" content="2017-05-22T04:17:31.000Z">
+<meta property="og:description" content="今天用scp命令在两台服务器间传输文件时，遇到一个问题，就是scp命令没有报错，但是文件并没有传输过去。网上查找一番，问题解决，在此记录一下，以免再踩这坑了~  问题表现执行scp时，没有进度显示，直接返回另一台服务器的一个路径。">
+<meta property="og:updated_time" content="2017-06-08T07:59:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SCP踩坑">
-<meta name="twitter:description" content="今天用scp命令在两台服务器间传输文件时，遇到一个问题，就是scp命令没有报错，但是文件并没有传输过去。网上查找一番，问题解决，在此记录一下，以免再踩这坑了~  问题表现执行scp时，没有进度显示，直接返回另一台服务器的一个路径。 原因另一台服务器的bashrc是有输出语句，就是scp输出的路径。 什么bashrc里加一条echo语句，就会造成scp失败呢？scp使用SSH连接，在两台服务器之间">
+<meta name="twitter:description" content="今天用scp命令在两台服务器间传输文件时，遇到一个问题，就是scp命令没有报错，但是文件并没有传输过去。网上查找一番，问题解决，在此记录一下，以免再踩这坑了~  问题表现执行scp时，没有进度显示，直接返回另一台服务器的一个路径。">
 
 
 
@@ -360,8 +360,8 @@
               
                 <span class="post-meta-item-text">Post modified</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2017-05-22T12:17:31+08:00">
-                2017-05-22
+              <time title="Post modified" itemprop="dateModified" datetime="2017-06-08T15:59:24+08:00">
+                2017-06-08
               </time>
             
           </span>
@@ -471,6 +471,7 @@
 <p>今天用scp命令在两台服务器间传输文件时，遇到一个问题，就是scp命令没有报错，但是文件并没有传输过去。网上查找一番，问题解决，在此记录一下，以免再踩这坑了~</p>
 </blockquote>
 <h5 id="问题表现"><a href="#问题表现" class="headerlink" title="问题表现"></a>问题表现</h5><p>执行scp时，没有进度显示，直接返回另一台服务器的一个路径。</p>
+<a id="more"></a>
 <h5 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h5><p>另一台服务器的bashrc是有输出语句，就是scp输出的路径。</p>
 <h4 id="什么bashrc里加一条echo语句，就会造成scp失败呢？"><a href="#什么bashrc里加一条echo语句，就会造成scp失败呢？" class="headerlink" title="什么bashrc里加一条echo语句，就会造成scp失败呢？"></a>什么bashrc里加一条echo语句，就会造成scp失败呢？</h4><p>scp使用SSH连接，在两台服务器之间通过一些特特殊的协议消息控制源端与宿端的数据传输。在实际数据传输前，源端需要先向宿端传输协议文本，协议文本传输结束 后，再向宿端传递字符’\0′来表示真正文件传 输的开始。当文件接收完成后，宿端会给源端发送一个’\0′表示文件传输结束。然后而ssh login远程服务器时，会source ~/.bashrc和/etc/bashrc文件，所以当在~/.bashrc或/etc/bashrc执 行过程中产生了任何内容输出时，scp会把这些echo回来的东西认作协 议包进行解析，遇到’\0′则会当成表示传输失败的错误信息，然后exit 1。</p>
 <p>所以，一般对于有标准输出的语句最好是放到.bash_profile中。 以免引起不必要的错误。</p>
@@ -537,6 +538,10 @@
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/08/反向传播算法（BP）推导/" rel="next" title="反向传播算法（BP）推导">
+                <i class="fa fa-chevron-left"></i> 反向传播算法（BP）推导
+              </a>
             
           </div>
 
@@ -620,7 +625,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

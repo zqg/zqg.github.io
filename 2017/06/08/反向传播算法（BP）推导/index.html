@@ -73,7 +73,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Neural Networks,Deep Learning,practice," />
 
 
 
@@ -91,12 +91,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Just Let It Be">
-<meta property="og:url" content="https://zqg.github.io/tags/Deep-Learning/index.html">
+<meta name="description" content="最近重新看了一遍反向传播算法（BP），在此记录一下推导过程。参考资料：UFLDL Tutorial">
+<meta name="keywords" content="Neural Networks,Deep Learning,practice">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反向传播算法（BP）推导">
+<meta property="og:url" content="https://zqg.github.io/2017/06/08/反向传播算法（BP）推导/index.html">
 <meta property="og:site_name" content="Just Let It Be">
+<meta property="og:description" content="最近重新看了一遍反向传播算法（BP），在此记录一下推导过程。参考资料：UFLDL Tutorial">
+<meta property="og:image" content="https://zqg.github.io/images/bp01.png">
+<meta property="og:updated_time" content="2017-06-09T02:48:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Just Let It Be">
+<meta name="twitter:title" content="反向传播算法（BP）推导">
+<meta name="twitter:description" content="最近重新看了一遍反向传播算法（BP），在此记录一下推导过程。参考资料：UFLDL Tutorial">
+<meta name="twitter:image" content="https://zqg.github.io/images/bp01.png">
 
 
 
@@ -124,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="https://zqg.github.io/tags/Deep-Learning/"/>
+  <link rel="canonical" href="https://zqg.github.io/2017/06/08/反向传播算法（BP）推导/"/>
 
 
 
 
 
-  <title> Tag: Deep Learning | Just Let It Be </title>
+  <title> 反向传播算法（BP）推导 | Just Let It Be </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -155,7 +162,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -293,74 +300,304 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        Deep Learning
-        <small>Tag</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/06/08/反向传播算法（BP）推导/" itemprop="url">
-              
-                <span itemprop="name">反向传播算法（BP）推导</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-08T16:01:38+08:00"
-              content="2017-06-08" >
-          06-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/12/30/MXNet设计和实现简介/" itemprop="url">
-              
-                <span itemprop="name">MXNet设计和实现简介</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-12-30T11:25:38+08:00"
-              content="2016-12-30" >
-          12-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </div>
 
   
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zqg.github.io/2017/06/08/反向传播算法（BP）推导/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Quangang Zheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Just Let It Be">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                反向传播算法（BP）推导
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-08T16:01:38+08:00">
+                2017-06-08
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2017-06-09T10:48:57+08:00">
+                2017-06-09
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DL/" itemprop="url" rel="index">
+                    <span itemprop="name">DL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            <!--noindex-->
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/08/反向传播算法（BP）推导/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="2017/06/08/反向传播算法（BP）推导/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+              <!--/noindex-->
+            
+          
+
+          
+          
+             <span id="/2017/06/08/反向传播算法（BP）推导/" class="leancloud_visitors" data-flag-title="反向传播算法（BP）推导">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+                  1,169
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+                <span title="Reading time">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>最近重新看了一遍反向传播算法（BP），在此记录一下推导过程。<br>参考资料：<a href="http://ufldl.stanford.edu/wiki/index.php/%E5%8F%8D%E5%90%91%E4%BC%A0%E5%AF%BC%E7%AE%97%E6%B3%95" target="_blank" rel="external">UFLDL Tutorial</a></p>
+</blockquote>
+<p><img src="/images/bp01.png" alt="nn"><br><a id="more"></a></p>
+<p>上图是一副经典的神经网络结构图，它包含两个隐层$L_2$$L_3$。</p>
+<h4 id="变量定义"><a href="#变量定义" class="headerlink" title="变量定义"></a>变量定义</h4><p>我们先定义一下基本的变量：<br>$J(W,b)$:代价函数<br>$C(W,b)$:损失函数<br>$m$:mini-batch的大小<br>$n_l$:网络层数<br>$S_l$:本层单元数目<br>$W_(ij)^k$:第k层第j个单元与第k+1层第i个单元之间的权重<br>$b_i^k$:第k+1层第i个单元的偏置项<br>$x$:输入数据<br>$z_i^k$:第k层第i个单元的输入加权和<br>$a_i^k$:第k层第i个单元的激活值（输出值），$a_i^k=f(z_i^k)$</p>
+<h4 id="代价函数"><a href="#代价函数" class="headerlink" title="代价函数"></a>代价函数</h4><p>我们的最终目标是优化网络参数使得$J(W,b)$最小，一般会采用梯度下降法求解。为此我们给$wb$赋初值，这个值需要随机初始化，而不能全是一样的，因为会导致所有单元的输入输出都是一样的。</p>
+<p>我们要优化的是：</p>
+<p>$$<br>J(W,b) = C(W,b) + \frac{\lambda}{2}\sum_{l=1}^{n_l-1}\sum_{i=1}^{s_l}\sum_{j=1}^{s_{l+1}}(w_{ij}^{(l)})^2<br>$$</p>
+<p>公示中第一项可以是均方差或者交叉熵作为损失函数，第二项是正则化项，防止过拟合。</p>
+<p>梯度下降法每轮迭代的更新公式如下：</p>
+<p>$$<br>W_{ij}^l = W_{ij}^l - \alpha\frac{\partial}{\partial W_{ij}^l} J(W,b)<br>$$</p>
+<p>$$<br>b_i^l = b_i^l - \alpha\frac{\partial}{\partial b_i^l} J(W,b)<br>$$</p>
+<h4 id="BP推导"><a href="#BP推导" class="headerlink" title="BP推导"></a>BP推导</h4><p>如何求解？BP算法就是一种有效的计算偏导数的方法。</p>
+<p>BP算法的推导采用的是链式求导法则，从最后一层以此向前求导，这也是为什么叫方向传播。</p>
+<h5 id="W推导"><a href="#W推导" class="headerlink" title="W推导"></a>W推导</h5><p>$$<br>\frac{\partial}{\partial W_{ij}^l} J(W,b) = \frac{\partial}{\partial a_{i}^{l+1}} J(W,b) \frac{\partial}{\partial z_{i}^{l+1}} a_{i}^{l+1} \frac{\partial}{\partial W_{ij}^l} z_{i}^{l+1}<br>$$</p>
+<blockquote>
+<p>注意这里的$a$$b$的脚标</p>
+</blockquote>
+<p>$z_{i+1}^l$是输入累加和，所以：<br>$$<br>\frac{\partial}{\partial W_{ij}^l} z_{i}^{l+1} = a_{j}^{l}<br>$$</p>
+<p>$a_{i}^{k+1}=f(z_{i}^{k+1})$，$f$是激活函数，所以：<br>$$<br>\frac{\partial}{\partial z_{i}^{l+1}} a_{i}^{l+1} = f’(z_{i}^{k+1})<br>$$</p>
+<p>重点部分：<br>$a_{i}^{l+1}$是l+1层第i个单元的输出，它会输入到第l+2层的所有单元（除偏置单元）参与计算$z^{l+2}$，所以：<br>$$<br>\frac{\partial}{\partial a_{i}^{l+1}} J(W,b) \\<br>= \frac{\partial}{\partial z_{1}^{l+2}} J(W,b) \frac{\partial}{\partial a_{i}^{l+1}} z_{1}^{l+2} + … + \frac{\partial}{\partial z_{S_{l+2}}^{l+2}} J(W,b) \frac{\partial}{\partial a_{i}^{l+1}} z_{S_{l+2}}^{l+2} \\<br>= \sum_{j=1}^{S_{l+2}} \frac{\partial}{\partial z_{j}^{l+2}} J(W,b) \frac{\partial}{\partial a_{i}^{l+1}} z_{j}^{l+2} \\<br>= \sum_{j=1}^{S_{l+2}} \sigma_j^{l+2} W_{ji}^{l+1}<br>$$<br>这里定义变量–残差$\sigma$：$\sigma_j^{l+2} = \frac{\partial}{\partial z_{j}^{l+2}} J(W,b)$。</p>
+<p>综合上面的公式：<br>$$<br>\frac{\partial}{\partial W_{ij}^l} J(W,b) = \sum_{j=1}^{S_{l+2}} \sigma_j^{l+2} W_{ji}^{l+1} \ \ f’(z_{i}^{k+1}) \ \ a_{j}^{l}<br>$$</p>
+<p>推到这里还是挺麻烦的，其实我们倒回去看$J(W,b)$公式。将原始公式前两项合并：<br>$$<br>\frac{\partial}{\partial W_{ij}^l} J(W,b) = \frac{\partial}{\partial z_{i}^{l+1}} J(W,b) \ \ \frac{\partial}{\partial W_{ij}^l} z_{i}^{l+1}<br>$$</p>
+<p>这里公式的第一项有没有眼熟啊，对的，就是之前推导的$\sigma$，替换之：</p>
+<p>$$<br>\frac{\partial}{\partial W_{ij}^l} J(W,b) = \sigma_i^{l+1} \ \ a_{j}^{l}<br>$$<br>眼前一亮，这才是我们要的。</p>
+<p>我们用$\sigma^{l+1}$表示l+1层单元残差向量，求解$W$的偏导数的最终公式就是：<br>$$<br>\frac{\partial}{\partial W^l} J(W,b) = \sigma^{l+1} \ \ (a^{l})^T<br>$$<br>后一层的$\sigma^{l+1} = C’(W,b) \ \ f’(z_{i}^{k+1})$ 。</p>
+<blockquote>
+<p>我们再看一下这个残差:<br>$\sigma_j^{l+1} = \frac{\partial}{\partial z_{i}^{l+1}} J(W,b) = \sum_{j=1}^{S_{l+2}} \sigma_j^{l+2} W_{ji}^{l+1} \ \ f’(z_{i}^{k+1}) $<br>$\sigma^{l+1} = ((W^{(l+1)})^T \ \ \sigma^{l+2}) .* f’(z^{l+1})$<br>$f’$长度为$n^{l+1}$向量，$W^{(l+1)}$是$[n^{l+2}， n^{l+1}]$的向量，$\sigma^{l+2}$是长度$n^{l+2}$的向量。<br>残差通过一层层传递的方式影响最终的代价函数，所以每个节点的残差大小可以看成是对最终输出值残差产生了多少影响。</p>
+</blockquote>
+<h5 id="b推导"><a href="#b推导" class="headerlink" title="b推导"></a>b推导</h5><p>$$<br>\frac{\partial}{\partial b_{i}^l} J(W,b) = \frac{\partial}{\partial a_{i}^{l+1}} J(W,b) \frac{\partial}{\partial z_{i}^{l+1}} a_{i}^{l+1} \frac{\partial}{\partial b_{i}^l} z_{i}^{l+1}<br>$$</p>
+<blockquote>
+<p>注意这里的$a$$b$的脚标</p>
+</blockquote>
+<p>最终公式：<br>$$<br>\frac{\partial}{\partial b^l} J(W,b) = \sigma^{l+1}<br>$$</p>
+<h5 id="最终的更新公式"><a href="#最终的更新公式" class="headerlink" title="最终的更新公式"></a>最终的更新公式</h5><p>$$<br>W^l = W^l - \alpha (\sigma_i^{l+1} \ \ a_{j}^{l} - \lambda W^l)<br>$$</p>
+<p>$$<br>b^l = b^l - \alpha \sigma^{l+1}<br>$$</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>爷有赏</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/WechatM.png" alt="Quangang Zheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/AliPayM.png" alt="Quangang Zheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Neural-Networks/" rel="tag"># Neural Networks</a>
+          
+            <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          
+            <a href="/tags/practice/" rel="tag"># practice</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/22/scp踩坑/" rel="prev" title="SCP踩坑">
+                SCP踩坑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -368,6 +605,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="hypercomments_widget"></div>
+    
+  </div>
+
 
         </div>
         
@@ -387,8 +630,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -457,6 +709,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量定义"><span class="nav-number">1.</span> <span class="nav-text">变量定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代价函数"><span class="nav-number">2.</span> <span class="nav-text">代价函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BP推导"><span class="nav-number">3.</span> <span class="nav-text">BP推导</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#W推导"><span class="nav-number">3.1.</span> <span class="nav-text">W推导</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b推导"><span class="nav-number">3.2.</span> <span class="nav-text">b推导</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#最终的更新公式"><span class="nav-number">3.3.</span> <span class="nav-text">最终的更新公式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -571,6 +839,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -594,6 +866,8 @@
 
 		_hcwp.push({widget:"Bloggerstream", widget_id: 89339, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
+		
+		_hcwp.push({widget:"Stream", widget_id: 89339, xid: "2017/06/08/反向传播算法（BP）推导/"});
 		
 
 		(function() {
